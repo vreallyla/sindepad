@@ -52,14 +52,41 @@ Purchase: http://themeforest.net/user/kamleshyadav
                             <a href="#" id="login_button">Masuk</a>
                             <div id="login_one" class="ed_login_form">
                                 <h3>log in</h3>
-                                <form class="form">
+                                <form class="form"  method="POST" action="{{ route('login') }}">
+                                    {{ csrf_field() }}
                                     <div class="form-group">
                                         <label class="control-label">Email :</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" name="email">
+                                        @if ($errors->has('email'))
+                                            <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Kata Sandi :</label>
-                                        <input type="password" class="form-control">
+                                        <input type="password" class="form-control" name="password">
+                                        @if ($errors->has('password'))
+                                            <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}"></div>
+                                        @if($errors->has('g-recaptcha-response'))
+                                            <div class="invalid-feedback" style="display: block">
+                                                <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Ingatkan saya
+                                            </label>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <button type="submit">login</button>
