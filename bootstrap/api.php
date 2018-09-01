@@ -21,9 +21,12 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
+$app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
 
-// $app->withEloquent();
+$app->withFacades();
+//
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +45,8 @@ $app->singleton(
 );
 
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -53,14 +58,10 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
-
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
-
+ $app->middleware([
+//    App\Http\Middleware\ExampleMiddleware::class,
+    App\Http\Middleware\reMiddleware::class
+ ]);
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -72,9 +73,11 @@ $app->singleton(
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+// Add this line
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -87,8 +90,9 @@ $app->singleton(
 |
 */
 
-$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
-$app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
+/*$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
+$app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');*/
+
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers\Api',
@@ -97,5 +101,11 @@ $app->router->group([
 });
 
 
+
+$app->routeMiddleware([
+    'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
+//    'anu' => App\Http\Middleware\reMiddleware::class
+    'jwt' => App\Http\Middleware\JwtMiddleware::class,
+]);
 
 return $app;

@@ -3,7 +3,39 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
 // Variables
-@import "variables";
+//@import "variables";
 
 // Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+//@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+//Bulma
+//@import "~bulma/bulma";
+
+
+////animate
+////@import "~animate.css/animate.min.css";
+////
+//////fa
+////@import '~@fortawesome/fontawesome-free/scss/brands';
+////@import '~@fortawesome/fontawesome-free/scss/regular';
+////@import '~@fortawesome/fontawesome-free/scss/solid';
+////@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+//////@import '~@fortawesome/fontawesome-free/scss/_animated';
+////@import "~font-awesome-animation/dist/font-awesome-animation.min.css";
+////
+//////bulma-extentions
+////@import "~bulma-extensions/dist/css/bulma-extensions.min.css";
+////@import "~bulma-extensions/bulma-carousel/dist/css/bulma-carousel";
+
+//sweetalert2 css
+@import "~sweetalert2/dist/sweetalert2";
+
+@import '../js/assets/css/fonts.css';
+@import url("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css");
+@import "../js/assets/css/font-awesome.css";
+@import "../js/assets/css/owl.carousel.css";
+@import "../js/assets/css/animate.css";
+@import "../js/assets/css/style.css";
+//@import "../js/assets/js/plugins/revel/settings.css";

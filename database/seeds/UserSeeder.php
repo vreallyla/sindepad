@@ -31,7 +31,6 @@ class UserSeeder extends Seeder
             'born_place' => $faker->city,
             'dob' => $faker->unique()->date('Y-m-d'),
             'password' => bcrypt('asdqwezxc'),
-            'verifyToken' => str_random(255),
             'remember_token' => str_random(100),
         ]);
 

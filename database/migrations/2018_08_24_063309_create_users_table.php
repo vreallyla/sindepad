@@ -22,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('gender_id',36);
             $table->foreign('gender_id')->references('id')->on('side_genders');
-            $table->string('born_place');
-            $table->date('dob');
+            $table->string('born_place')->nullable();
+            $table->date('dob')->nullable();
             $table->enum('religion', ['Islam', 'Non Muslim'])->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
@@ -35,7 +35,6 @@ class CreateUsersTable extends Migration
             $table->string('teacher_id',36)->nullable();
             $table->foreign('teacher_id')->references('id')->on('link_user_teachers');
 
-            $table->string('verifyToken', 255)->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
