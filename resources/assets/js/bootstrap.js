@@ -9,8 +9,13 @@ window._ = require('lodash');
 
 try {
     window.$ = window.jQuery = require('jquery');
+    require('jquery-datepicker');
 
-    // require('bootstrap-sass');
+    require('bootstrap/dist/js/bootstrap.min');
+    require('bootstrap-select/dist/js/bootstrap-select.min');
+    require('bootstrap-select/dist/js/i18n/defaults-id_ID');
+    $.fn.datetimepicker = require('bootstrap-datepicker');
+    require('bootstrap-datepicker/js/locales/bootstrap-datepicker.id')
 } catch (e) {}
 
 /**
@@ -25,6 +30,9 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 //sweetalert
 window.swal = require('sweetalert2');
+
+//moment date
+window.moment= require('./moment');
 
 // //bulma-extentions
 // window.bulma_ext=require('bulma-extensions');

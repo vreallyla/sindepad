@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-4 col-sm-6">
                     <div class="page_title">
-                        <h2>sign up</h2>
+                        <h2>Pendaftaran Pengguna</h2>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-8 col-sm-6">

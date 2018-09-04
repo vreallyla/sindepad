@@ -1019,7 +1019,7 @@ a.ed_getinvolved:hover i{
     background-size: cover;
     background-attachment: fixed;
     position: relative;
-	background-image: url(http://placehold.it/1732X1155);
+	background-image: url(../images/parallax/1.jpg);
 }
 .ed_img_overlay{
 	position:absolute;

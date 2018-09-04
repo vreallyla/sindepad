@@ -87,7 +87,7 @@
                                             <td class="email-content-block copy"
                                                 style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; padding-left: 25px; padding-right: 25px; padding-top: 50px;'>
                                                 <h2 style='margin: 0 0 0.5rem 0; line-height: 1.25; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; color: #3e474c; font-size: 2rem; font-weight: 500; font-style: normal;'>
-                                                    yth. sdr/i {{$user['name']}},</h2>
+                                                    yth. sdr/i {{substr($user['name'],0,strpos($user['name'],' '))}},</h2>
 
                                                 <p style='margin-bottom: 15px; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-weight: 400; font-size: 16px; line-height: 1.5;'>
                                                     Anda telah terdaftar pada akun Sanggar ABK. Berikut detail Akun:</p>
@@ -135,12 +135,12 @@
                                                 style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important;'>
                                                 <p class="ios-no-link"
                                                    style='margin-bottom: 15px; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-weight: 400; font-size: 11px; line-height: 1.5; color: white;'>
-                                                    Jl. Jagir Wonokromo No.104, Jagir, Wonokromo,
+                                                    {{$contact->address}},
                                                     <br style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important;'>
-                                                    Surabaya, Jawa Timur, 60244.
+                                                    , Indonesia
 
                                                     <br style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important;'>
-                                                    Telp. : <a href="tel://+62318439473">+6231-8497200</a></p>
+                                                    Telp. : <a href="tel://{{$contact->phone}}">{{$contact->phone}}</a></p>
                                             </td>
                                             <td class="email-social-bar-icons">
                                                 <table class="" align="center" border="0" cellpadding="0"
@@ -187,8 +187,8 @@
                                 <td align="center" class="email-disclaimer copy"
                                     style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; padding-left: 50px; padding-right: 50px; padding-top: 15px; padding-bottom: 15px;'>
                                     <p style='margin-bottom: 15px; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-weight: 400; font-size: 11px; line-height: 1.5; color: #788991; margin-top: 0;'>
-                                        This email was sent to <strong
-                                                style='font-weight: 500; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-size: 11px; color: #788991; margin-top: 0;'>xxxxxx@xxxxx.com</strong>.
+                                        email ini dikirim dari <strong
+                                                style='font-weight: 500; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-size: 11px; color: #788991; margin-top: 0;'>{{env('MAIL_USERNAME')}}</strong>.
                                     </p>
                                 </td>
                             </tr>
@@ -202,6 +202,14 @@
     </tr>
     </tbody>
 </table>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    (function ($) {
+        $('.phone').text(function (i, text) {
+            return text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+        });
+    })();
+</script>
 </body>
 
 </html>

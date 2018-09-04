@@ -655,9 +655,12 @@
         $(function () {
             var menu = "{{$default[2]}}";
             var success= "{{(session('success') ? session('success') : '')}}";
+            var warning= "{{(session('warning') ? session('warning') : '')}}";
 
             alert(success);
+            console.log(warning);
         });
+
 
     </script>
 @endpush

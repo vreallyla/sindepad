@@ -9,51 +9,58 @@ use App\sideCity;
 use App\sideProvince;
 use App\User;
 use App\verifyUser;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\DeclaredPDO\allNeeded as Selingan;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class generalController extends Controller
 {
     public function log()
     {
-
-        return User::has('verification')->get();
+        try {
+            Rule::exists('jhghg');
+        } catch (ModelNotFoundException $e) {
+            return 'a';
+        }
     }
 
     public function index()
     {
-        $default=Selingan::index('Beranda');
-        $religion=User::getReligion();
-        return view('index',compact('default','religion'));
+        $default = Selingan::index('Beranda');
+        $religion = User::getReligion();
+        return view('index', compact('default', 'religion'));
     }
 
     public function about()
     {
-        $default=Selingan::index('Tentang Kami');
-        $menu='Tentang Kami';
+        $default = Selingan::index('Tentang Kami');
+        $menu = 'Tentang Kami';
 
-        return view('about',compact('default'));
+        return view('about', compact('default'));
     }
+
     public function contact()
     {
-        $default=Selingan::index('Kontak');
-        $menu='Kontak';
+        $default = Selingan::index('Kontak');
+        $menu = 'Kontak';
 
-        return view('contact',compact('default'));
+        return view('contact', compact('default'));
     }
 
     public function courseOpsi($class)
     {
-        $default=Selingan::index('Program');
+        $default = Selingan::index('Program');
 
-        $class=mstClass::findOrFail($class);
+        $class = mstClass::findOrFail($class);
 
-        return view('class.index',compact('default','class'));
+        return view('class.index', compact('default', 'class'));
     }
 
     public function course()
     {
-        $default=Selingan::index('Program');
-        return view('class.all',compact('default'));
+        $default = Selingan::index('Program');
+        return view('class.all', compact('default'));
     }
 }

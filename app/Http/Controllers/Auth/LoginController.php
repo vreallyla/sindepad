@@ -57,10 +57,10 @@ class LoginController extends Controller
 
     public function authenticated(Request $request,$user)
     {
-        if (Hash::check('false',$user->code_status)){
-            return back()->with('warning','You need confirm your account, We have sent you an activation code, check your email');
+        if (0==1){
+            return redirect()->intended($this->redirectPath());
         }
+        return redirect()->back()->with('warning','You need confirm your account, We have sent you an activation code, check your email');
 
-        return redirect()->intended($this->redirectPath());
     }
 }

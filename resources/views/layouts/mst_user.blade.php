@@ -227,13 +227,8 @@ Purchase: http://themeforest.net/user/kamleshyadav
 </div>
 <!--Page main section end-->
 <!--main js file start-->
-<script type="text/javascript" src="{{asset('js/jquery-1.12.2.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/main.js')}}"></script>
-{{--<script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>--}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="{{asset('js/app.js')}}"></script>
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>--}}
 <script type="text/javascript" src="{{asset('js/modernizr.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/owl.carousel.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/jquery.stellar.js')}}"></script>
@@ -246,16 +241,9 @@ Purchase: http://themeforest.net/user/kamleshyadav
 <script type="text/javascript" src="{{asset('js/plugins/countto/jquery.countTo.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/plugins/countto/jquery.appear.js')}}"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
-
-
 @stack('package')
 <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
-
-<script>
-    $('.phone').text(function (i, text) {
-        return text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-    });
-</script>
+<script type="text/javascript" src="{{asset('js/phone.js')}}"></script>
 <!--main js file end-->
 @stack('js')
 </body>
