@@ -61,65 +61,6 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-                                        <div class="row" id="step3">
-                                            <div class="col-lg-7">
-                                                <div class="card-block">
-                                                    <div class="bill-content">adasdasd</div>
-                                                    <div class="pull-right">kjdahsjdh</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-5">
-                                                <div style="border: #1a1a1a 1px solid;width: 100%;height: 60px;overflow-y: auto;overflow-x: auto"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <fieldset class="next animated">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="accordion" id="step2">
-                                            <dl>
-                                                <dt>
-                                                    <a href="#accordion1" aria-expanded="false"
-                                                       aria-controls="accordion1"
-                                                       class="accordion-title accordionTitle js-accordionTrigger">
-                                                        <span class="content-accord">Pendaftar #1</span>
-                                                        <span class="pull-right remove-accordion" data-toggle="tooltip"
-                                                              data-placement="right" title="Tutup"
-                                                              style="display: none">
-                                                        <i class="fa fa-times"></i>
-                                                    </span>
-                                                    </a>
-                                                </dt>
-                                                <dd class="accordion-content accordionItem is-collapsed" id="accordion1"
-                                                    aria-hidden="true">
-                                                    <div class="row select-radio">
-                                                        <div class="col-lg-2">
-                                                            <label for="" day>Pilih Hari :</label>
-                                                        </div>
-                                                        <div class="col-lg-10">
-                                                            @foreach($day as $r)
-                                                                <label>
-                                                                    <input type="radio" name="day" value="{{$r->id}}"
-                                                                           disabled/>
-                                                                    <div class="back-end box zoom">
-                                                                        <span>{{$r->ind}}</span>
-                                                                    </div>
-                                                                </label>
-                                                            @endforeach
-
-                                                        </div>
-                                                    </div>
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <fieldset class="next animated">
-                                <div class="row">
-                                    <div class="col-lg-12">
                                         <div class="accordion" id="step1">
                                             <dl>
                                                 <dt>
@@ -219,6 +160,157 @@
                             </fieldset>
                             <fieldset class="next animated">
                                 <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="accordion" id="step2">
+                                            <dl>
+                                                <dt>
+                                                    <a href="#accordion1" aria-expanded="false"
+                                                       aria-controls="accordion1"
+                                                       class="accordion-title accordionTitle js-accordionTrigger">
+                                                        <span class="content-accord">Pendaftar #1</span>
+                                                        <span class="pull-right remove-accordion" data-toggle="tooltip"
+                                                              data-placement="right" title="Tutup"
+                                                              style="display: none">
+                                                        <i class="fa fa-times"></i>
+                                                    </span>
+                                                    </a>
+                                                </dt>
+                                                <dd class="accordion-content accordionItem is-collapsed" id="accordion1"
+                                                    aria-hidden="true">
+                                                    <div class="row select-radio">
+                                                        <div class="col-lg-2">
+                                                            <label for="" day>Pilih Hari :</label>
+                                                        </div>
+                                                        <div class="col-lg-10">
+                                                            @foreach($day as $r)
+                                                                <label>
+                                                                    <input type="radio" name="day" value="{{$r->id}}"
+                                                                           disabled/>
+                                                                    <div class="back-end box zoom">
+                                                                        <span>{{$r->ind}}</span>
+                                                                    </div>
+                                                                </label>
+                                                            @endforeach
+
+                                                        </div>
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="next animated">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row" id="step3">
+                                            <div class="col-lg-6" style="border-right:1px #ccc solid;">
+                                                <div class="payment-header">
+                                                    <div class="payment-code">
+                                                        ORD/210818/ID/IX/129
+                                                    </div>
+                                                    <div class="payment-content">
+                                                        <div class="payment-title">
+                                                            <strong style="font-size:17px;">Pendaftar #1</strong>
+                                                            <span class="pull-right"
+                                                                  style="margin: 1px 0">Dummy af</span>
+                                                        </div>
+                                                        <div class="payment-detail">
+                                                            <div class="payment-list">
+                                                                <label>Biaya Pendaftaran</label>
+                                                                <span class="pull-right">Rp 70.000,00</span>
+                                                            </div>
+                                                            <div class="payment-list">
+                                                                <label>Kelas Menari</label>
+                                                                <span class="pull-right">Rp 280.000,00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="payment-content">
+                                                        <div class="payment-title">
+                                                            <strong style="font-size:17px;">Pendaftar #1</strong>
+                                                            <span class="pull-right"
+                                                                  style="margin: 1px 0">Dummy af</span>
+                                                        </div>
+                                                        <div class="payment-detail">
+                                                            <div class="payment-list">
+                                                                <label>Biaya Pendaftaran</label>
+                                                                <span class="pull-right">Rp 70.000,00</span>
+                                                            </div>
+                                                            <div class="payment-list">
+                                                                <label>Kelas Menari</label>
+                                                                <span class="pull-right">Rp 280.000,00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="payment-content">
+                                                        <div class="payment-title">
+                                                            <strong style="font-size:17px;">Pendaftar #1</strong>
+                                                            <span class="pull-right"
+                                                                  style="margin: 1px 0">Dummy af</span>
+                                                        </div>
+                                                        <div class="payment-detail">
+                                                            <div class="payment-list">
+                                                                <label>Biaya Pendaftaran</label>
+                                                                <span class="pull-right">Rp 70.000,00</span>
+                                                            </div>
+                                                            <div class="payment-list">
+                                                                <label>Kelas Menari</label>
+                                                                <span class="pull-right">Rp 280.000,00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="payment-total">
+                                                    <label>Total</label>
+                                                    <span class="pull-right" style="color: #22918b;font-weight: 600">Rp 9.000.000,00
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="code">Kode Diskon:</label>
+                                                            <input type="text" class="form-control" id="code"
+                                                                   name="code" placeholder="*Tulis disini jika ada">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="code">A/N:</label>
+                                                            <input type="text" class="form-control" id="code"
+                                                                   name="code"
+                                                                   placeholder="*Tulis nama pelaku transaksi">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="code">Metode Pembayaran:</label><br>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="optionsRadios"
+                                                                           id="optionsRadios1" value="option1" checked>
+                                                                    Transfer
+                                                                </label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="optionsRadios"
+                                                                           id="optionsRadios2" value="option2">
+                                                                    Bayar ditempat
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="next animated">
+                                <div class="row">
                                     <label for="referrer">Referred by:</label>
                                     <input type="text" name="referrer">
                                     <label for="phone">Daytime Phone:</label>
@@ -305,12 +397,33 @@
     </style>
 
     <style>
-        .bill-block {
-            width: 100%;
-            /*display: inline-flex;*/
-            font-weight: 400;
-            border-right: 2px dashed #8c8b8b;
-            min-height: 300px;
+        .payment-list {
+            margin-left: 5px;
+        }
+
+        .payment-list label {
+            font-weight: unset;
+        }
+
+        .payment-list .pull-right {
+            font-weight: 600;
+        }
+
+        .payment-header {
+            border-bottom: 1px #ccc solid;
+            margin-bottom: 9px;
+        }
+
+        .payment-code {
+            background: #2cbab2;
+            padding: 4px 7px;
+            color: #fff;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .payment-total {
+            margin-bottom: 8px;
         }
 
     </style>
