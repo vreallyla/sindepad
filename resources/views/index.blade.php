@@ -1,5 +1,4 @@
 @extends ('layouts/mst_user')
-@section('tittle','Home')
 @section('desc','rahasia')
 @section('key','anu')
 
@@ -183,36 +182,43 @@
         <div class="ed_form_box">
             <div class="container">
                 <div class="ed_search_form">
-                    <form class="form-inline">
+                    <form class="form-inline" method="post" action="{{route('order.first')}}">
+                        {{csrf_field()}}
                         <div class="form-group">
-                            <input type="text" placeholder="Name" class="form-control" id="course">
+                            <input type="text" placeholder="Nama Lengkap Pendaftar" class="form-control" name="name[]"
+                                   @if(session('order')&&array_key_exists('name',session('order')[0]))value="{{session('order')[0]['name']}}" @endif>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" id="location">
-                                <option value="" selected disabled>-- Pilih Jenis Kelamin --</option>
-
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" id="location">
-                                <option value="" selected disabled>-- Pilih Program Kelas --</option>
-                                @foreach($default[1] as $row)
-                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                            <select class="form-control" name="sex[]">
+                                <option value="">-- Pilih Jenis Kelamin --</option>
+                                @foreach($gender as $row)
+                                    <option value="{{$row->id}}"
+                                            @if(session('order')&&array_key_exists('sex',session('order')[0])&&session('order')[0]['sex']==$row->id)selected @endif>{{$row->ind}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" id="location">
+                            <select class="form-control" name="course[]">
+                                <option value="" selected disabled>-- Pilih Program Kelas --</option>
+                                @foreach($default[1] as $row)
+                                    <option value="{{$row->id}}"
+                                            @if(session('order')&&array_key_exists('course',session('order')[0])&&session('order')[0]['course']==$row->id)selected @endif>{{$row->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="relligion[]">
                                 <option value="" selected disabled>-- Pilih Agama --</option>
                                 @foreach($religion as $row)
-                                    <option value="{{$row}}">{{$row}}</option>
+                                    <option value="{{$row}}"
+                                            @if(session('order')&&array_key_exists('relligion',session('order')[0])&&session('order')[0]['relligion']==$row)selected @endif>{{$row}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <div class="ed_dots"><p><span class="glyphicon glyphicon-option-horizontal"
                                                           aria-hidden="true"></span></p></div>
-                            <button type="button" class="btn ed_btn pull-right ed_orange">Daftar</button>
+                            <button type="submit" class="btn ed_btn pull-right ed_orange">Daftar</button>
                         </div>
                     </form>
                 </div>
@@ -654,11 +660,15 @@
     <script>
         $(function () {
             var menu = "{{$default[2]}}";
-            var success= "{{(session('success') ? session('success') : '')}}";
-            var warning= "{{(session('warning') ? session('warning') : '')}}";
+            var success = "{{(session('success') ? session('success') : '')}}";
+            var warning = "{{(session('warning') ? session('warning') : '')}}";
 
-            alert(success);
-            console.log(warning);
+            $(window).on("load", function () {
+                if (warning){
+                    $('#login_button').click();
+                    $('#login_one .help-block').text(warning);
+                }
+            });
         });
 
 

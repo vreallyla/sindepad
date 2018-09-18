@@ -45,7 +45,7 @@
 
 <body style="background-color: #f6f8f8; height: 100%; margin: 0; padding: 0;">
 <div style="display:none;font-size:1px;color:#f6f8f8;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
-    verify your Sanggar ABK's email.
+    terima kasih telah mengirim pesan untuk kami...
 </div>
 <table class="body" align="center" border="0" cellpadding="0" cellspacing="0" width="100%"
        style="background-color: #f6f8f8; height: 100%; padding-bottom: 25px; padding-left: 0; padding-right: 0; padding-top: 25px;">
@@ -87,32 +87,13 @@
                                             <td class="email-content-block copy"
                                                 style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; padding-left: 25px; padding-right: 25px; padding-top: 50px;'>
                                                 <h2 style='margin: 0 0 0.5rem 0; line-height: 1.25; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; color: #3e474c; font-size: 2rem; font-weight: 500; font-style: normal;'>
-                                                    yth. sdr/i {{substr($user['name'],0,strpos($user['name'],' '))}},</h2>
+                                                    yth. sdr/i {{$set}},</h2>
 
                                                 <p style='margin-bottom: 15px; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-weight: 400; font-size: 16px; line-height: 1.5;'>
-                                                    Anda telah terdaftar pada akun Sanggar ABK. Berikut detail Akun:</p>
-                                                <table>
-                                                    <tr>
-                                                        <td>Nama</td><td> :</td><td>{{$user['name']}}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Email</td><td> :</td><td>{{$user['email']}}</td>
-                                                    </tr>
-                                                </table>
+                                                    Terima kasih telah mengirim pesan kepada kami. pesan anda akan segera kami proses.</p>
                                                 <p style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-weight: 400; font-size: 16px;  ;'>
-                                                    klik tombol verifikasi sekarang dibawah ini untuk aktifasi email anda.</p>
-                                                <center style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important;'>
+                                                    untuk informasi lebih lanjut anda dapat menghubungi kontak dibawah ini.</p>
 
-                                                    <div class="section"
-                                                         style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; padding: 50px 0;'>
-                                                        <a class="button" href="{{route('verify.user',['token'=>$user->verification->token])}}"
-                                                           target="_blank"
-                                                           style='-moz-transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); -o-transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); -webkit-transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); color: white; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; background-color: #3fbced; border-radius: 3px; padding: 15px 17px; text-decoration: none;'>
-                                                            Verifikasi Sekarang</a>
-                                                    </div>
-                                                </center>
-                                                <p style='margin-bottom: 15px; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-weight: 400; font-size: 16px; line-height: 1.5;'>
-                                                    Terima Kasih!</p>
                                                 <p class="signout light-type"
                                                    style='margin-bottom: 15px; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-weight: 400; font-size: 16px; line-height: 1.5; color: #788991;'>
                                                     — Sanggar ABK's Team</p>
@@ -140,8 +121,7 @@
                                                     , Indonesia
 
                                                     <br style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important;'>
-                                                    Telp. : <a href="tel://{{$contact->phone}}" class="phone">{{$contact->phone}}</a></p>
-
+                                                    Telp. : <a href="tel://{{$contact->phone}}"><span class="phone">{{$contact->phone}}</span></a></p>
                                             </td>
                                             <td class="email-social-bar-icons">
                                                 <table class="" align="center" border="0" cellpadding="0"
@@ -205,11 +185,9 @@
 </table>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
-    (function ($) {
         $('.phone').text(function (i, text) {
             return text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
         });
-    })();
 </script>
 </body>
 

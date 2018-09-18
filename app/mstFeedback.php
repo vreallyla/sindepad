@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Model;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
 
-class mstDisability extends Model
+class mstFeedback extends Model
 {
-    protected $guarded = ['id','created_at','updated_at'];
+    protected $guarded = ['user_id','created_at','updated_at'];
     public $incrementing =false ;
 
     /**
@@ -17,7 +17,7 @@ class mstDisability extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->id = (string) Uuid::generate(4);
+            $model->user_id = (string) Uuid::generate(4);
         });
     }
 }

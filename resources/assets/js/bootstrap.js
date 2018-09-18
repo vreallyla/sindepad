@@ -12,12 +12,12 @@ try {
     require('jquery-datepicker');
 
     require('bootstrap/dist/js/bootstrap.min');
-    require('bootstrap-select/dist/js/bootstrap-select.min');
-    require('bootstrap-select/dist/js/i18n/defaults-id_ID');
-    $.fn.datetimepicker = require('bootstrap-datepicker');
-    require('bootstrap-datepicker/js/locales/bootstrap-datepicker.id')
-} catch (e) {}
 
+    $.fn.datetimepicker = require('bootstrap-datepicker');
+    // require('bootstrap-datepicker/js/locales/bootstrap-datepicker.id')
+} catch (e) {}
+$.fn.selectpicker =require('bootstrap-select/dist/js/bootstrap-select.min');
+require('bootstrap-select/dist/js/i18n/defaults-id_ID');
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -48,13 +48,13 @@ window.moment= require('./moment');
  * a simple convenience so we don't have to attach every token manually.
  */
 //
-// let token = document.head.querySelector('meta[name="csrf-token"]');
-//
-// if (token) {
-//     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-// } else {
-//     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-// }
+let token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

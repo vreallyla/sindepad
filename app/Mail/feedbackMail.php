@@ -5,25 +5,19 @@ namespace App\Mail;
 use App\contact;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class verifyMail extends Mailable
+class feedbackMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $set;
     public $contact;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct($user)
+    public function __construct($data)
     {
-        $this->user=$user;
+        $this->set=$data;
         $this->contact=contact::all()->first();
     }
 
@@ -34,13 +28,12 @@ class verifyMail extends Mailable
      */
     public function build()
     {
-        $interval=strpos($this->user['name'],' ');
+        $interval=strpos($this->set,' ');
         if ($interval){
-            $this->user['name']=substr($this->user['name'],0,$interval);
+            $this->set=substr($this->set,0,$interval);
         }
         return $this->from(env('MAIL_USERNAME'), 'Sanggar ABK')
-            ->subject('Aktivasi Akun Sanggar ABK')
-            ->view('mails.verifyUserMail');
-
+            ->subject('Pesan anda kami terima...')
+            ->view('mails.feedbackMail');
     }
 }

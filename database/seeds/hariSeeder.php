@@ -11,20 +11,13 @@ class hariSeeder extends Seeder
      */
     public function run()
     {
-        $x['en'] = [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday',
-        ];
-        $x['id'] = [
-            'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at', 'Sabtu', 'Minggu',
-        ];
-        for ($i=0;$i<count($x['id']);$i++){
-            \App\Model\sideDaylist::create(['ind'=>$x['id'][$i], 'en'=>$x['en'][$i]]);
+
+        foreach (range(1, 7) as $i) {
+            setlocale(LC_TIME, 'id');
+            $id = \Carbon\Carbon::create(2018, 9, 4)->subDays($i)->formatLocalized('%A');
+            setlocale(LC_TIME, 'en');
+            $en = \Carbon\Carbon::create(2018, 9, 4)->subDays($i)->formatLocalized('%A');
+            \App\Model\sideDaylist::create(['ind' => $id, 'en' => $en]);
         }
     }
 }

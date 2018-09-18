@@ -1,5 +1,4 @@
 @extends ('layouts/mst_user')
-@section('tittle','Home')
 @section('desc','rahasia')
 @section('key','anu')
 @section('content')
@@ -10,14 +9,14 @@
             <div class="row">
                 <div class="col-lg-6 col-md-4 col-sm-6">
                     <div class="page_title">
-                        <h2>Program Kelas</h2>
+                        <h2>{{$title}}</h2>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-8 col-sm-6">
                     <ul class="breadcrumb">
-                        <li><a href="{{route('welcome')}}">home</a></li>
+                        <li><a href="{{route('welcome')}}">Beranda</a></li>
                         <li><i class="fa fa-chevron-left"></i></li>
-                        <li><a href="{{route('course')}}">Program Kelas</a></li>
+                        <li><a href="{{route('course')}}">{{$menu}}</a></li>
                     </ul>
                 </div>
             </div>
@@ -35,7 +34,7 @@
                             <img src="http://placehold.it/360X227" alt="item1" class="img-responsive">
                         </div>
                         <div class="ed_item_description ed_most_recomended_data">
-                            <h4><a href="course_single.html">Kelas {{$row->name}} </a><span>£25</span></h4>
+                            <h4><a href="{{route('course.opsi',['class'=>$row->id])}}">Kelas {{$row->name}} </a><span>£25</span></h4>
                             <div class="row">
                                 <div class="ed_rating">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">

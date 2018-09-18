@@ -1,0 +1,312 @@
+@font-face {
+    font-family: 'Merriweather Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Merriweather Sans Light'), local('MerriweatherSans-Light'), url(https://fonts.gstatic.com/s/merriweathersans/v9/2-c49IRs1JiJN1FRAMjTN5zd9vgsFH1eYCDE0hM.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Merriweather Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Merriweather Sans Bold'), local('MerriweatherSans-Bold'), url(https://fonts.gstatic.com/s/merriweathersans/v9/2-c49IRs1JiJN1FRAMjTN5zd9vgsFH1OZyDE0hM.ttf) format('truetype');
+}
+
+#signup {
+    height: auto;
+    padding: 20px;
+    background: #fff;
+    margin: 80px auto;
+    position: relative;
+    min-height: 300px;
+    /*max-height: 100%;*/
+    font-family: 'Merriweather Sans', sans-serif;
+}
+
+#fieldsets {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin: 0 auto 3em auto;
+}
+
+.modify-input:focus {
+    outline: none;
+    border: 1px solid #22918b;
+}
+
+input[type=radio] {
+    margin: 6px;
+    display: inline-block;
+}
+
+fieldset {
+    border: none;
+    position: inherit;
+    width: 95%;
+    padding: 10px 0;
+    transition: all 0.3s linear;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    opacity: 0;
+}
+
+fieldset.current {
+    left: 20px;
+    opacity: 1;
+}
+
+fieldset:not(.current){
+    display: none;
+}
+
+fieldset.next {
+    left: 640px;
+}
+
+input[type=submit] {
+    display: none;
+    border: none;
+}
+
+#section-tabs {
+    font-size: 1em;
+    height: auto;
+    position: relative;
+    margin-top: -50px;
+    margin-bottom: 50px;
+    padding: 0;
+    font-weight: bold;
+    list-style: none;
+    text-transform: uppercase;
+    top: -31px;
+}
+
+#section-tabs li {
+    color: #a7a7a7;
+    cursor: not-allowed;
+    border-left: 1px solid #aaa;
+    text-decoration: none;
+    padding: 0 6px;
+    float: left;
+    width: 25%;
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: bold;
+    line-height: 30px;
+    background: #ddd;
+    position: relative;
+}
+
+#section-tabs li span {
+    color: #bababa;
+}
+
+#section-tabs li.active {
+    color: #444;
+    cursor: pointer;
+}
+
+#section-tabs li:after {
+    content: "";
+    display: block;
+    margin-left: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#section-tabs li.current {
+    opacity: 1;
+    background: #fff;
+    z-index: 999;
+    border-left: none;
+}
+
+#section-tabs li.current:after {
+    border: 30px solid transparent;
+    border-left: 15px solid #2cbab2;
+}
+
+.error {
+    color: #bf2424;
+    display: block;
+}
+
+input.error,
+textarea.error {
+    border-color: #bf2424;
+}
+
+input.error:focus,
+textarea.error:focus {
+    border-color: #bf2424;
+}
+
+label.error {
+    margin-bottom: 20px;
+}
+
+input.valid {
+    color: green;
+}
+
+label.valid {
+    position: absolute;
+    right: 20px;
+}
+
+input + .valid,
+textarea + .valid {
+    display: none;
+}
+
+.valid + .valid {
+    display: inline;
+    position: absolute;
+    right: 10px;
+    margin-top: -36px;
+    color: green;
+}
+
+.btn {
+    border: none;
+    padding: 8px;
+    background: #2cbab2;
+    cursor: pointer;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    color: #fff;
+    font-family: 'Merriweather Sans', sans-serif;
+}
+.myBtn:hover{
+    background: #2cbab2;
+}
+.btn:hover {
+    background: #26a19a;
+}
+
+.bca:hover {
+    background: #26a19a;
+}
+
+.btn-step {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.btn-resize {
+    height: 34px;
+    margin-left: -14px;
+}
+
+@media (min-width: 1025px) {
+    #signup {
+        width: 75%;
+    }
+
+    fieldset {
+        width: 95%;
+    }
+    .order-adding{
+        margin-bottom: 1em;
+    }
+}
+
+@media (max-width: 1199px) {
+
+    #section-tabs {
+        font-size: 0.8em;
+    }
+
+    .order-adding{
+        margin-bottom: 3em;
+    }
+}
+
+@media (max-width: 1024px) {
+    #signup {
+        width: 75%;
+    }
+
+    fieldset {
+        width: 95%;
+    }
+}
+
+/*
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+    #signup {
+        width: 85%;
+    }
+
+    fieldset {
+        width: 95%;
+    }
+
+    fieldset.current {
+        left: 13px;
+    }
+
+    #section-tabs {
+        font-size: 2em;
+        top: -13px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    #signup {
+        width: 95%;
+    }
+
+    fieldset {
+        width: 98%;
+    }
+
+    fieldset.current {
+        left: 6px;
+    }
+
+    #section-tabs {
+        font-size: 1.5em;
+        top: -13px;
+    }
+}
+
+@media (max-width: 767px) {
+    #section-tabs .content-step {
+        display: none;
+    }
+
+    #section-tabs li {
+        height: 42px;
+        padding: 6px;
+    }
+
+    #section-tabs li.current:after {
+        border: 21px solid transparent;
+        border-left: 15px solid #2cbab2;
+    }
+}
+
+#section-tabs li.current .fa{
+    color: #2cbab2;
+}
+
+.add-margin-bottom {
+    margin-bottom: 2.5em;
+}
+.add-margin-bottom-sm {
+    margin-bottom: 0.8em;
+}

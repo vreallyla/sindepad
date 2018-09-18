@@ -17,23 +17,38 @@ Purchase: http://themeforest.net/user/kamleshyadav
 <!-- Begin Head -->
 <head>
     <meta charset="utf-8"/>
-    <title>@yield('tittle')</title>
+    <title>{{$title. ' | '. env('APP_NAME')}}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta name="description" content="@yield('desc')"/>
     <meta name="keywords" content="@yield('key')"/>
     <meta name="author" content="fahmi rizky"/>
     <meta name="MobileOptimized" content="320"/>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--srart theme style -->
     <link href="{{asset('css/main.css')}}" rel="stylesheet" type="text/css"/>
 
     <!-- end theme style -->
     <!-- favicon links -->
     <link rel="shortcut icon" type="image/png" href="images/header/favicon.png"/>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
 
     <style>
         .menu-active {
             color: #00A8FF;
+        }
+
+        .round-swall {
+            border-radius: 25px;
+        }
+
+        .zoom {
+            transition: transform .3s;
+        }
+
+        .zoom:hover {
+            -ms-transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
         }
     </style>
     @stack('style')
@@ -51,8 +66,13 @@ Purchase: http://themeforest.net/user/kamleshyadav
                         <div class="ed_info_wrapper">
                             <a href="#" id="login_button">Masuk</a>
                             <div id="login_one" class="ed_login_form">
-                                <h3>log in</h3>
-                                <form class="form"  method="POST" action="{{ route('login') }}">
+                                <h3>log in
+                                    <div class="help-block" style="    font-size: 0.5em; margin: 6px 0;">We're excited
+                                        to see you...
+                                    </div>
+                                </h3>
+
+                                <form class="form" method="POST" action="{{ route('login') }}">
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <label class="control-label">Email :</label>
@@ -84,7 +104,9 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                     <div class="form-group">
                                         <div class="checkbox">
                                             <label>
-                                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Ingatkan saya
+                                                <input type="checkbox"
+                                                       name="remember" {{ old('remember') ? 'checked' : '' }}> Ingatkan
+                                                saya
                                             </label>
                                         </div>
                                     </div>
@@ -103,7 +125,7 @@ Purchase: http://themeforest.net/user/kamleshyadav
             <div class="container">
                 <div class="row">
                     <div class="col-lg-2 col-md-2 col-sm-2">
-                        <div class="educo_logo"><a href="index.html"><img src="{{asset('images/header/Logo.png')}}"
+                        <div class="educo_logo"><a href="{{route('welcome')}}"><img src="{{asset('images/header/Logo.png')}}"
                                                                           alt="Sanggar ABK"/></a></div>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
@@ -116,7 +138,8 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                 <li><a href="{{route('course')}}">Program</a>
                                     <ul class="sub-menu">
                                         @foreach($default[1] as $row)
-                                            <li><a href="{{route('course.opsi',['class'=>$row->id])}}">{{$row->name}}</a>
+                                            <li>
+                                                <a href="{{route('course.opsi',['class'=>$row->id])}}">{{$row->name}}</a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -141,7 +164,8 @@ Purchase: http://themeforest.net/user/kamleshyadav
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2">
-                        <div class="educo_call"><i class="fa fa-phone"></i><a href="#"><span
+                        <div class="educo_call"><i class="fa fa-phone"></i><a href="tel:{{$default[0]->phone}}"
+                                                                              style="cursor: pointer"><span
                                         class="phone">{{$default[0]->phone}}</span></a></div>
                     </div>
                 </div>
@@ -181,7 +205,9 @@ Purchase: http://themeforest.net/user/kamleshyadav
                             <p><i class="fa fa-safari"></i>{{$default[0]->address}}, Indonesia</p>
                             <p><i class="fa fa-envelope-o"></i><a href="#">info@edutioncollege.gov.co.uk</a> <a
                                         href="#">public@edutioncollege.gov.co.uk</a></p>
-                            <p><i class="fa fa-phone"></i><span class="phone">{{$default[0]->phone}}</span></p>
+                            <p><i class="fa fa-phone"></i><a href="tel:{{$default[0]->phone}}" style="cursor: pointer">
+                                    <span class="phone">{{$default[0]->phone}}</span>
+                                </a></p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12">
@@ -245,6 +271,19 @@ Purchase: http://themeforest.net/user/kamleshyadav
 <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/phone.js')}}"></script>
 <!--main js file end-->
+<script>
+    var title = document.getElementsByTagName("title")[0].innerHTML;
+    (function titleScroller(text) {
+        document.title = text;
+        setTimeout(function () {
+            titleScroller(text.substr(1) + text.substr(0, 1));
+        }, 500);
+    }(title + " ~ "));
+
+    $(function ($) {
+       $("[data-toggle=tooltip]").tooltip();
+    });
+</script>
 @stack('js')
 </body>
 </html>

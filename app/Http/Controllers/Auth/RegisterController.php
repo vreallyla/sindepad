@@ -64,7 +64,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
             'gender' => 'required|exists:side_genders,id',
-            'g-recaptcha-response'=> new Captcha(),
+//            'g-recaptcha-response'=> new Captcha(),
         ]);
     }
 
@@ -143,6 +143,7 @@ class RegisterController extends Controller
     {
         $default = Selingan::index('Pendaftaran');
         $default[] = sideGender::all();
-        return view('auth.register', compact('default'));
+        $title='Daftar';
+        return view('auth.register', compact('default','title'));
     }
 }

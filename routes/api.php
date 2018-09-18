@@ -32,7 +32,7 @@
 //co
 //});
 
-Route::group(['prefix' => '/api'], function(){
+Route::group(['prefix' => '/api'], function () {
     Route::get('/a', [
         'uses' => 'cobaController@index',
         'as' => 'aku'
@@ -43,11 +43,24 @@ Route::group(['prefix' => '/api'], function(){
         'as' => 'welcomePost'
     ]);
 
+    Route::post('/send-feedback', [
+        'uses' => 'contactController@sendFromUser',
+        'as' => 'api.sendFeedback'
+    ]);
+
     Route::group(['prefix' => 'auth'], function ($router) {
         Route::post('login', 'AuthController@login');
         Route::post('logout', 'AuthController@logout');
         Route::post('refresh', 'AuthController@refresh');
         Route::post('me', 'AuthController@me');
     });
+
+    Route::group(['prefix' => '/order'], function () {
+        Route::post('-overwrite', [
+            'uses' => 'OrderController@overwrite',
+            'as' => 'api.order.overwrite'
+        ]);
+    });
+
 });
 

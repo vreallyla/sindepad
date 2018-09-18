@@ -11,19 +11,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(provinceSeeder::class);
-         $this->call(classesSeeder::class);
-         $this->call(educationSeeder::class);
-         $this->call(genderSeeder::class);
-        $this->call(hariSeeder::class);
-        $this->call(maritalSeeder::class);
-        $this->call(occupationSeeder::class);
-        $this->call(packetSeeder::class);
-        $this->call(professionSeeder::class);
-        $this->call(salarySeeder::class);
-        $this->call(statusUserSeeder::class);
-        $this->call(timeSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(contactSeeder::class);
+//         $this->call(provinceSeeder::class);
+//         $this->call(classesSeeder::class);
+//         $this->call(educationSeeder::class);
+//         $this->call(genderSeeder::class);
+//        $this->call(hariSeeder::class);
+//        $this->call(maritalSeeder::class);
+//        $this->call(occupationSeeder::class);
+//        $this->call(packetSeeder::class);
+//        $this->call(professionSeeder::class);
+//        $this->call(salarySeeder::class);
+//        $this->call(statusUserSeeder::class);
+//        $this->call(timeSeeder::class);
+//        $this->call(UserSeeder::class);
+//        $this->call(contactSeeder::class);
+        $this->call(disabilitySeeder::class);
     }
 }
