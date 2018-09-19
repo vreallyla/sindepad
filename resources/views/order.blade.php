@@ -40,8 +40,8 @@
                             <li><i class="fa fa-credit-card"></i>
                                 <div class="content-step">Pembayaran</div>
                             </li>
-                            <li><i class="fa fa-check-circle-o"></i>
-                                <div class="content-step">Berhasil</div>
+                            <li><i class="fa fa-clock-o"></i>
+                                <div class="content-step">Proses</div>
                             </li>
                         </ul>
                         <div id="fieldsets">
@@ -204,10 +204,10 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="row" id="step3">
-                                            <div class="col-lg-6" style="border-right:1px #ccc solid;">
+                                            <div class="col-lg-6 payment-step">
                                                 <div class="payment-header">
                                                     <div class="payment-code">
-                                                        ORD/210818/ID/IX/129
+                                                        Detail Pembayaran
                                                     </div>
                                                     <div class="payment-content">
                                                         <div class="payment-title">
@@ -268,40 +268,35 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="code">Kode Diskon:</label>
-                                                            <input type="text" class="form-control" id="code"
-                                                                   name="code" placeholder="*Tulis disini jika ada">
-                                                        </div>
+                                                <div class="payment-code hidden-pc">
+                                                    Informasi Pembayaran
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="code">Kode Diskon:</label>
+                                                    <input type="text" class="form-control" id="code"
+                                                           name="code" placeholder="*Tulis disini jika ada">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="code">A/N:</label>
+                                                    <input type="text" class="form-control" id="code"
+                                                           name="code"
+                                                           placeholder="*Tulis nama pelaku transaksi">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="code">Metode Pembayaran:</label><br>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="optionsRadios"
+                                                                   id="optionsRadios1" value="option1" checked>
+                                                            Transfer
+                                                        </label>
                                                     </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="code">A/N:</label>
-                                                            <input type="text" class="form-control" id="code"
-                                                                   name="code"
-                                                                   placeholder="*Tulis nama pelaku transaksi">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label for="code">Metode Pembayaran:</label><br>
-                                                            <div class="radio">
-                                                                <label>
-                                                                    <input type="radio" name="optionsRadios"
-                                                                           id="optionsRadios1" value="option1" checked>
-                                                                    Transfer
-                                                                </label>
-                                                            </div>
-                                                            <div class="radio">
-                                                                <label>
-                                                                    <input type="radio" name="optionsRadios"
-                                                                           id="optionsRadios2" value="option2">
-                                                                    Bayar ditempat
-                                                                </label>
-                                                            </div>
-                                                        </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="optionsRadios"
+                                                                   id="optionsRadios2" value="option2">
+                                                            Bayar ditempat
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -311,10 +306,157 @@
                             </fieldset>
                             <fieldset class="next animated">
                                 <div class="row">
-                                    <label for="referrer">Referred by:</label>
-                                    <input type="text" name="referrer">
-                                    <label for="phone">Daytime Phone:</label>
-                                    <input type="tel" name="phone">
+                                    <div class="col-lg-12">
+                                        <div class="row" id="step4">
+                                            <div class="col-lg-6 payment-step">
+                                                <div class="payment-header">
+                                                    <div class="payment-code">
+                                                        Detail Pembayaran
+                                                    </div>
+                                                    <div class="payment-content">
+                                                        <div class="payment-title">
+                                                            <strong style="font-size:17px;">Pendaftar #1</strong>
+                                                            <span class="pull-right"
+                                                                  style="margin: 1px 0">Dummy af</span>
+                                                        </div>
+                                                        <div class="payment-detail">
+                                                            <div class="payment-list">
+                                                                <label>Biaya Pendaftaran</label>
+                                                                <span class="pull-right">Rp 70.000,00</span>
+                                                            </div>
+                                                            <div class="payment-list">
+                                                                <label>Kelas Menari</label>
+                                                                <span class="pull-right">Rp 280.000,00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="payment-content">
+                                                        <div class="payment-title">
+                                                            <strong style="font-size:17px;">Pendaftar #1</strong>
+                                                            <span class="pull-right"
+                                                                  style="margin: 1px 0">Dummy af</span>
+                                                        </div>
+                                                        <div class="payment-detail">
+                                                            <div class="payment-list">
+                                                                <label>Biaya Pendaftaran</label>
+                                                                <span class="pull-right">Rp 70.000,00</span>
+                                                            </div>
+                                                            <div class="payment-list">
+                                                                <label>Kelas Menari</label>
+                                                                <span class="pull-right">Rp 280.000,00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="payment-content">
+                                                        <div class="payment-title">
+                                                            <strong style="font-size:17px;">Pendaftar #1</strong>
+                                                            <span class="pull-right"
+                                                                  style="margin: 1px 0">Dummy af</span>
+                                                        </div>
+                                                        <div class="payment-detail">
+                                                            <div class="payment-list">
+                                                                <label>Biaya Pendaftaran</label>
+                                                                <span class="pull-right">Rp 70.000,00</span>
+                                                            </div>
+                                                            <div class="payment-list">
+                                                                <label>Kelas Menari</label>
+                                                                <span class="pull-right">Rp 280.000,00</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="payment-total">
+                                                    <label>Total</label>
+                                                    <span class="pull-right" style="color: #22918b;font-weight: 600">Rp 9.000.000,00
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                            <div class="border-countdown">
+                                                <div class="countdown">
+                                                    <div class="bloc-time hours" data-init-value="24">
+                                                        <span class="count-title">Jam</span>
+
+                                                        <div class="figure hours hours-1">
+                                                            <span class="top">2</span>
+                                                            <span class="top-back">
+          <span>2</span>
+        </span>
+                                                            <span class="bottom">2</span>
+                                                            <span class="bottom-back">
+          <span>2</span>
+        </span>
+                                                        </div>
+
+                                                        <div class="figure hours hours-2">
+                                                            <span class="top">4</span>
+                                                            <span class="top-back">
+          <span>4</span>
+        </span>
+                                                            <span class="bottom">4</span>
+                                                            <span class="bottom-back">
+          <span>4</span>
+        </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="bloc-time min" data-init-value="0">
+                                                        <span class="count-title">Menit</span>
+
+                                                        <div class="figure min min-1">
+                                                            <span class="top">0</span>
+                                                            <span class="top-back">
+          <span>0</span>
+        </span>
+                                                            <span class="bottom">0</span>
+                                                            <span class="bottom-back">
+          <span>0</span>
+        </span>
+                                                        </div>
+
+                                                        <div class="figure min min-2">
+                                                            <span class="top">0</span>
+                                                            <span class="top-back">
+          <span>0</span>
+        </span>
+                                                            <span class="bottom">0</span>
+                                                            <span class="bottom-back">
+          <span>0</span>
+        </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="bloc-time sec" data-init-value="0">
+                                                        <span class="count-title">Detik</span>
+
+                                                        <div class="figure sec sec-1">
+                                                            <span class="top">0</span>
+                                                            <span class="top-back">
+          <span>0</span>
+        </span>
+                                                            <span class="bottom">0</span>
+                                                            <span class="bottom-back">
+          <span>0</span>
+        </span>
+                                                        </div>
+
+                                                        <div class="figure sec sec-2">
+                                                            <span class="top">0</span>
+                                                            <span class="top-back">
+          <span>0</span>
+        </span>
+                                                            <span class="bottom">0</span>
+                                                            <span class="bottom-back">
+          <span>0</span>
+        </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </fieldset>
                         </div>
@@ -330,6 +472,7 @@
 @push('style')
     <link href="{{asset('css/new.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('css/accordion.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('css/countdown.css')}}" rel="stylesheet" type="text/css"/>
 
     <style>
         .select-radio input[type="radio"] {
@@ -396,6 +539,7 @@
 
     </style>
 
+    {{--payment--}}
     <style>
         .payment-list {
             margin-left: 5px;
@@ -418,7 +562,7 @@
             background: #2cbab2;
             padding: 4px 7px;
             color: #fff;
-            margin-bottom: 3px;
+            margin-bottom: 10px;
             font-weight: 600;
         }
 
@@ -426,12 +570,31 @@
             margin-bottom: 8px;
         }
 
+        .payment-step {
+            border-right: 1px #ccc solid;
+            min-height: 242px;
+        }
+
+        @media (max-width: 1199px) {
+            .payment-step {
+                border-right: 0px #ccc solid;
+                margin-bottom: 16px;
+            }
+        }
+
+        @media (min-width:1200px){
+            .hidden-pc{
+                display: none;
+            }
+        }
     </style>
 @endpush
 
 @push('package')
     <script type="text/javascript" src="{{asset('js/new.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/accordion.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/tweenMax.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/countdown.js')}}"></script>
 @endpush
 
 @push('js')
