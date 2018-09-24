@@ -372,87 +372,22 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                            <div class="border-countdown">
-                                                <div class="countdown">
-                                                    <div class="bloc-time hours" data-init-value="24">
-                                                        <span class="count-title">Jam</span>
-
-                                                        <div class="figure hours hours-1">
-                                                            <span class="top">2</span>
-                                                            <span class="top-back">
-          <span>2</span>
-        </span>
-                                                            <span class="bottom">2</span>
-                                                            <span class="bottom-back">
-          <span>2</span>
-        </span>
-                                                        </div>
-
-                                                        <div class="figure hours hours-2">
-                                                            <span class="top">4</span>
-                                                            <span class="top-back">
-          <span>4</span>
-        </span>
-                                                            <span class="bottom">4</span>
-                                                            <span class="bottom-back">
-          <span>4</span>
-        </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="bloc-time min" data-init-value="0">
-                                                        <span class="count-title">Menit</span>
-
-                                                        <div class="figure min min-1">
-                                                            <span class="top">0</span>
-                                                            <span class="top-back">
-          <span>0</span>
-        </span>
-                                                            <span class="bottom">0</span>
-                                                            <span class="bottom-back">
-          <span>0</span>
-        </span>
-                                                        </div>
-
-                                                        <div class="figure min min-2">
-                                                            <span class="top">0</span>
-                                                            <span class="top-back">
-          <span>0</span>
-        </span>
-                                                            <span class="bottom">0</span>
-                                                            <span class="bottom-back">
-          <span>0</span>
-        </span>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="bloc-time sec" data-init-value="0">
-                                                        <span class="count-title">Detik</span>
-
-                                                        <div class="figure sec sec-1">
-                                                            <span class="top">0</span>
-                                                            <span class="top-back">
-          <span>0</span>
-        </span>
-                                                            <span class="bottom">0</span>
-                                                            <span class="bottom-back">
-          <span>0</span>
-        </span>
-                                                        </div>
-
-                                                        <div class="figure sec sec-2">
-                                                            <span class="top">0</span>
-                                                            <span class="top-back">
-          <span>0</span>
-        </span>
-                                                            <span class="bottom">0</span>
-                                                            <span class="bottom-back">
-          <span>0</span>
-        </span>
-                                                        </div>
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label class="title-detail">Potongan Harga :</label>
+                                                    <strong class="desc-detail">70%</strong>
                                                 </div>
-                                            </div>
+                                                <div class="form-group">
+                                                    <label class="title-detail">A/N :</label>
+                                                    <strong class="desc-detail">dummy af</strong>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="title-detail">Metode Pembayaran :</label>
+                                                    <strong class="desc-detail">Tranfer</strong>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="title-detail">Batas Waktu :</label>
+                                                    <strong class="desc-detail">Senin, 27 Sep 2017 14.00 WIB (sisa waktu:12:00:00)</strong>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -586,6 +521,19 @@
             .hidden-pc{
                 display: none;
             }
+        }
+    </style>
+
+    {{--detail grid--}}
+    <style>
+        .title-detail{
+            display: block;
+            font-size: 12px;
+        }
+        .desc-detail{
+            margin: 0 6px;
+            font-size: 16px;
+            font-weight: unset;
         }
     </style>
 @endpush

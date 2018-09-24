@@ -8,14 +8,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\indexOrder;
 use App\Model\sideGender;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
+use App\DeclaredPDO\relation as Hubungan;
+
 
 const types = ['name', 'sex', 'relligion', 'course', 'rs', 'needed', 'desc'];
 
 class OrderController extends Controller
 {
     public $error = array();
+
+    private $correct=array();
 
     public function first(Request $r)
     {
@@ -68,11 +73,16 @@ class OrderController extends Controller
                     'column' => 'id'
                 ],
                 'val' => $r->only('sex')
+            ],
+            'rs' => [
+                'required' => [],
+                'in' => Hubungan::index(),
+                'val' => $r->only('rs')
             ]
         ]);
 
 
-        return response()->json($this->error);
+        return response()->json($r->all());
     }
 
     public function koreksi($arr)
@@ -83,6 +93,29 @@ class OrderController extends Controller
             }
         }
 
+    }
+
+    function store(Request $request) {
+
+        try {
+            // my data storage location is project_root/storage/app/data.json file.
+            $contactInfo = Storage::disk('local')->exists('data.json') ? json_decode(Storage::disk('local')->get('data.json')) : [];
+
+            $inputData = $request->only(['name', 'email', 'message','subject']);
+
+            $inputData['datetime_submitted'] = date('Y-m-d H:i:s');
+
+            array_push($contactInfo,$inputData);
+
+            Storage::disk('local')->put('data.json', json_encode($contactInfo));
+
+            return $inputData;
+
+        } catch(\Exception $e) {
+
+            return ['error' => true, 'message' => $e->getMessage()];
+
+        }
     }
 
     public function opsiCorrect($key, $val, $name, $content)
@@ -101,22 +134,28 @@ class OrderController extends Controller
                     $this->requiredCorect($name, $val, 0);
                 }
                 break;
-            case 'exists:':
-//                if (is_array($val)) {
-//                    if (!array_key_exists($name, $val)) {
-//                        $this->existFalse($key, 0);
-//                    } else {
-//                        foreach ($val[$name] as $index => $row) {
-//                            $this->existCorrect($name, $row, $index, $content);
-//                        }
-//                    }
-//                } else {
-////                    $this->existCorrect($name, $val, 0, $content);
-//                }
-                $this->error[$name] = 'aaaa';
+            case 'exists':
+                if (is_array($val)) {
+                    if (array_key_exists($name, $val)) {
+                        foreach ($val[$name] as $index => $row) {
+                            $this->existCorrect($name, $row, $index, $content);
+                        }
+                    }
+                } else {
+                    $this->existCorrect($name, $val, 0, $content);
+                }
                 break;
 
-            case 'in:':
+            case 'in':
+                if (is_array($val)) {
+                    if (array_key_exists($name, $val)) {
+                        foreach ($val[$name] as $index => $row) {
+                            $this->inCorrect($name, $row, $index, $content);
+                        }
+                    }
+                } else {
+                    $this->inCorrect($name, $val, 0, $content);
+                }
                 break;
             default:
                 break;
@@ -145,6 +184,11 @@ class OrderController extends Controller
 
     public function existCorrect($name, $val, $index, $content)
     {
+        $data = DB::table($content['db'])->where($content['column'], $val)->first();
+
+        if (!$data) {
+            $this->existFalse($name, $index);
+        }
 
     }
 
@@ -154,6 +198,13 @@ class OrderController extends Controller
             'msg' => 'harap tidak merubah data yang ada',
             'index' => $index
         ];
+    }
+
+    public function inCorrect($name, $val, $index, $content)
+    {
+        if (in_array($val, $content['id'])) {
+            $this->existFalse($name, $index);
+        }
     }
 
     private static function min($val, $r)

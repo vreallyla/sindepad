@@ -25,19 +25,20 @@ function goToSection(i){
         {
             $("fieldset:gt("+i+")").removeClass("current bounceOutLeft").addClass("next");
             $("fieldset:lt("+i+")").removeClass("current bounceOutLeft");
+            if ($("fieldset.current").index() == 3){
+                $("#next").hide();
+                $("input[type=submit]").show();
+            } else {
+                $("#next").show();
+                $("input[type=submit]").hide();
+            }
         }, 500);
 
     $("#section-tabs li").eq(i).addClass("current").siblings().removeClass("current");
     setTimeout(function(){
         $("fieldset").eq(i).removeClass("next").addClass("current active bounceInRight");
         $("fieldset").eq(i-1).addClass("bounceOutLeft");
-        if ($("fieldset.current").index() == 3){
-            $("#next").hide();
-            $("input[type=submit]").show();
-        } else {
-            $("#next").show();
-            $("input[type=submit]").hide();
-        }
+
     }, 80);
 
 }

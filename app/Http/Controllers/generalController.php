@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\DeclaredPDO\allNeeded as Selingan;
 use App\DeclaredPDO\relation as Hub;
+use Illuminate\Support\Facades\Storage;
 
 const types = ['name', 'gender', 'sex ', 'relligion ', 'course ', 'rs ', 'needed ', 'desc'];
 
@@ -18,12 +19,29 @@ class generalController extends Controller
 {
     public function log(Request $request)
     {
-        setlocale(LC_TIME, 'id');
-        $id = \Carbon\Carbon::create(2018, 9, 4)->subDays(1)->formatLocalized('%A');
-        setlocale(LC_TIME, 'en');
-        $en = \Carbon\Carbon::create(2018, 9, 4)->subDays(1)->formatLocalized('%A');
+        try {
+            // my data storage location is project_root/storage/app/data.json file.
+            $contactInfo = Storage::disk('local')->exists('rhs/data.json') ? json_decode(Storage::disk('local')->get('rhs/data.json'),true) : [];
 
-        return $id.'ff'.$en;
+            $inputData = [
+                ['s'=>'asasas']
+            ];
+
+            $inputData['datetime_submitted'] = date('Y-m-d H:i:s');
+
+//            array_push($contactInfo['name'],$inputData);
+            $contactInfo['name'][]='a';
+
+            Storage::disk('local')->put('rhs/data.json', json_encode($contactInfo));
+
+            return $contactInfo;
+
+        } catch(\Exception $e) {
+
+            return ['error' => true, 'message' => $e->getMessage()];
+
+        }
+
     }
 
 
@@ -54,7 +72,7 @@ class generalController extends Controller
         $default = Selingan::index('Tentang Kami');
         $menu = 'Tentang Kami';
         $title = 'Tentang Sanggar ABK';
-        return view('about', compact('default', 'title','menu'));
+        return view('about', compact('default', 'title', 'menu'));
     }
 
     public function contact()
@@ -62,7 +80,7 @@ class generalController extends Controller
         $default = Selingan::index('Kontak');
         $menu = 'Kontak';
         $title = 'Kontak Kami';
-        return view('contact', compact('default', 'title','menu'));
+        return view('contact', compact('default', 'title', 'menu'));
     }
 
     public function courseOpsi($class)
@@ -73,7 +91,7 @@ class generalController extends Controller
         $title = 'Kelas ' . $class->name;
         $menu = 'Program';
 
-        return view('class.index', compact('default', 'class', 'other', 'title','menu'));
+        return view('class.index', compact('default', 'class', 'other', 'title', 'menu'));
     }
 
     public function course()
@@ -82,7 +100,7 @@ class generalController extends Controller
         $title = 'Daftar Program Kelas';
         $menu = 'Program';
 
-        return view('class.all', compact('default', 'title','menu'));
+        return view('class.all', compact('default', 'title', 'menu'));
     }
 
     public function order()
@@ -93,8 +111,8 @@ class generalController extends Controller
         $rs = Hub::index();
         $dis = mstDisability::orderBy('name', 'asc')->get();
         $title = 'Pendaftaran Siswa Baru';
-        $day=sideDaylist::all();
+        $day = sideDaylist::all();
 
-        return view('order', compact('default', 'gender', 'religion', 'rs', 'dis', 'title','day'));
+        return view('order', compact('default', 'gender', 'religion', 'rs', 'dis', 'title', 'day'));
     }
 }
