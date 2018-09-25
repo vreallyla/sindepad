@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\indexOrder;
 use App\Model\sideGender;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -21,6 +22,9 @@ class OrderController extends Controller
     public $error = array();
 
     private $correct=array();
+
+    private $validar=array();
+
 
     public function first(Request $r)
     {
@@ -81,8 +85,19 @@ class OrderController extends Controller
             ]
         ]);
 
+        $colussion= $valid ? $valid : $this->store($r);
 
-        return response()->json($r->all());
+        return response()->json($this->error);
+    }
+
+    public function validarOrdre()
+    {
+        if (!Auth::guest()){
+
+        }
+        else{
+
+        }
     }
 
     public function koreksi($arr)
@@ -93,6 +108,15 @@ class OrderController extends Controller
             }
         }
 
+    }
+
+    public function orderExist()
+    {
+        
+    }
+
+    private function stdDades()
+    {
     }
 
     function store(Request $request) {
@@ -202,7 +226,7 @@ class OrderController extends Controller
 
     public function inCorrect($name, $val, $index, $content)
     {
-        if (in_array($val, $content['id'])) {
+        if (!in_array($val, $content['id'])) {
             $this->existFalse($name, $index);
         }
     }

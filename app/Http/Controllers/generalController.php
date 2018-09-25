@@ -21,20 +21,21 @@ class generalController extends Controller
     {
         try {
             // my data storage location is project_root/storage/app/data.json file.
-            $contactInfo = Storage::disk('local')->exists('rhs/data.json') ? json_decode(Storage::disk('local')->get('rhs/data.json'),true) : [];
+            $contactInfo = Storage::disk('local')->exists('rhs/data.json') ? json_decode(Storage::disk('local')->get('rhs/data.json')) : [];
 
-            $inputData = [
-                ['s'=>'asasas']
-            ];
+            $inputData =['sandi'=>'323','anu'=>'ex2dddeea23'];
 
-            $inputData['datetime_submitted'] = date('Y-m-d H:i:s');
+//            $inputData['datetime_submitted'] = date('Y-m-d H:i:s');
 
 //            array_push($contactInfo['name'],$inputData);
-            $contactInfo['name'][]='a';
+            $contactInfo[]=$inputData;
 
             Storage::disk('local')->put('rhs/data.json', json_encode($contactInfo));
 
-            return $contactInfo;
+//            foreach ($contactInfo as $as){
+//                return $as->sandi;
+//            }
+            return array_column($contactInfo,'sandi')[0];
 
         } catch(\Exception $e) {
 
