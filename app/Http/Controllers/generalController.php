@@ -19,29 +19,29 @@ class generalController extends Controller
 {
     public function log(Request $request)
     {
-        try {
-            // my data storage location is project_root/storage/app/data.json file.
-            $contactInfo = Storage::disk('local')->exists('rhs/data.json') ? json_decode(Storage::disk('local')->get('rhs/data.json')) : [];
-
-            $inputData =['sandi'=>'323','anu'=>'ex2dddeea23'];
+//        try {
+//            // my data storage location is project_root/storage/app/data.json file.
+//            $contactInfo = Storage::disk('local')->exists('rhs/data.json') ? json_decode(Storage::disk('local')->get('rhs/data.json')) : [];
+//
+//            $inputData =['sandi'=>'323','anu'=>'ex2dddeea23'];
 
 //            $inputData['datetime_submitted'] = date('Y-m-d H:i:s');
 
 //            array_push($contactInfo['name'],$inputData);
-            $contactInfo[]=$inputData;
+//            $contactInfo[]=$inputData;
 
-            Storage::disk('local')->put('rhs/data.json', json_encode($contactInfo));
+//            Storage::disk('local')->put('rhs/data.json', json_encode($contactInfo));
 
 //            foreach ($contactInfo as $as){
 //                return $as->sandi;
 //            }
-            return array_column($contactInfo,'sandi')[0];
-
-        } catch(\Exception $e) {
-
-            return ['error' => true, 'message' => $e->getMessage()];
-
-        }
+//            return array_column($contactInfo,'sandi')[0];
+//
+//        } catch(\Exception $e) {
+//
+//            return ['error' => true, 'message' => $e->getMessage()];
+//
+//        }
 
     }
 

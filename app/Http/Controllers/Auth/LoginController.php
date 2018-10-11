@@ -57,7 +57,7 @@ class LoginController extends Controller
 
     public function authenticated(Request $request,$user)
     {
-        if (0==1){
+        if (1==1){
             return redirect()->intended($this->redirectPath());
         }
         return redirect()->back()->with('warning','You need confirm your account, We have sent you an activation code, check your email');

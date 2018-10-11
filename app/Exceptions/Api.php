@@ -45,6 +45,16 @@ class Api extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+
+        if ($e instanceof TokenInvalidException){
+            return response()->json(['error'=>'token is invalid'],400);
+        }
+        elseif ($e instanceof TokenExpiredException){
+            return response()->json(['error'=>'token is expired'],400);
+        }elseif ($e instanceof JWTException){
+            return response()->json(['error'=>'there is problem with your token'],400);
+        }
+
         return parent::render($request, $e);
     }
 }
