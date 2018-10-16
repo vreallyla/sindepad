@@ -79,6 +79,7 @@ $app->register(App\Providers\AuthServiceProvider::class);
 // Add this line
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
+//mail set
 $app->register(\Illuminate\Mail\MailServiceProvider::class);
 $app->configure('mail');
 
@@ -108,7 +109,7 @@ $app->router->group([
 $app->routeMiddleware([
     'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
 //    'anu' => App\Http\Middleware\reMiddleware::class
-    'jwt' => App\Http\Middleware\JwtMiddleware::class,
+    'jwttes' => App\Http\Middleware\jwtMiddleware::class,
 ]);
 
 return $app;

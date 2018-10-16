@@ -49,10 +49,27 @@ Route::group(['prefix' => '/api'], function () {
     ]);
 
     Route::group(['prefix' => 'auth'], function ($router) {
-        Route::post('login', 'AuthController@login');
-        Route::post('logout', 'AuthController@logout');
-        Route::post('refresh', 'AuthController@refresh');
-        Route::post('me', 'AuthController@me');
+        Route::post('login', [
+            'uses' => 'AuthController@login',
+            'as' => 'loginjwt'
+        ]);
+        Route::post('logout', [
+            'uses' => 'AuthController@logout',
+            'as' => 'logoutjwt'
+        ]);
+        Route::post('refresh', [
+            'uses' => 'AuthController@refresh',
+            'as' => 'refreshjwt'
+        ]);
+        Route::post('me', [
+                'uses' => 'AuthController@me',
+                'as' => 'mejwt',
+            ]);
+//        Route::post('login', 'AuthController@login');
+//        Route::post('logout', 'AuthController@logout');
+//        Route::post('refresh', 'AuthController@refresh');
+//        Route::post('me', 'AuthController@me');
+
     });
 
     Route::group(['prefix' => '/order'], function () {

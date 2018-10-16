@@ -193,7 +193,7 @@ textarea:focus {
 	text-align:right;
 	position:relative;
 }
-.ed_info_wrapper a{
+.ed_info_wrapper .button_link{
     padding: 12px 30px;
     color: #3ABAC6;
     text-decoration: none;
@@ -206,7 +206,7 @@ textarea:focus {
     -o-transition: all 0.3s;
     transition: all 0.3s;
 }
-.ed_info_wrapper a:hover{
+.ed_info_wrapper .button_link:hover{
 	text-decoration:none;
 	background-color:#3ABAC6;
 	border:1px solid #fff;
@@ -217,7 +217,7 @@ textarea:focus {
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
 }
-.ed_info_wrapper a:focus{
+.ed_info_wrapper .button_link:focus{
 	color:#ffffff;
 	background-color:#3ABAC6;
 	border:1px solid #fff;
@@ -296,7 +296,7 @@ textarea:focus {
     -o-transition: all 0.3s;
     transition: all 0.3s;
 }
-.ed_login_form a{
+.ed_login_form .a_sub{
 	text-decoration: none;
     color: #ffffff;
 	border:none;
@@ -311,7 +311,7 @@ textarea:focus {
     -o-transition: all 0.3s;
     transition: all 0.3s;
 }
-.ed_login_form a:hover{
+.ed_login_form .a_sub:hover{
 	background-color:#3ABAC6;
 	color:#ffffff;
 	border:none;
@@ -349,7 +349,7 @@ textarea:focus {
 .ed_login_form button:focus{
 	outline:none;
 }
-.ed_login_form a:last-child{
+.ed_login_form .a_sub:last-child{
 	margin-right:0px;
 }
 /*--------- Header Top end -----------*/

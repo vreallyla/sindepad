@@ -17,7 +17,13 @@ Route::group(['prefix'=>'/'],function (){
 
     Route::get('/', [
         'uses' => 'generalController@index',
-        'as' => 'welcome'
+        'as' => 'welcome',
+        'middleware' => 'access'
+    ]);
+
+    Route::get('/kreu-token', [
+        'uses' => 'generalController@cookie_token',
+        'as' => 'create.token'
     ]);
 
     Route::get('/about', [

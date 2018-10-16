@@ -50,7 +50,57 @@ Purchase: http://themeforest.net/user/kamleshyadav
             -webkit-transform: scale(1.1);
             transform: scale(1.1);
         }
+
+        .ed_login_form form svg {
+            height: 50px;
+            width: 50px;
+            margin: -21px -55px;
+            margin-right: -73px;
+        }
+
+        /*after login sub menu*/
+        .choose_one {
+            text-align: left;
+            margin-left: 10px;
+            margin: 0px;
+            font-size: 1.1em;
+            padding: 5px 10px;
+            min-width: 184px;
+            color: rgba(0, 0, 0, 0.75);
+            cursor: pointer;
+        }
+
+        .choose_one:hover {
+            background: #3ABAC6;
+        }
+
+        .choose_one:hover > a, .choose_one a:hover {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .circular--portrait {
+            position: relative;
+            width: 10px;
+            height: 10px;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+
+        .asd {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+        }
+
+        .name-user::before {
+            content: " Sdr/i ";
+            text-transform: none;
+        }
+
+
     </style>
+
     @stack('style')
 </head>
 <body>
@@ -62,59 +112,90 @@ Purchase: http://themeforest.net/user/kamleshyadav
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <p>welcome guest</p>
+                        <p>Selamat Datang...</p>
                         <div class="ed_info_wrapper">
-                            <a href="#" id="login_button">Masuk</a>
+                            <a href="#" class="button_link" id="login_button">
+                                @if(!empty($user_cookie))
+                                    <img class="asd" src="{{asset($user_cookie->url)}}"/>&nbsp;
+                                    <span class="name-user">{{$user_cookie->name}}</span>
+                                @else
+                                    Masuk
+                                    @endif
+                            </a>
+
                             <div id="login_one" class="ed_login_form">
-                                <h3>log in
-                                    <div class="help-block" style="    font-size: 0.5em; margin: 6px 0;">We're excited
-                                        to see you...
-                                    </div>
-                                </h3>
-
-                                <form class="form" method="POST" action="{{ route('login') }}">
-                                    {{ csrf_field() }}
-                                    <div class="form-group">
-                                        <label class="control-label">Email :</label>
-                                        <input type="text" class="form-control" name="email">
-                                        @if ($errors->has('email'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label">Kata Sandi :</label>
-                                        <input type="password" class="form-control" name="password">
-                                        @if ($errors->has('password'))
-                                            <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}"></div>
-                                        @if($errors->has('g-recaptcha-response'))
-                                            <div class="invalid-feedback" style="display: block">
-                                                <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"
-                                                       name="remember" {{ old('remember') ? 'checked' : '' }}> Ingatkan
-                                                saya
-                                            </label>
+                                @if($user_cookie)
+                                    <div class="row" style="color: black">
+                                        {{--<div class="choose_one">--}}
+                                        {{--<a href="#">Laman Admin</a>--}}
+                                        {{--</div>--}}
+                                        <div class="choose_one">
+                                            <a href="#">rubah profil</a>
+                                        </div>
+                                        {{--<div class="choose_one">--}}
+                                        {{--<a href="#">Simdepad</a>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="choose_one">--}}
+                                        {{--<a href="#">Bayar SPP</a>--}}
+                                        {{--</div>--}}
+                                        <div class="choose_one">
+                                            <a href="#">Keluar</a>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <button type="submit">login</button>
-                                        <a href="{{route('register')}}">sign up</a>
-                                    </div>
-                                </form>
+                                @else
+                                    <h3>log in
+                                        <div class="help-block" style="    font-size: 0.5em; margin: 6px 0;">We're
+                                            excited
+                                            to see you...
+                                        </div>
+                                    </h3>
+
+                                    <form class="form" method="POST" action="{{ route('loginjwt') }}">
+                                        {{ csrf_field() }}
+                                        <div class="form-group">
+                                            <label class="control-label">Email :</label>
+                                            <input type="text" class="form-control" name="email">
+                                            @if ($errors->has('email'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label">Kata Sandi :</label>
+                                            <input type="password" class="form-control" name="password">
+                                            @if ($errors->has('password'))
+                                                <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                            @endif
+                                        </div>
+                                        {{--<div class="form-group">--}}
+                                        {{--<div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}"></div>--}}
+                                        {{--@if($errors->has('g-recaptcha-response'))--}}
+                                        {{--<div class="invalid-feedback" style="display: block">--}}
+                                        {{--<strong>{{ $errors->first('g-recaptcha-response') }}</strong>--}}
+
+                                        {{--</div>--}}
+                                        {{--@endif--}}
+                                        {{--</div>--}}
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"
+                                                           name="remember" {{ old('remember') ? 'checked' : '' }}>
+                                                    Ingatkan
+                                                    saya
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit">Masuk
+                                            </button>
+                                            <a class="a_sub" href="{{route('register')}}">sign up</a>
+                                        </div>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -125,8 +206,9 @@ Purchase: http://themeforest.net/user/kamleshyadav
             <div class="container">
                 <div class="row">
                     <div class="col-lg-2 col-md-2 col-sm-2">
-                        <div class="educo_logo"><a href="{{route('welcome')}}"><img src="{{asset('images/header/Logo.png')}}"
-                                                                          alt="Sanggar ABK"/></a></div>
+                        <div class="educo_logo"><a href="{{route('welcome')}}"><img
+                                        src="{{asset('images/header/Logo.png')}}"
+                                        alt="Sanggar ABK"/></a></div>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <div class="edoco_menu_toggle navbar-toggle" data-toggle="collapse" data-target="#ed_menu">Menu
@@ -281,9 +363,112 @@ Purchase: http://themeforest.net/user/kamleshyadav
     }(title + " ~ "));
 
     $(function ($) {
-       $("[data-toggle=tooltip]").tooltip();
+        $("[data-toggle=tooltip]").tooltip();
     });
 </script>
 @stack('js')
+
+<script>
+    $(function ($) {
+        var formLogin = $('#login_one form');
+        var svg_loader = '<svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n' +
+            '  viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">\n' +
+            '  <circle fill="#fff" stroke="none" cx="6" cy="50" r="6">\n' +
+            '    <animateTransform\n' +
+            '       attributeName="transform"\n' +
+            '       dur="1s"\n' +
+            '       type="translate"\n' +
+            '       values="0 15 ; 0 -15; 0 15"\n' +
+            '       repeatCount="indefinite"\n' +
+            '       begin="0.1"/>\n' +
+            '  </circle>\n' +
+            '  <circle fill="#fff" stroke="none" cx="30" cy="50" r="6">\n' +
+            '    <animateTransform\n' +
+            '       attributeName="transform"\n' +
+            '       dur="1s"\n' +
+            '       type="translate"\n' +
+            '       values="0 10 ; 0 -10; 0 10"\n' +
+            '       repeatCount="indefinite"\n' +
+            '       begin="0.2"/>\n' +
+            '  </circle>\n' +
+            '  <circle fill="#fff" stroke="none" cx="54" cy="50" r="6">\n' +
+            '    <animateTransform\n' +
+            '       attributeName="transform"\n' +
+            '       dur="1s"\n' +
+            '       type="translate"\n' +
+            '       values="0 5 ; 0 -5; 0 5"\n' +
+            '       repeatCount="indefinite"\n' +
+            '       begin="0.3"/>\n' +
+            '  </circle>\n' +
+            '</svg>';
+
+        formLogin.on('submit', function (e) {
+
+            formLogin.find('input').attr('readonly', true);
+            formLogin.find('button').attr('disabled', true);
+            formLogin.find('a').css('pointer-events', 'none');
+            formLogin.find('button[type="submit"]').html(svg_loader);
+
+            if (!e.isDefaultPrevented()) {
+                urlLogin = formLogin.attr('action');
+                axios.post(urlLogin, new FormData(formLogin[0]))
+                    .then(function (res) {
+                        create_token(res);
+                    })
+                    .catch(function (er) {
+                        login_done(er.response.data.error)
+                    });
+
+                return false;
+            }
+
+        });
+
+
+        function create_token(res) {
+            axios.get('/kreu-token', {
+                params: {
+                    'token': res.data.access_token,
+                    'name': res.data.data.name,
+                    'url': res.data.data.url
+                }
+            })
+                .then(function (res) {
+                    login_done();
+                    console.log('aku');
+                    $('#login_button').click().html(' <img class="asd" src="'+res.data.url+'">&nbsp;\n' +
+                        '                                <span class="name-user">'+res.data.name+'</span></a>');
+                    $('#login_one').html('<div class="row" style="color: black">\n' +
+                        '                                        <div class="choose_one">\n' +
+                        '                                            <a href="#">rubah profil</a>\n' +
+                        '                                        </div>\n' +
+                        '                                        <div class="choose_one">\n' +
+                        '                                            <a href="#">Logout</a>\n' +
+                        '                                        </div>\n' +
+                    '                                    </div>');
+                })
+                .catch(function (er) {
+                    login_done('login gagal, coba lagi')
+                })
+
+        }
+
+        function login_done(e) {
+            formLogin.find('input').removeAttr('readonly');
+            formLogin.find('button').removeAttr('disabled');
+            formLogin.find('button[type="submit"]').html('Masuk');
+            formLogin.find('a').css('pointer-events', '');
+            if ($.trim(e)) {
+                notice_login = $('#login_one');
+                notice_login.find('.help-block').html(e);
+                notice_login.find('h3, form').addClass('shake' + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                    $(this).removeClass('shake animated');
+                });
+            }
+        }
+
+
+    });
+</script>
 </body>
 </html>

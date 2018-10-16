@@ -16,7 +16,7 @@ class jwtMiddleware
      */
     public function handle($request, Closure $next)
     {
-        JWTAuth::parseToken()->authenticate();
+        \Tymon\JWTAuth\JWTAuth::parseToken()->authenticate();
         return $next($request);
     }
 }

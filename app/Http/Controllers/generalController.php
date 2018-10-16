@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DeclaredPDO\extraClass;
 use App\Model\mstClass;
 use App\Model\mstDisability;
 use App\Model\sideDaylist;
@@ -11,13 +12,18 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\DeclaredPDO\allNeeded as Selingan;
 use App\DeclaredPDO\relation as Hub;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
 
 const types = ['name', 'gender', 'sex ', 'relligion ', 'course ', 'rs ', 'needed ', 'desc'];
 
 class generalController extends Controller
 {
-    public function log(Request $request)
+
+    use extraClass;
+
+
+    public function log(Request $r)
     {
 //        try {
 //            // my data storage location is project_root/storage/app/data.json file.
@@ -42,70 +48,70 @@ class generalController extends Controller
 //            return ['error' => true, 'message' => $e->getMessage()];
 //
 //        }
+//        $check = $this->checkCookie() ? $r->request->add(['token' => self::get_cookie()->token]) : true;
+//        return !$check ? $this->refreshWithCookie() : false;
+//        $r->offsetUnset('token');
+
+//        return $check;
+self::remove_cookie(['dajhsd'=>123123],12);
+//        return self::get_cookie()->token;
+
 
     }
 
-
-    function convertToObject($array)
+    public function index(Request $r)
     {
-        $object = new \stdClass();
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $value = convertToObject($value);
-            }
-            $object->$key = $value;
-        }
-        return $object;
-    }
-
-
-    public function index()
-    {
+        $user_cookie = self::check_user();
         $default = Selingan::index('Beranda');
         $religion = User::getReligion();
         $gender = sideGender::orderBy('created_at', 'asc')->get();
         $title = 'Beranda';
-        return view('index', compact('default', 'religion', 'gender', 'title'));
+        return view('index', compact('default', 'religion', 'gender', 'title', 'kodin', 'user_cookie'));
     }
 
     public function about()
     {
+        $user_cookie = self::check_user();
         $default = Selingan::index('Tentang Kami');
         $menu = 'Tentang Kami';
         $title = 'Tentang Sanggar ABK';
-        return view('about', compact('default', 'title', 'menu'));
+        return view('about', compact('default', 'title', 'menu', 'user_cookie'));
     }
 
     public function contact()
     {
+        $user_cookie = self::check_user();
         $default = Selingan::index('Kontak');
         $menu = 'Kontak';
         $title = 'Kontak Kami';
-        return view('contact', compact('default', 'title', 'menu'));
+        return view('contact', compact('default', 'title', 'menu','user_cookie'));
     }
 
     public function courseOpsi($class)
     {
+        $user_cookie = self::check_user();
         $default = Selingan::index('Program');
         $class = mstClass::findOrFail($class);
         $other = mstClass::where('name', '!=', $class->name)->orderBy('name', 'asc')->get();
         $title = 'Kelas ' . $class->name;
         $menu = 'Program';
 
-        return view('class.index', compact('default', 'class', 'other', 'title', 'menu'));
+        return view('class.index', compact('default', 'class', 'other', 'title', 'menu','user_cookie'));
     }
 
     public function course()
     {
+        $user_cookie = self::check_user();
         $default = Selingan::index('Program');
         $title = 'Daftar Program Kelas';
         $menu = 'Program';
 
-        return view('class.all', compact('default', 'title', 'menu'));
+        return view('class.all', compact('default', 'title', 'menu','user_cookie'));
     }
 
     public function order()
     {
+        $user_cookie = self::check_user();
         $default = Selingan::index('Program');
         $gender = sideGender::orderBy('created_at', 'asc')->get();
         $religion = User::getReligion();
@@ -114,6 +120,6 @@ class generalController extends Controller
         $title = 'Pendaftaran Siswa Baru';
         $day = sideDaylist::all();
 
-        return view('order', compact('default', 'gender', 'religion', 'rs', 'dis', 'title', 'day'));
+        return view('order', compact('default', 'gender', 'religion', 'rs', 'dis', 'title', 'day','user_cookie'));
     }
 }
