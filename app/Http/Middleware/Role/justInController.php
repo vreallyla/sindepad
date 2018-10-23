@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Role;
 
-use Closure;
 use App\DeclaredPDO\Jwt\jwtClass;
+use Closure;
 
-class accessMiddleware
+class justInController
 {
     use jwtClass;
 
@@ -31,19 +31,20 @@ class accessMiddleware
                 'data' => false
             ]);
 
-            return redirect()->route('welcome')->with('msg','terdapat kesalahan, silakan login lagi');
+            return redirect()->route('welcome')->with('msg','terdapat kesalahan, silakan masuk lagi');
         }
 
-        if (!$check) {
-            $request->request->add([
-                'data' => $this->refreshWithCookie() ? $this->refreshWithCookie() : false
-            ]);
+        if ($check) {
+            return redirect()->route('welcome')->with('msg','silakan masuk terlebih dahulu');
         }
+
+        $request->request->add([
+            'data' => $this->refreshWithCookie() ? $this->refreshWithCookie() : false
+        ]);
+
         if ($request->has('token')) {
             $request->offsetUnset('token');
         }
-
         return $next($request);
     }
-
 }

@@ -6,6 +6,8 @@ use App\Http\Middleware\accessMiddleware;
 use App\Http\Middleware\jwtMiddleware;
 use App\Http\Middleware\orderMiddleware;
 use App\Http\Middleware\reMiddleware;
+use App\Http\Middleware\Role\justInController;
+use App\Http\Middleware\Role\UserMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -62,8 +64,9 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'anu' => reMiddleware::class,
-        'order' => orderMiddleware::class,
+        'order' => justInController::class,
         'jwttes' => jwtMiddleware::class,
-        'access' => accessMiddleware::class
+        'access' => accessMiddleware::class,
+        'user_role'=>UserMiddleware::class,
     ];
 }

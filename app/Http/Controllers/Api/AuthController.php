@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DeclaredPDO\Jwt\jwtClass;
+use App\Rules\Captcha;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\DeclaredPDO\jwtClass;
 use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
     use jwtClass;
 
-//    /**
-//     * Create a new AuthController instance.
-//     *
-//     * @return void
-//     */
+    /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('jwttes', ['except' => ['login']]);
@@ -31,7 +32,12 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+
         $credentials = $request->only('email', 'password');
+
+        $this->validate($request, [
+            'g-recaptcha-response'=> new Captcha(),
+        ]);
 
         if ($token = $this->guard()->attempt($credentials)) {
         if (!Hash::check(true, $this->guard()->user()->code_status)){
@@ -47,6 +53,18 @@ class AuthController extends Controller
             'id'*/=>'email atau password salah',
            /* 'en'=>'email or password wrong'
         ]*/], 401);
+    }
+
+    /**
+     * Log the user out (Invalidate the token)
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        $this->guard()->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 
 

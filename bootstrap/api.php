@@ -24,7 +24,10 @@ $app = new Laravel\Lumen\Application(
 $app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
 $app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
 
-$app->withFacades();
+$app->withFacades(true, [
+    Tymon\JWTAuth\Facades\JWTAuth::class => 'JWTAuth',
+    Tymon\JWTAuth\Facades\JWTFactory::class => 'JWTFactory'
+]);
 //
 $app->withEloquent();
 
@@ -44,6 +47,9 @@ $app->singleton(
     App\Exceptions\Api::class
 );
 
+//storage
+$app->singleton('filesystem', function ($app) { return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem'); });
+
 
 
 
@@ -60,7 +66,9 @@ $app->singleton(
 
  $app->middleware([
 //    App\Http\Middleware\ExampleMiddleware::class,
-    App\Http\Middleware\reMiddleware::class
+//    App\Http\Middleware\reMiddleware::class
+ //set session
+     \Illuminate\Session\Middleware\StartSession::class,
  ]);
 /*
 |--------------------------------------------------------------------------
@@ -76,12 +84,24 @@ $app->singleton(
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
  $app->register(App\Providers\EventServiceProvider::class);
+
 // Add this line
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 //mail set
 $app->register(\Illuminate\Mail\MailServiceProvider::class);
 $app->configure('mail');
+
+//session set
+$app->bind(\Illuminate\Session\SessionManager::class, function () use ($app) {
+    return new \Illuminate\Session\SessionManager($app);
+});
+$app->configure('session');
+$app->register(\Illuminate\Session\SessionServiceProvider::class);
+
+//cache set
+//$app->configure('cache');
+//$app->singleton(Illuminate\Cache\Repository::class, Illuminate\Contracts\Cache\Repository::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -110,6 +130,7 @@ $app->routeMiddleware([
     'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
 //    'anu' => App\Http\Middleware\reMiddleware::class
     'jwttes' => App\Http\Middleware\jwtMiddleware::class,
+    'api_user'=>\App\Http\Middleware\Lumen\Role\userMiddleware::class
 ]);
 
 return $app;

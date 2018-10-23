@@ -6,11 +6,11 @@
  * Time: 17:06
  */
 
-namespace App\DeclaredPDO;
+namespace App\DeclaredPDO\Jwt;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Validator;
 
 trait jwtClass
 {
@@ -32,12 +32,6 @@ trait jwtClass
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
-    {
-        $this->guard()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
-    }
 
     /**
      * Refresh a token.
@@ -82,6 +76,11 @@ trait jwtClass
         return Auth::guard('api');
     }
 
+    public function get_id()
+    {
+        $id=$this->guard()->user();
+        return $id?$id:false;
+    }
 
     /**
      * this function use for check qualified the cookie token
@@ -92,20 +91,20 @@ trait jwtClass
     {
         $cookie = self::get_cookie_array();
         $check_user = $this->guard()->user();
-        $cookie['token'] = $this->guard()->refresh();
+//        $cookie['token'] = $this->guard()->refresh();
 
 
         if (!$check_user || !$check = $this->choose_array(['token', 'name', 'url'], $cookie)) {
             $cookie['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTUzOTMwMzA5OSwiZXhwIjoxNTM5MzA2Njk5LCJuYmYiOjE1MzkzMDMwOTksImp0aSI6IllqVUdXa0xOc0ZhM3R6R00iLCJzdWIiOiIzZTE0M2U5Yy04Nzg1LTQzMDYtODNjNi1jNWExMGI0Yjk0ODciLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.4Q3xgbEsl9DrTHRqe2Mdom7lymZnL-ts49B9oeMlziI';
             self::remove_cookie($cookie, 59);
-            return redirect()->route('welcome')->with('msg', 'terdapat kesalahan, silakan login kembali.');
+            return false;
         }
 //
-        $check['name'] = $check_user->name;
-        $check['url'] = $check_user->url;
-        $this->cookie_decode($check, 59);
+//        $check['name'] = $check_user->name;
+//        $check['url'] = $check_user->url;
+//        $this->cookie_decode($check, 59);
 
-        return $check_user;
+        return self::check_user($check_user->name,$check_user->url);
     }
 
 
@@ -135,5 +134,13 @@ trait jwtClass
         return $this->refresh();
     }
 
+    public function validatea($request)
+    {
+        $validator = Validator::make($request->all(), $this->rules());
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+    }
 
 }

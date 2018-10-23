@@ -33,6 +33,12 @@ Purchase: http://themeforest.net/user/kamleshyadav
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
 
     <style>
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
         .menu-active {
             color: #00A8FF;
         }
@@ -49,6 +55,10 @@ Purchase: http://themeforest.net/user/kamleshyadav
             -ms-transform: scale(1.1);
             -webkit-transform: scale(1.1);
             transform: scale(1.1);
+        }
+
+        .help-block {
+            margin: 0px;
         }
 
         .ed_login_form form svg {
@@ -98,14 +108,68 @@ Purchase: http://themeforest.net/user/kamleshyadav
             text-transform: none;
         }
 
+        .image-upload > input {
+            display: none;
+        }
 
+        .image-upload label {
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .loading-indicator:before {
+            content: '';
+            background: #000000cc;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .loading-indicator:after {
+            content: 'Loading';
+            position: fixed;
+            width: 100%;
+            top: 50%;
+            left: 0;
+            z-index: 1001;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        #loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(192, 192, 192, 0.5);
+            background-image: url({{asset('images/elipse_color_loader.svg')}});
+            background-repeat: no-repeat;
+            background-position: center;
+
+        }
+
+        .personal-data table, .personal-data table td {
+            border: none;
+            font-size: 16px;
+            vertical-align: text-top;
+        }
     </style>
 
     @stack('style')
 </head>
 <body>
+
 <!--Page main section start-->
 <div id="educo_wrapper">
+
     <!--Header start-->
     <header id="ed_header_wrapper">
         <div class="ed_header_top">
@@ -120,7 +184,7 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                     <span class="name-user">{{$user_cookie->name}}</span>
                                 @else
                                     Masuk
-                                    @endif
+                                @endif
                             </a>
 
                             <div id="login_one" class="ed_login_form">
@@ -130,7 +194,7 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                         {{--<a href="#">Laman Admin</a>--}}
                                         {{--</div>--}}
                                         <div class="choose_one">
-                                            <a href="#">rubah profil</a>
+                                            <a href="#">Profil</a>
                                         </div>
                                         {{--<div class="choose_one">--}}
                                         {{--<a href="#">Simdepad</a>--}}
@@ -139,7 +203,18 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                         {{--<a href="#">Bayar SPP</a>--}}
                                         {{--</div>--}}
                                         <div class="choose_one">
-                                            <a href="#">Keluar</a>
+                                            <a href="{{ route('logoutjwt') }}"
+                                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+
+                                            <form id="logout-form" action="{{ route('logoutjwt') }}" method="POST"
+                                                  style="display: none;">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="token"
+                                                       value="{{json_decode(\Illuminate\Support\Facades\Cookie::get('uzanto'))->token}}">
+                                            </form>
                                         </div>
                                     </div>
                                 @else
@@ -170,15 +245,14 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                     </span>
                                             @endif
                                         </div>
-                                        {{--<div class="form-group">--}}
-                                        {{--<div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}"></div>--}}
-                                        {{--@if($errors->has('g-recaptcha-response'))--}}
-                                        {{--<div class="invalid-feedback" style="display: block">--}}
-                                        {{--<strong>{{ $errors->first('g-recaptcha-response') }}</strong>--}}
-
-                                        {{--</div>--}}
-                                        {{--@endif--}}
-                                        {{--</div>--}}
+                                        <div class="form-group">
+                                            <div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}"></div>
+                                            @if($errors->has('g-recaptcha-response'))
+                                                <div class="invalid-feedback" style="display: block">
+                                                    <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                                                </div>
+                                            @endif
+                                        </div>
                                         <div class="form-group">
                                             <div class="checkbox">
                                                 <label>
@@ -333,6 +407,7 @@ Purchase: http://themeforest.net/user/kamleshyadav
     </div>
     <!--Footer Bottom section end-->
 </div>
+<div id="loading"></div>
 <!--Page main section end-->
 <!--main js file start-->
 <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
@@ -354,6 +429,12 @@ Purchase: http://themeforest.net/user/kamleshyadav
 <script type="text/javascript" src="{{asset('js/phone.js')}}"></script>
 <!--main js file end-->
 <script>
+    check_alert = '{{session()->has('msg')}}';
+
+    if (check_alert) {
+        alert('{{session()->get('msg')}}')
+    }
+
     var title = document.getElementsByTagName("title")[0].innerHTML;
     (function titleScroller(text) {
         document.title = text;
@@ -369,6 +450,25 @@ Purchase: http://themeforest.net/user/kamleshyadav
 @stack('js')
 
 <script>
+    $(function ($) {
+        // Disable scroll when focused on a number input.
+        $('form').on('focus', 'input[type=number]', function (e) {
+            $(this).on('wheel', function (e) {
+                e.preventDefault();
+            });
+        });
+
+        // Restore scroll on number inputs.
+        $('form').on('blur', 'input[type=number]', function (e) {
+            $(this).off('wheel');
+        });
+
+        // Disable up and down keys.
+        $('form').on('keydown', 'input[type=number]', function (e) {
+            if (e.which == 38 || e.which == 40)
+                e.preventDefault();
+        });
+    });
     $(function ($) {
         var formLogin = $('#login_one form');
         var svg_loader = '<svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n' +
@@ -410,12 +510,19 @@ Purchase: http://themeforest.net/user/kamleshyadav
             formLogin.find('button[type="submit"]').html(svg_loader);
 
             if (!e.isDefaultPrevented()) {
+                // var v = grecaptcha.getResponse();
+                // if(v.length == 0)
+                // {
+                //     login_done('harap centang saya bukan robot');
+                //     return false;
+                // }
                 urlLogin = formLogin.attr('action');
                 axios.post(urlLogin, new FormData(formLogin[0]))
                     .then(function (res) {
                         create_token(res);
                     })
                     .catch(function (er) {
+                        console.log(er.response.data);
                         login_done(er.response.data.error)
                     });
 
@@ -436,16 +543,22 @@ Purchase: http://themeforest.net/user/kamleshyadav
                 .then(function (res) {
                     login_done();
                     console.log('aku');
-                    $('#login_button').click().html(' <img class="asd" src="'+res.data.url+'">&nbsp;\n' +
-                        '                                <span class="name-user">'+res.data.name+'</span></a>');
+                    $('#login_button').click().html(' <img class="asd" src="' + res.data.url + '">&nbsp;\n' +
+                        '                                <span class="name-user">' + res.data.name + '</span></a>');
                     $('#login_one').html('<div class="row" style="color: black">\n' +
                         '                                        <div class="choose_one">\n' +
                         '                                            <a href="#">rubah profil</a>\n' +
                         '                                        </div>\n' +
                         '                                        <div class="choose_one">\n' +
-                        '                                            <a href="#">Logout</a>\n' +
+                        '<a href="' + '{{ route('logoutjwt') }}' + '"\n' +
+                        '                                               onclick="event.preventDefault();\n' +
+                        '                                                     document.getElementById(\'logout-form\').submit();">\n' +
+                        '                                                Logout\n' +
+                        '                                            </a>\n' +
+                        '                                            <form id="logout-form" action="' + '{{ route('logoutjwt') }}' + '" method="POST" style="display: none;">\n' +
+                        '                                            </form>' +
                         '                                        </div>\n' +
-                    '                                    </div>');
+                        '                                    </div>');
                 })
                 .catch(function (er) {
                     login_done('login gagal, coba lagi')

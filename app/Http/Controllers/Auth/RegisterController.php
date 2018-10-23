@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\contact;
 use App\Mail\verifyMail;
-use App\Model\mstClass;
 use App\Model\sideGender;
 use App\Model\sideStatusUser;
 use App\User;
@@ -33,6 +31,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+
 
     /**
      * Where to redirect users after registration.
@@ -144,6 +143,7 @@ class RegisterController extends Controller
         $default = Selingan::index('Pendaftaran');
         $default[] = sideGender::all();
         $title='Daftar';
-        return view('auth.register', compact('default','title'));
+        $user_cookie=false;
+        return view('auth.register', compact('default','title','user_cookie'));
     }
 }

@@ -33,6 +33,7 @@
 //});
 
 Route::group(['prefix' => '/api'], function () {
+
     Route::get('/a', [
         'uses' => 'cobaController@index',
         'as' => 'aku'
@@ -42,6 +43,36 @@ Route::group(['prefix' => '/api'], function () {
         'uses' => 'ClassListController@getIndex',
         'as' => 'welcomePost'
     ]);
+
+//    user role
+    Route::group(['namespace' => 'User'], function () {
+
+//        menu profile
+        Route::group(['middleware'=>'api_user','prefix' => 'profile'], function () {
+
+            //profile data
+            Route::post('change-photo', [
+                'uses' => 'profileController@edit_photo',
+                'as' => 'edit.photo'
+            ]);
+            Route::post('change-profile', [
+                'uses' => 'profileController@edit_profile',
+                'as' => 'edit.profile'
+            ]);
+            Route::post('change-password', [
+                'uses' => 'profileController@edit_password',
+                'as' => 'edit.password'
+            ]);
+
+            //data anak
+            Route::get('get-kid', [
+                'uses' => 'kidController@get_kid',
+                'as' => 'get.kid'
+            ]);
+        });
+
+    });
+
 
     Route::post('/send-feedback', [
         'uses' => 'contactController@sendFromUser',
@@ -62,9 +93,9 @@ Route::group(['prefix' => '/api'], function () {
             'as' => 'refreshjwt'
         ]);
         Route::post('me', [
-                'uses' => 'AuthController@me',
-                'as' => 'mejwt',
-            ]);
+            'uses' => 'AuthController@me',
+            'as' => 'mejwt',
+        ]);
 //        Route::post('login', 'AuthController@login');
 //        Route::post('logout', 'AuthController@logout');
 //        Route::post('refresh', 'AuthController@refresh');

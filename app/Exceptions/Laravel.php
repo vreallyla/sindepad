@@ -2,10 +2,11 @@
 
 namespace App\Exceptions;
 
-use App\DeclaredPDO\jwtClass;
+use App\DeclaredPDO\Jwt\jwtClass;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Support\Facades\Cookie;
+use Psy\Exception\FatalErrorException;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -55,35 +56,34 @@ class Laravel extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-//        if ($exception instanceof TokenInvalidException) {
-//            $this->remove_cookie(['dasdasd'=>'dasdasd'],59);
-//            return redirect()->route('welcome')->with('msg', 'token salah, silakan login kembali.');
-//        } elseif ($exception instanceof TokenExpiredException) {
-//            $this->remove_cookie(['dasdasd'=>'dasdasd'],59);
-//            return redirect()->route('welcome')->with('msg', 'sesi masuk habis, silakan login kembali.');
-//        } elseif ($exception instanceof JWTException) {
-//            $this->remove_cookie(['dasdasd'=>'dasdasd'],59);
-//            return redirect()->route('welcome')->with('msg', 'terdapat kesalahan, silakan login kembali.');
-//        } elseif ($exception instanceof TokenBlacklistedException) {
-//            $this->remove_cookie(['dasdasd'=>'dasdasd'],59);
-//            return redirect()->route('welcome')->with('sesi masuk habis, silakan login kembali.');
-//        } elseif ($exception instanceof UserNotDefinedException) {
-//            $this->remove_cookie(['dasdasd'=>'dasdasd'],59);
-//            return redirect()->route('welcome')->with('terdapat kesalahan, akun anda tidak terdaftar');
-//        }
+        if ($exception instanceof TokenInvalidException) {
+            $this->removeHanddlerCookie();
+            return redirect()->route('welcome')->with('msg', 'silakan masuk kembali.');
+        } elseif ($exception instanceof TokenExpiredException) {
+            $this->removeHanddlerCookie();
+            return redirect()->route('welcome')->with('msg', 'sesi masuk habis, silakan login kembali.');
+        } elseif ($exception instanceof JWTException) {
+            $this->removeHanddlerCookie();
+            return redirect()->route('welcome')->with('msg', 'terdapat kesalahan, silakan login kembali.');
+        } elseif ($exception instanceof TokenBlacklistedException) {
+            $this->removeHanddlerCookie();
+            return redirect()->route('welcome')->with('sesi masuk habis, silakan login kembali.');
+        } elseif ($exception instanceof UserNotDefinedException) {
+            $this->removeHanddlerCookie();
+            return redirect()->route('welcome')->with('terdapat kesalahan, akun anda tidak terdaftar');
+        } //must edit handdler minor
+        elseif ($exception instanceof FatalErrorException) {
+            return redirect()->route('welcome')->with('terdapat kesalahan, akun anda tidak terdaftar');
+        }
+
         return parent::render($request, $exception);
     }
 
-    public function remove_cookie($val,$time)
+    public function removeHanddlerCookie()
     {
-        Cookie::get('uzanto',$val,$time);
-        Cookie::get('uzanto',$val,-$time);
-    }
-
-    public function removeCookie()
-    {
-        if ($this->checkCookie()){
-//            Cookie::
+        if (self::checkCookie()) {
+            self::remove_cookie(self::get_cookie(), 59);
         }
     }
+
 }

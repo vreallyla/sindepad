@@ -6,69 +6,41 @@
  * Time: 17:12
  */
 
-namespace App\DeclaredPDO;
+namespace App\DeclaredPDO\Jwt;
 
 
+use App\DeclaredPDO\Additional\plugClass;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\File;
 
+
 trait extraClass
 {
+    use plugClass;
 
     /**
      * checking user cookie exist
      * if cookie condition null return false
      * @return array|bool|mixed
      */
-
-    public static function check_user()
+    public static function check_user($name,$url)
     {
-        if ($data = self::checkCookie() ? self::get_cookie_array() : false) {
+//        if ($data = self::checkCookie() ? self::get_cookie_array() : false) {
 
-            if (is_array($data) && self::multi_exist(['name', 'token'], $data)) {
-                $short = self::cookie_modify($data['name'], $data['url']);
+//            if (is_array($data) && self::multi_exist(['name', 'token'], $data)) {
+                $short = self::cookie_modify($name, $url);
                 return self::convertToObject($short);
-            }
+//            }
 
-            self::remove_cookie($data, 59);
-
-        }
-
-        return false;
+//            self::remove_cookie($data, 59);
+//
+//        }
+//
+//        return false;
     }
-
-    protected static function multi_exist($key_array, $content)
-    {
-        foreach ($key_array as $row) {
-            if (!array_key_exists($row, $content)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * @param $content = data
-     * @param $from = start string by string index
-     * @param $end = end string by string index
-     * @return bool|string = checking data
-     */
-    public static function string_slice($content, $from, $end)
-    {
-        return substr($content, $from, $end);
-    }
-
-    /**
-     * @param $content = data
-     * @param $pos = index object that search
-     * @return bool|int = checking data
-     */
-    public static function check_char($content, $pos)
-    {
-        return strpos($content, $pos);
-    }
-
 
     /**
      * get the cookie as stdclass
@@ -102,22 +74,6 @@ trait extraClass
         return (Cookie::has('uzanto') ? true : false);
     }
 
-    /**
-     * @param $array
-     *  convert array into stdclass
-     * @return \stdClass
-     */
-    static function convertToObject($array)
-    {
-        $object = new \stdClass();
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $value = convertToObject($value);
-            }
-            $object->$key = $value;
-        }
-        return $object;
-    }
 
     /**
      * @param Request $r
@@ -143,9 +99,8 @@ trait extraClass
     protected static function cookie_modify($name, $url)
     {
         $object = self::check_char($name, ' ');
-        $asset = asset($url);
         $data['name'] = !empty($object) ? self::string_slice($name, 0, $object) : $name;
-        $data['url'] = File::exists($asset) ? $asset : asset('images/img_unvailable.png');
+        $data['url'] = self::check_file($url);
 
         return $data;
     }
@@ -158,7 +113,9 @@ trait extraClass
      */
     private function cookie_decode($val, $time)
     {
+//        \cookie('uzanto', json_encode($val), $time);
         Cookie::queue('uzanto', json_encode($val), $time);
+//        setcookie('uzanto', json_encode($val), time() + $time*60, '/');
     }
 
     /**
@@ -172,5 +129,20 @@ trait extraClass
         Cookie::queue('uzanto', json_encode($val), $time);
         Cookie::queue('uzanto', json_encode($val), -$time);
     }
+
+    /**
+     * logout proccess
+     */
+    public function logout_now()
+    {
+        self::remove_cookie(self::get_cookie(), 59);
+        $this->guard()->logout();
+
+        return 'berhasil keluar';
+    }
+
+
+
+
 
 }

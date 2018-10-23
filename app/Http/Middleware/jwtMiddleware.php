@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class jwtMiddleware
 {
@@ -16,7 +16,7 @@ class jwtMiddleware
      */
     public function handle($request, Closure $next)
     {
-        \Tymon\JWTAuth\JWTAuth::parseToken()->authenticate();
+      JWTAuth::parseToken()->authenticate();
         return $next($request);
     }
 }

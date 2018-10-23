@@ -3828,6 +3828,7 @@ a.ed_getinvolved:hover i{
 	padding:20px 0px 0px 0px;
 }
 .ed_inner_dashboard_info h2, .ed_dashboard_inner_tab h2{
+	color:#746b6b;
 	text-transform:capitalize;
 	margin:0px 0px 30px 0px;
 }
@@ -3843,7 +3844,7 @@ a.ed_getinvolved:hover i{
 	border:1px solid #272727;
 }
 .ed_inner_dashboard_info table th, .ed_inner_dashboard_info table td, .ed_dashboard_inner_tab table th, .ed_dashboard_inner_tab table td{
-	color:#272727;
+	color:#746b6b;
 	border-bottom:1px solid #272727;
 	padding:5px 10px;
 }

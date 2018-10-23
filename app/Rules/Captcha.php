@@ -27,7 +27,7 @@ class Captcha implements Rule
     public function passes($attribute, $value)
     {
         $recaptcha= new ReCaptcha(env('CAPTCHA_SECRET'));
-        $resp = $recaptcha/*->setExpectedHostname(env('APP_URL'))*/
+        $resp = $recaptcha->setExpectedHostname(env('APP_URL'))
             ->verify($value, $_SERVER['REMOTE_ADDR']);
 
         return $resp->isSuccess();
@@ -40,6 +40,6 @@ class Captcha implements Rule
      */
     public function message()
     {
-        return 'please make sure reCaptcha is complete';
+        return 'harap centang saya bukan robot';
     }
 }

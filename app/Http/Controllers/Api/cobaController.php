@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cookie;
 use Ramsey\Uuid\Uuid;
 
 class cobaController extends Controller
@@ -15,7 +16,9 @@ class cobaController extends Controller
      */
     public function index()
     {
-       return 'a';
+        session()->put('nameku','anu');
+
+        return session()->all();
     }
 
     /**
