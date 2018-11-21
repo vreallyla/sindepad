@@ -51,8 +51,6 @@ $app->singleton(
 $app->singleton('filesystem', function ($app) { return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem'); });
 
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -64,12 +62,21 @@ $app->singleton('filesystem', function ($app) { return $app->loadComponent('file
 |
 */
 
- $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class,
-//    App\Http\Middleware\reMiddleware::class
- //set session
-     \Illuminate\Session\Middleware\StartSession::class,
- ]);
+// Load session config (otherwise it won't be loaded)
+//$app->configure('session');
+
+$app->middleware([
+//    \Illuminate\Session\Middleware\StartSession::class,
+]);
+
+// Add `SessionServiceProvider`
+//$app->register(Illuminate\Session\SessionServiceProvider::class);
+
+// fix `BindingResolutionException` problem
+//$app->bind(Illuminate\Session\SessionManager::class, function ($app) {
+//    return $app->make('session');
+//});
+
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -91,13 +98,6 @@ $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 //mail set
 $app->register(\Illuminate\Mail\MailServiceProvider::class);
 $app->configure('mail');
-
-//session set
-$app->bind(\Illuminate\Session\SessionManager::class, function () use ($app) {
-    return new \Illuminate\Session\SessionManager($app);
-});
-$app->configure('session');
-$app->register(\Illuminate\Session\SessionServiceProvider::class);
 
 //cache set
 //$app->configure('cache');

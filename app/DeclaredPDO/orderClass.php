@@ -9,10 +9,19 @@
 namespace App\DeclaredPDO;
 
 
-trait orderClass
+class orderClass
 {
-    private function make_session($res)
+    protected $data=null;
+    protected $qty=0;
+    protected $total=0;
+
+    public function __construct($data)
     {
-        session()->put('regis_student',json_encode($res));
+        $this->data=$data;
+    }
+
+    public function detacth_session($res)
+    {
+        session()->put('order',$res);
     }
 }

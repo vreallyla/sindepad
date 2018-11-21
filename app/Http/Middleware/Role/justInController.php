@@ -18,33 +18,28 @@ class justInController
      */
     public function handle($request, Closure $next)
     {
+        $checkCookie = self::checkCookie();
+
         try {
-            $check = self::checkCookie() ? $request->request->add(['token' => self::get_cookie()->token]) : true;
+            $check = $checkCookie ? $request->request->add(['token' => self::get_cookie()->token]) : true;
 
 //            $request->request->add(['anu' => $ab]);
         } catch (\Exception $e) {
-            if ($this->checkCookie()) {
-                $this->remove_cookie($this->get_cookie(), 59);
-            }
+            $checkCookie ? $this->remove_cookie() : false;
 
-            $request->request->add([
-                'data' => false
-            ]);
-
-            return redirect()->route('welcome')->with('msg','terdapat kesalahan, silakan masuk lagi');
+            return redirect()->route('welcome')->with('msg', 'terdapat kesalahan, silakan masuk lagi');
         }
 
-        if ($check) {
-            return redirect()->route('welcome')->with('msg','silakan masuk terlebih dahulu');
+        if ($check || !$data = $this->refreshWithCookie()) {
+            $checkCookie ? $this->remove_cookie() : false;
+
+            return redirect()->route('welcome')->with('msg', 'silakan masuk terlebih dahulu');
         }
 
         $request->request->add([
-            'data' => $this->refreshWithCookie() ? $this->refreshWithCookie() : false
+            'data' => $data
         ]);
 
-        if ($request->has('token')) {
-            $request->offsetUnset('token');
-        }
         return $next($request);
     }
 }

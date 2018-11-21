@@ -7,7 +7,7 @@ Project:	Sanggar ABK
 Version:	2.0.0
 Assigned to:	modify
 -------------------------------------------------------------------*/
-@import url("app.css");
+@import url("plugin.css");
 @import url("style.css");
 @import url("../js/plugins/revel/settings.css");
 

@@ -5,7 +5,13 @@ namespace App\Http\Controllers;
 use App\DeclaredPDO\Jwt\extraClass;
 use App\Model\linkUserStudent;
 use App\Model\mstClass;
+use App\Model\mstDataPaket;
 use App\Model\mstDisability;
+use App\Model\mstTransactionList;
+use App\Model\order\payingMethod;
+use App\Model\Order\Setting\rulesTimeOption;
+use App\Model\order\sideTypePrice;
+use App\Model\Order\timeOption;
 use App\Model\rsUserToStudent;
 use App\Model\sideDaylist;
 use App\Model\sideGender;
@@ -14,8 +20,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\DeclaredPDO\allNeeded as Selingan;
 use App\DeclaredPDO\relation as Hub;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Storage;
+use GuzzleHttp\Client;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 const types = ['name', 'gender', 'sex ', 'relligion ', 'course ', 'rs ', 'needed ', 'desc'];
 
@@ -23,60 +29,36 @@ class generalController extends Controller
 {
 
     use extraClass;
-
+    public $anu = 1;
 
     public function log(Request $r)
     {
-//       $this->cookie_decode(['dasdasd'=>'dasdas'],10);
+//        $client = new Client(['base_uri' => url('/')]);
+//        $response = $client->get('api/a?_token='.csrf_token());
 
-//        return auth()->user();
-//return self::get_cookie_array();
-//        $r->offsetUnset('token');
-//        session()->put('regis_student',User::first());
-//        return session()->get('regis_student')->id;
-//        $a = 1;
-//        for ($i = 0; $i < 12; $i++) {
-//            $b[] = $a++;
+//        return json_decode($response->getBody(), true) ;
+//        setlocale(LC_TIME, 'id');
+//        foreach (range(1, 7) as $i) {
+//            $id[] = \Carbon\Carbon::create(2018, 9, 8)->addDays($i)->formatLocalized('%A');
 //        }
-//        return $b;
-
-
-
-//        $users = DB::table('users')
-//            ->whereMonth('created_at', $month++)
-//            ->get();
+//        foreach (rulesTimeOption::first()->getTime()->orderBy('created_at','asc')->get() as $row){
+//            $day[]=['day'=>$row->getTime,'time'=>$row->getDay];
+//        }
+//        session()->forget('order');
 //
-//        if ($users){
-//            income[$y]=keisi;
-//        }
-//        else{
-//            income[$y]=0;
-//        }
-//        return User::where('name','dasd')->get();
-//        $user=User::findOrFail('3e143e9c-8785-4306-83c6-c5a10b4b9487');
-//
-//        return substr($user->url,6);
-//        $users = User::get();
+//        $day=sideDaylist::when(1==1,function ($query){
+//           $query->orderBy('id','asc');
+//        })->when(1==0,function ($query){
+//            $query->orderBy('id','desc');
+//        })->get();
+//        $tahu=[1,2,3,4];
 
-// build your second collection with a subset of attributes. this new
-// collection will be a collection of plain arrays, not Users models.
-//        $subset = $users->map(function ($user) {
-//            return collect($user->toArray())
-//                ->only(['id', 'name', 'email'])
-//                ->all();
-//        });
-//        return $subset[0]['id'];
 
-//        foreach (rsUserToStudent::all() as $row){
-//            $data[]= $row->getStudent->only('name');
-//        }
 
     }
 
     public function log2()
     {
-        self::remove_cookie(['dasdasd' => 'aaaa'], 10);
-        return self::get_cookie_array();
 
     }
 
@@ -84,10 +66,11 @@ class generalController extends Controller
     {
         $user_cookie = $r->data;
         $default = Selingan::index('Beranda');
-        $religion = User::getReligion();
         $gender = sideGender::orderBy('created_at', 'asc')->get();
         $title = 'Beranda';
-        return view('index', compact('default', 'religion', 'gender', 'title', 'kodin', 'user_cookie'));
+        $packet=/*$this->shortPacket()*/1;
+
+        return view('index', compact('default', 'packet', 'gender', 'title', 'kodin', 'user_cookie'));
     }
 
     public function about(Request $r)
@@ -101,7 +84,7 @@ class generalController extends Controller
 
     public function contact(Request $r)
     {
-        $user_cookie = $r->data;;
+        $user_cookie = $r->data;
         $default = Selingan::index('Kontak');
         $menu = 'Kontak';
         $title = 'Kontak Kami';
@@ -110,7 +93,7 @@ class generalController extends Controller
 
     public function courseOpsi(Request $r, $class)
     {
-        $user_cookie = $r->data;;
+        $user_cookie = $r->data;
         $default = Selingan::index('Program');
         $class = mstClass::findOrFail($class);
         $other = mstClass::where('name', '!=', $class->name)->orderBy('name', 'asc')->get();

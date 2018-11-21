@@ -2,6 +2,7 @@
     <script>
         window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + '{{$token}}';
 
+
         //change photo profil
         $(function ($) {
             $('.image-upload').on('change', '#file-input', function () {
@@ -16,6 +17,7 @@
                         $(obj).attr('src', res.data.url).hide().fadeIn('slow');
                     })
                     .catch(function (error) {
+                        console.log(error.response);
                         $('#loading').fadeOut('slow');
                         error.response.data.img[0] ? swalcustom(error.response.data.img[0], 'fff', '202020f2') : swalcustom('ada kesalahan, coba muat ulang / kontak admin', 'fff', '202020f2');
                         testAnim('shake', '.image-upload img')

@@ -10,11 +10,10 @@ namespace App\DeclaredPDO\Jwt;
 
 
 use App\DeclaredPDO\Additional\plugClass;
+use App\Model\mstDataPaket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 
 
 trait extraClass
@@ -26,13 +25,13 @@ trait extraClass
      * if cookie condition null return false
      * @return array|bool|mixed
      */
-    public static function check_user($name,$url)
+    public static function check_user($name, $url)
     {
 //        if ($data = self::checkCookie() ? self::get_cookie_array() : false) {
 
 //            if (is_array($data) && self::multi_exist(['name', 'token'], $data)) {
-                $short = self::cookie_modify($name, $url);
-                return self::convertToObject($short);
+        $short = self::cookie_modify($name, $url);
+        return self::convertToObject($short);
 //            }
 
 //            self::remove_cookie($data, 59);
@@ -50,7 +49,7 @@ trait extraClass
      */
     public static function get_cookie()
     {
-        return json_decode(Cookie::get('uzanto'));
+        return Session::get('uzanto');
     }
 
     /**
@@ -60,7 +59,7 @@ trait extraClass
      */
     protected static function get_cookie_array()
     {
-        return json_decode(Cookie::get('uzanto'), true);
+        return json_decode(json_encode(Session::get('uzanto')), true);
     }
 
     /**
@@ -71,7 +70,7 @@ trait extraClass
      */
     public static function checkCookie()
     {
-        return (Cookie::has('uzanto') ? true : false);
+        return Session::has('uzanto') ? true : false;
     }
 
 
@@ -84,10 +83,10 @@ trait extraClass
      */
     public function cookie_token(Request $r)
     {
-
-        $this->cookie_decode($r->only('token', 'name', 'url'), 59);
-
-        return response()->json(self::cookie_modify($r->name, $r->url));
+        $this->cookie_decode($r->only('token', 'name', 'url'));
+        $data = self::cookie_modify($r->name, $r->url);
+        $data['token'] = $r->token;
+        return response()->json($data);
     }
 
     /**
@@ -111,11 +110,9 @@ trait extraClass
      * @param $val
      * @param $time
      */
-    private function cookie_decode($val, $time)
+    private function cookie_decode($val)
     {
-//        \cookie('uzanto', json_encode($val), $time);
-        Cookie::queue('uzanto', json_encode($val), $time);
-//        setcookie('uzanto', json_encode($val), time() + $time*60, '/');
+        Session::put('uzanto', self::convertToObject($val));
     }
 
     /**
@@ -124,10 +121,10 @@ trait extraClass
      * @param $val
      * @param $time
      */
-    private static function remove_cookie($val, $time)
+    private static function remove_cookie()
     {
-        Cookie::queue('uzanto', json_encode($val), $time);
-        Cookie::queue('uzanto', json_encode($val), -$time);
+        Session::forget('uzanto');
+
     }
 
     /**
@@ -135,13 +132,30 @@ trait extraClass
      */
     public function logout_now()
     {
-        self::remove_cookie(self::get_cookie(), 59);
+        self::remove_cookie();
         $this->guard()->logout();
 
         return 'berhasil keluar';
     }
 
+    private function changeThousand($val)
+    {
+        return is_float($val)? number_format($val,1,',','.'):number_format($val,0,',','.');
+    }
 
+    private function getId()
+    {
+        return Auth::guard('api')->user();
+    }
+
+    private function noticeNull(){
+        return response()->json(['msg'=>'data kosong'],403);
+
+    }
+    private function noticechangeData()
+    {
+        return response()->json(['msg'=>'Harap tidak mengganti data'],405);
+    }
 
 
 

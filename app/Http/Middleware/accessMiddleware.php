@@ -18,20 +18,21 @@ class accessMiddleware
      */
     public function handle($request, Closure $next)
     {
+
         try {
             $check = self::checkCookie() ? $request->request->add(['token' => self::get_cookie()->token]) : true;
 
 //            $request->request->add(['anu' => $ab]);
         } catch (\Exception $e) {
             if ($this->checkCookie()) {
-                $this->remove_cookie($this->get_cookie(), 59);
+                $this->remove_cookie();
             }
 
             $request->request->add([
                 'data' => false
             ]);
 
-            return redirect()->route('welcome')->with('msg','terdapat kesalahan, silakan login lagi');
+            return redirect()->route('welcome')->with('msg', 'terdapat kesalahan, silakan login lagi');
         }
 
         if (!$check) {
@@ -42,6 +43,7 @@ class accessMiddleware
         if ($request->has('token')) {
             $request->offsetUnset('token');
         }
+
 
         return $next($request);
     }

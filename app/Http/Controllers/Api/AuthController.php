@@ -14,16 +14,6 @@ class AuthController extends Controller
     use jwtClass;
 
     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('jwttes', ['except' => ['login']]);
-    }
-
-    /**
      * Get a JWT token via given credentials.
      *
      * @param  \Illuminate\Http\Request $request
@@ -36,23 +26,27 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         $this->validate($request, [
-            'g-recaptcha-response'=> new Captcha(),
+            'g-recaptcha-response' => new Captcha(),
         ]);
 
         if ($token = $this->guard()->attempt($credentials)) {
-        if (!Hash::check(true, $this->guard()->user()->code_status)){
-            return response()->json(['error' =>/* [
-                'id'=>*/'Mohon konfirmasi email anda',
-                /*'en'=>'Check your email first'
-            ]*/], 401);
-        }
-            return response()->json($this->respondWithToken($token));
+            if (!Hash::check(true, $this->guard()->user()->code_status)) {
+                return response()->json(['error' =>/* [
+                'id'=>*/
+                    'Mohon konfirmasi email anda',
+                    /*'en'=>'Check your email first'
+                ]*/], 401);
+            }
+
+            $data = $this->respondWithToken($token);
+
+            return response()->json($data);
         }
 
         return response()->json(['error' /*=> [
-            'id'*/=>'email atau password salah',
-           /* 'en'=>'email or password wrong'
-        ]*/], 401);
+            'id'*/ => 'email atau password salah',
+            /* 'en'=>'email or password wrong'
+         ]*/], 401);
     }
 
     /**
@@ -66,7 +60,6 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Successfully logged out']);
     }
-
 
 
 }

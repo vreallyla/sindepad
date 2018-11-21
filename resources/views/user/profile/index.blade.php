@@ -177,7 +177,7 @@
                                                                     <div class="row form-group has-feedback">
                                                                         <div class="col-md-12">
                                                                             <input type="text" name="date_birth"
-                                                                                   class="form-control datetimepicker"
+                                                                                   class="form-control datepicker"
                                                                                    value="{{isset($more->dob) ? $more->dob : ''}}">
                                                                             <span class="help-block"
                                                                                   style="display: none">
@@ -328,9 +328,11 @@
                                         <div class="tab-content">
                                             <div role="tabpanel" class="tab-pane active" id="my">
                                                 <div class="ed_inner_dashboard_info">
-                                                    <div id="child-not-found" style="display: none;">
+                                                    @if(!$kids)
+                                                    <div id="child-not-found">
                                                         <h2>Untuk sekarang belum ada data pendaftaran</h2>
                                                     </div>
+                                                    @else
                                                     <div id="child-found">
                                                         <h2 style="margin-bottom: 0px">
                                                             <i class="fa fa-users"></i>
@@ -381,6 +383,8 @@
 
                                                         </div>
                                                     </div>
+                                                        @endif
+
                                                 </div>
                                             </div>
                                             <div role="tabpanel" class="tab-pane" id="result">

@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory;
 use App\DeclaredPDO\photoUser as checkGender;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -24,7 +25,7 @@ class UserSeeder extends Seeder
             'email' => 'vreallyla@gmail.com',
             'phone' => $faker->unique()->phoneNumber,
             'address' => $faker->unique()->address,
-            'url' => 'storage/user-photos/fahmi.jpg',
+            'url' => 'storage/users/photo/j2wkBEHUaKyid7FKTdo1ME84qjG1ERpOxm0DaHKi.jpeg',
             'gender_id' => \App\Model\sideGender::where('en','Male')->first()->id,
             'code_status' => bcrypt(true),
             'status_id' => \App\Model\sideStatusUser::where('eng','Admin')->first()->id,
@@ -34,29 +35,25 @@ class UserSeeder extends Seeder
             'remember_token' => str_random(100),
         ]);
 
-//                   for ($i=0;$i<=19999999;$i++){
-//               $kode=rand(1,2);
-//               $status=rand(1,3);
-//               $reli=UserSeeder::religion[rand(0,1)];
-//               $chek=checkGender::check($kode);
-//               \App\User::create([
-//                   'name' => $faker->unique()->name,
-//                   'email' => $faker->unique()->safeEmail,
-//                   'phone' => $faker->unique()->phoneNumber,
-//                   'address' => $faker->unique()->address,
-//                   'ni' => $faker->unique()->numerify($string = '1########'),
-//                   'gender' => $kode,
-//                   'url' => $chek ,
-//                   'religion'=>$reli,
-//                   'status' =>'1',
-//                   'status_id' => $status,
-//                   'born_place' => $faker->city,
-//                   'dob' => $faker->unique()->date('Y-m-d'),
-//                   'password' => bcrypt('secret'),
-//                   'remember_token' => str_random(100),
-//                   'verifyToken' => str_random(255),
-//               ]);
-//           }
+//        for ($i = 0; $i <= 19999999; $i++) {
+//            $kode = \App\Model\sideGender::inRandomOrder()->first();
+//            $status = \App\Model\sideStatusUser::inRandomOrder()->first();
+//            \App\User::create([
+//                'name' => $faker->unique()->name,
+//                'url' => 'images/img_unvailable.png',
+//                'email' => $faker->unique()->safeEmail,
+//                'phone' => $faker->unique()->phoneNumber,
+//                'address' => $faker->unique()->address,
+//                'ni' => $faker->unique()->numerify($string = '1########'),
+//                'gender_id' => $kode->id,
+//                'status_id' => $status->id,
+//                'code_status' => bcrypt(true),
+//                'born_place' => $faker->city,
+//                'dob' => $faker->date('Y-m-d'),
+//                'password' => bcrypt('secret'),
+//                'remember_token' => str_random(100)
+//            ]);
+//        }
 
 
     }

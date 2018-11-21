@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\professionList;
 
 class professionSeeder extends Seeder
 {
+    protected $no=2;
+
     /**
      * Run the database seeds.
      *
@@ -18,7 +19,12 @@ class professionSeeder extends Seeder
             'private Employee','Tradesman','Entrepreneur','Labor','Pensionary',
             'Pass Away','Other'];
         for ($i=0;$i<count($x['ind']);$i++){
-            \App\Model\sideProfessionList::create(['ind'=>$x['ind'][$i], 'en'=>$x['en'][$i]]);
+            \App\Model\sideProfessionList::insert([
+                'id'=>(string)\Webpatser\Uuid\Uuid::generate(4),
+                'ind'=>$x['ind'][$i], 'en'=>$x['en'][$i],
+            'created_at'=>now()->addSecond($this->no+=$i),
+            'updated_at'=>now()->addSecond($this->no+=$i)
+            ]);
         }
     }
 }

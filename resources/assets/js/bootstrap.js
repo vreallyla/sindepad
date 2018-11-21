@@ -1,4 +1,3 @@
-
 window._ = require('lodash');
 
 /**
@@ -9,22 +8,18 @@ window._ = require('lodash');
 
 try {
     window.$ = window.jQuery = require('jquery');
-    require('jquery-datepicker');
-
     require('bootstrap/dist/js/bootstrap.min');
-
-    $.fn.datetimepicker = require('bootstrap-datepicker');
-    // require('bootstrap-datepicker/js/locales/bootstrap-datepicker.id')
-} catch (e) {}
-$.fn.selectpicker =require('bootstrap-select/dist/js/bootstrap-select.min');
+    $.fn._ = require('lodash');
+    require('./assets/datepicker');
+    require('bootstrap-datepicker/js/locales/bootstrap-datepicker.id');
+    window.currency = require('./assets/currency');
+} catch (e) {
+}
+window.selectpicker = require('bootstrap-select');
 require('bootstrap-select/dist/js/i18n/defaults-id_ID');
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
 
 window.axios = require('axios');
+window.currency=require('./assets/currency');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -32,7 +27,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.swal = require('sweetalert2');
 
 //moment date
-window.moment= require('./moment');
+require('./moment');
 
 // //bulma-extentions
 // window.bulma_ext=require('bulma-extensions');
@@ -48,13 +43,13 @@ window.moment= require('./moment');
  * a simple convenience so we don't have to attach every token manually.
  */
 //
-// let token = document.head.querySelector('meta[name="csrf-token"]');
-//
-// if (token) {
-//     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-// } else {
-//     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-// }
+let token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

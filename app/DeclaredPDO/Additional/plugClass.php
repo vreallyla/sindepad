@@ -86,14 +86,46 @@ trait plugClass
         }
     }
 
+    /**
+     * get public to find in storage
+     * @param $url
+     * @return string
+     */
     protected static function slice_storage($url)
     {
         return substr($url,7);
     }
 
+    /**
+     * make storage available on public
+     * @param $url
+     * @return string
+     */
     protected static function slice_public($url)
     {
         return 'storage'.substr($url,6);
 
     }
+
+    /**
+     * checking an array from the object
+     * also selection some array
+     * @param $selection
+     * @param $ar
+     * @return array|bool
+     */
+    public function choose_array($selection, $ar)
+    {
+        $arr = array();
+        foreach ($selection as $row) {
+            array_key_exists($row, $ar) ? $arr[$row] = $ar[$row] : $arr[$row] = '';
+            if (!$arr[$row]) {
+                return false;
+                break;
+            }
+        }
+
+        return $arr;
+    }
+
 }

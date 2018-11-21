@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\mstTransactionList;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,8 +15,6 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     use SoftDeletes;
-
-
 
     /**
      * The attributes that should be hidden for arrays.
@@ -73,5 +72,10 @@ class User extends Authenticatable implements JWTSubject
     public function verification()
     {
         return $this->hasOne('App\verifyUser');
+    }
+
+    public function getTrans()
+    {
+        return $this->hasMany(mstTransactionList::class,'user_id');
     }
 }

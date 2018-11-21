@@ -184,36 +184,45 @@
                 <div class="ed_search_form">
                     <form class="form-inline" method="post" action="{{route('order.first')}}">
                         {{csrf_field()}}
-                        <div class="form-group">
-                            <input type="text" placeholder="Nama Lengkap Pendaftar" class="form-control" name="name[]"
-                                   @if(session('order')&&array_key_exists('name',session('order')[0]))value="{{session('order')[0]['name']}}" @endif>
+                        <div class="form-group"
+                             style="{{$errors->has('name') ? 'padding-bottom:0;margin-bottom: -22px;': ''}}">
+                            <input type="text" placeholder="Nama Lengkap Pendaftar" class="form-control" name="name"
+                                   value="{{session()->has('order')&&array_key_exists('name',session('order')['data'][0])?session('order')['data'][0]['name']:''}}">
+                            @if (isset($errors)&&$errors->has('name'))
+                                <span class="help-block" style="color: #fff;">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                            @endif
                         </div>
-                        <div class="form-group">
-                            <select class="form-control" name="sex[]">
+                        <div class="form-group"
+                             style="{{$errors->has('sex') ? 'padding-bottom:0;margin-bottom: -22px;': ''}}">
+                            <select class="form-control" name="sex">
                                 <option value="">-- Pilih Jenis Kelamin --</option>
                                 @foreach($gender as $row)
                                     <option value="{{$row->id}}"
-                                            @if(session('order')&&array_key_exists('sex',session('order')[0])&&session('order')[0]['sex']==$row->id)selected @endif>{{$row->ind}}</option>
+                                            @if(session('order')&&array_key_exists('sex',session('order')['data'][0])&&session('order')['data'][0]['sex']==$row->id)selected @endif>{{$row->ind}}</option>
                                 @endforeach
                             </select>
+                            @if ($errors->has('sex'))
+                                <span class="help-block" style="color: #fff;">
+                                        <strong>{{ $errors->first('sex') }}</strong>
+                                    </span>
+                            @endif
                         </div>
-                        <div class="form-group">
-                            <select class="form-control" name="course[]">
+                        <div class="form-group"
+                             style="{{$errors->has('course') ? 'padding-bottom:0;margin-bottom: -22px;': ''}}">
+                            <select class="form-control" name="course">
                                 <option value="" selected disabled>-- Pilih Program Kelas --</option>
                                 @foreach($default[1] as $row)
                                     <option value="{{$row->id}}"
-                                            @if(session('order')&&array_key_exists('course',session('order')[0])&&session('order')[0]['course']==$row->id)selected @endif>{{$row->name}}</option>
+                                            @if(session('order')&&array_key_exists('course',session('order')['data'][0])&&session('order')['data'][0]['course']==$row->id)selected @endif>{{$row->name}}</option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" name="relligion[]">
-                                <option value="" selected disabled>-- Pilih Agama --</option>
-                                @foreach($religion as $row)
-                                    <option value="{{$row}}"
-                                            @if(session('order')&&array_key_exists('relligion',session('order')[0])&&session('order')[0]['relligion']==$row)selected @endif>{{$row}}</option>
-                                @endforeach
-                            </select>
+                            @if ($errors->has('course'))
+                                <span class="help-block" style="color: #fff;">
+                                        <strong>{{ $errors->first('course') }}</strong>
+                                    </span>
+                            @endif
                         </div>
                         <div class="form-group">
                             <div class="ed_dots"><p><span class="glyphicon glyphicon-option-horizontal"
@@ -664,7 +673,7 @@
             var warning = "{{(session('warning') ? session('warning') : '')}}";
 
             $(window).on("load", function () {
-                if (warning){
+                if (warning) {
                     $('#login_button').click();
                     $('#login_one .help-block').text(warning);
                 }
@@ -673,4 +682,13 @@
 
 
     </script>
+@endpush
+
+@push('style')
+    <style>
+        .ratakan-first-order {
+            padding-bottom: 0px;
+            margin-bottom: -22px;
+        }
+    </style>
 @endpush

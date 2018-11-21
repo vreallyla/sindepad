@@ -12,6 +12,21 @@
     src: local('Merriweather Sans Bold'), local('MerriweatherSans-Bold'), url(https://fonts.gstatic.com/s/merriweathersans/v9/2-c49IRs1JiJN1FRAMjTN5zd9vgsFH1OZyDE0hM.ttf) format('truetype');
 }
 
+#step2 input[type=checkbox] {
+    display: none;
+}
+
+#step2 input[type=checkbox]:checked + .back-end {
+    background-color: #29bab1;
+    color: #fff;
+}
+#step2 input[type=checkbox][disabled] + .back-end {
+    background: #cccccc30;
+    color: #3a3a3a4f;
+    /*border: #3a3a3a4f 2px solid;*/
+    cursor: not-allowed;
+}
+
 #signup {
     height: auto;
     padding: 20px;
@@ -60,7 +75,7 @@ fieldset.current {
     opacity: 1;
 }
 
-fieldset:not(.current){
+fieldset:not(.current) {
     display: none;
 }
 
@@ -93,7 +108,7 @@ input[type=submit] {
     text-decoration: none;
     padding: 0 6px;
     float: left;
-    width: 25%;
+    width: 33.33333333333333%;
     box-sizing: border-box;
     text-align: center;
     font-weight: bold;
@@ -184,9 +199,11 @@ textarea + .valid {
     color: #fff;
     font-family: 'Merriweather Sans', sans-serif;
 }
-.myBtn:hover{
+
+.myBtn:hover {
     background: #2cbab2;
 }
+
 .btn:hover {
     background: #26a19a;
 }
@@ -214,7 +231,8 @@ textarea + .valid {
     fieldset {
         width: 95%;
     }
-    .order-adding{
+
+    .order-adding {
         margin-bottom: 1em;
     }
 }
@@ -225,7 +243,7 @@ textarea + .valid {
         font-size: 0.8em;
     }
 
-    .order-adding{
+    .order-adding {
         margin-bottom: 3em;
     }
 }
@@ -300,13 +318,15 @@ textarea + .valid {
     }
 }
 
-#section-tabs li.current .fa{
+#section-tabs li.current .fa {
     color: #2cbab2;
 }
 
 .add-margin-bottom {
     margin-bottom: 2.5em;
 }
+
 .add-margin-bottom-sm {
+    height: 72px;
     margin-bottom: 0.8em;
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\DeclaredPDO\Additional\plugClass;
+use App\DeclaredPDO\Jwt\extraClass;
 use App\DeclaredPDO\Jwt\jwtClass;
 use App\Model\sideGender;
 use App\User;
@@ -18,7 +19,7 @@ use Illuminate\Validation\Rule;
 
 class profileController extends Controller
 {
-    use plugClass;
+    use extraClass;
 
     protected $batch;
 
@@ -38,7 +39,7 @@ class profileController extends Controller
         //            end validate
 
         $time = now();
-        $user = User::findOrFail($r->code);
+        $user = $this->getId();
         $new = $r->file('img');
 
 //        photo check
@@ -51,14 +52,14 @@ class profileController extends Controller
                 $this->batch = self::check_file_bool($this->batch);
             }
 
-            $delete = $this->batch ? app('filesystem')->delete('public' . self::slice_storage($user->url)) : false;
+            $delete = $this->batch ? Storage::delete('public' . self::slice_storage($user->url)) : false;
 
 //            upload photo
             if ($new->isValid()) {
                 $name = Storage::disk('local')->put('public/users/photo', $new);
                 $url = self::slice_public($name);
 
-//                app('filesystem')->disk('app')->put($name, File::get($new));
+//                Storage::disk('app')->put($name, File::get($new));
 
                 $user->update(['url' => $url]);
                 return response()->json(['url' => asset($url)]);

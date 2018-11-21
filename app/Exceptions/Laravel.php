@@ -82,7 +82,7 @@ class Laravel extends ExceptionHandler
     public function removeHanddlerCookie()
     {
         if (self::checkCookie()) {
-            self::remove_cookie(self::get_cookie(), 59);
+            self::remove_cookie();
         }
     }
 

@@ -24,4 +24,9 @@ class linkUserStudent extends Model
     {
         return $this->belongsTo(mstClass::class, 'class_id');
     }
+
+    public function getDisablity()
+    {
+        return $this->hasMany(rsDisability::class,'student_id');
+    }
 }

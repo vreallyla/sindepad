@@ -12,8 +12,13 @@
 */
 
 Route::group(['prefix' => '/'], function () {
-//    setlocale(LC_TIME,'id');
-//    \Illuminate\Support\Facades\App::setlocale('id');
+    setlocale(LC_TIME, 'id');
+    \Illuminate\Support\Facades\App::setlocale('id');
+
+    Route::get('test1', function () {
+        $title = 'Info Pembayaran';
+        return view('user.order.invoice.order_inv_cod', compact('title'));
+    });
 
     Route::group(['namespace' => 'User'], function () {
 
@@ -28,13 +33,10 @@ Route::group(['prefix' => '/'], function () {
             ]);
 
         });
-
-
     });
 
     //guest view
     Route::group(['middleware' => 'access'], function () {
-
         Route::get('/', [
             'uses' => 'generalController@index',
             'as' => 'welcome',
@@ -50,6 +52,18 @@ Route::group(['prefix' => '/'], function () {
             'uses' => 'generalController@contact',
             'as' => 'contact'
         ]);
+
+        Route::group(['prefix' => '/course'], function () {
+            Route::get('', [
+                'uses' => 'generalController@course',
+                'as' => 'course'
+            ]);
+            Route::get('{class}', [
+                'uses' => 'generalController@courseOpsi',
+                'as' => 'course.opsi'
+            ]);
+        });
+
     });
 
     Route::get('/kreu-token', [
@@ -63,36 +77,75 @@ Route::group(['prefix' => '/'], function () {
         'as' => 'verify.user'
     ]);
 
-    Route::group(['prefix' => '/course'], function () {
-        Route::get('', [
-            'uses' => 'generalController@course',
-            'as' => 'course'
-        ]);
-        Route::get('{class}', [
-            'uses' => 'generalController@courseOpsi',
-            'as' => 'course.opsi'
-        ]);
-    });
-
     Route::post('/logout_now', [
         'uses' => 'generalController@logout',
         'as' => 'logout.jwt'
     ]);
 
+    Route::group(['prefix' => '/order'], function () {
 
-    Route::get('/order-step', [
-        'uses' => 'OrderController@order',
-        'as' => 'order.step',
-        'middleware' => 'order'
+        Route::group(['middleware' => 'user_permissions'], function () {
+            Route::get('detail', [
+                'uses' => 'orderController@describe',
+                'as' => 'order.describe',
+            ]);
+            Route::get('invoice', [
+                'uses' => 'orderController@info',
+                'as' => 'order.info',
+            ]);
+
+            Route::get('confirm', [
+                'uses' => 'orderController@confirm',
+                'as' => 'order.confirm',
+            ]);
+        });
+
+        Route::get('method', [
+            'uses' => 'orderController@method',
+            'as' => 'order.method',
+        ]);
+
+        Route::get('register', [
+            'uses' => 'orderController@order',
+            'as' => 'order.step',
+        ]);
+        Route::post('register', [
+            'uses' => 'orderController@overwrite',
+            'as' => 'order.overwrite'
+        ]);
+
+        Route::get('checkout', [
+            'uses' => 'orderController@checkout',
+            'as' => 'order.checkout',
+        ]);
+
+        Route::post('first', [
+            'uses' => 'orderController@first',
+            'as' => 'order.first'
+        ]);
+
+//        Route::post('validation', [
+//            'uses' => 'orderController@overwriteCheck',
+//            'as' => 'order.validate'
+//        ]);
+
+        Route::get('check-day', [
+            'uses' => 'orderController@checkDay',
+            'as' => 'order.checkDay'
+        ]);
+        Route::get('check-program', [
+            'uses' => 'orderController@checkProgram',
+            'as' => 'order.checkProgram'
+        ]);
+
+    });
+
+
+    Route::get('log/{id}', [
+        'uses' => 'generalController@log',
+        'as' => 'log',
+
     ]);
-
-    Route::post('/order-first', [
-        'uses' => 'orderController@first',
-        'as' => 'order.first'
-    ]);
-
-
-    Route::get('/log', 'generalController@log')->name('log');
     Route::get('/a', 'generalController@log2')->name('axs');
 
 });

@@ -4,10 +4,12 @@ namespace App\Http;
 
 use App\Http\Middleware\accessMiddleware;
 use App\Http\Middleware\jwtMiddleware;
+use App\Http\Middleware\order\handdleTfMiddleware;
 use App\Http\Middleware\orderMiddleware;
 use App\Http\Middleware\reMiddleware;
 use App\Http\Middleware\Role\justInController;
 use App\Http\Middleware\Role\UserMiddleware;
+use App\Http\Middleware\validUserMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -68,5 +70,7 @@ class Kernel extends HttpKernel
         'jwttes' => jwtMiddleware::class,
         'access' => accessMiddleware::class,
         'user_role'=>UserMiddleware::class,
+        'user_permissions'=>validUserMiddleware::class,
+        'method_permissions'=>handdleTfMiddleware::class
     ];
 }

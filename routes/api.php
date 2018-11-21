@@ -36,7 +36,7 @@ Route::group(['prefix' => '/api'], function () {
 
     Route::get('/a', [
         'uses' => 'cobaController@index',
-        'as' => 'aku'
+        'as' => 'aku',
     ]);
 
     Route::post('/', [
@@ -45,10 +45,10 @@ Route::group(['prefix' => '/api'], function () {
     ]);
 
 //    user role
-    Route::group(['namespace' => 'User'], function () {
+    Route::group(['middleware'=>'api_user','namespace' => 'User'], function () {
 
 //        menu profile
-        Route::group(['middleware'=>'api_user','prefix' => 'profile'], function () {
+        Route::group(['prefix' => 'profile'], function () {
 
             //profile data
             Route::post('change-photo', [
@@ -69,6 +69,36 @@ Route::group(['prefix' => '/api'], function () {
                 'uses' => 'kidController@get_kid',
                 'as' => 'get.kid'
             ]);
+        });
+
+        Route::group(['prefix' => '/order'], function () {
+            Route::post('register-validation', [
+                'uses' => 'orderSeatController@overwriteCheck',
+                'as' => 'api.order.register.check'
+            ]);
+            Route::post('register', [
+                'uses' => 'orderSeatController@overwrite',
+                'as' => 'api.order.register.save'
+            ]);
+            Route::group(['prefix' => '/checkout'], function () {
+                Route::get('get', [
+                    'uses' => 'orderSeatController@seeCheckout',
+                    'as' => 'api.order.checkout'
+                ]);
+                Route::post('voucher', [
+                    'uses' => 'orderSeatController@checkCode',
+                    'as' => 'api.order.voucher'
+                ]);
+                Route::post('post-confirm', [
+                    'uses' => 'orderSeatController@confirmPost',
+                    'as' => 'api.order.confirmPost'
+                ]);
+                Route::post('confirm-payment', [
+                    'uses' => 'orderSeatController@confirmPayment',
+                    'as' => 'api.order.confirmPayment'
+                ]);
+            });
+
         });
 
     });
@@ -101,13 +131,6 @@ Route::group(['prefix' => '/api'], function () {
 //        Route::post('refresh', 'AuthController@refresh');
 //        Route::post('me', 'AuthController@me');
 
-    });
-
-    Route::group(['prefix' => '/order'], function () {
-        Route::post('-overwrite', [
-            'uses' => 'OrderController@overwrite',
-            'as' => 'api.order.overwrite'
-        ]);
     });
 
 });

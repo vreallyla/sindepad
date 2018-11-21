@@ -16,6 +16,7 @@ class CreateMstDisabilitiesTable extends Migration
         Schema::create('mst_disabilities', function (Blueprint $table) {
             $table->string('id', 36)->primary();
             $table->string('name',60);
+            $table->string('en')->nullable();
             $table->text('detail')->nullable();
             $table->timestamps();
         });

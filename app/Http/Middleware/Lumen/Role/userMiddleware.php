@@ -4,11 +4,13 @@ namespace App\Http\Middleware\Lumen\Role;
 
 use App\DeclaredPDO\Jwt\jwtClass;
 use Closure;
+
 //use App\DeclaredPDO\Jwt\lumen\apiJWTClass;
 
 class userMiddleware
 {
     use jwtClass;
+
     /**
      * Handle an incoming request.
      *
@@ -22,14 +24,12 @@ class userMiddleware
             $id = $this->get_id();
 
         } catch (\Exception $e) {
-            return response()->json(['msg' => $e], 422);
+            return response()->json(['msg' => $e], 403);
         }
 
         if (!$id) {
-            return response()->json(['msg' => 'something wrong,check your connection and refresh page'], 422);
+            return response()->json(['error' => 'terdapat kesalahan, harap muat ulang halaman'], 401);
         }
-
-        $request->request->add(['code' => $id->id]);
 
         return $next($request);
     }

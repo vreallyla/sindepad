@@ -1,8 +1,15 @@
 @if(!empty($user_cookie))
     <script>
+        $( document ).ready(function() {
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose:true,
+                language: 'id'
+                }
+            );
 
-
-        // movement data personal
+        });
+        {{--movement data personal--}}
         $(function ($) {
             $(".personal-change").click(function () {
                 $("#form-personal-change").toggle(300);
@@ -12,9 +19,9 @@
             });
         });
 
-        //animate css
-        function testAnim(x,classid) {
-            $(classid).addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+        {{--animate css--}}
+        function testAnim(x, classid) {
+            $(classid).addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
                 $(this).removeClass(x + ' animated');
             });
         }

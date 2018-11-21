@@ -95,8 +95,7 @@ trait jwtClass
 
 
         if (!$check_user || !$check = $this->choose_array(['token', 'name', 'url'], $cookie)) {
-            $cookie['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTUzOTMwMzA5OSwiZXhwIjoxNTM5MzA2Njk5LCJuYmYiOjE1MzkzMDMwOTksImp0aSI6IllqVUdXa0xOc0ZhM3R6R00iLCJzdWIiOiIzZTE0M2U5Yy04Nzg1LTQzMDYtODNjNi1jNWExMGI0Yjk0ODciLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.4Q3xgbEsl9DrTHRqe2Mdom7lymZnL-ts49B9oeMlziI';
-            self::remove_cookie($cookie, 59);
+            self::remove_cookie();
             return false;
         }
 //
@@ -108,26 +107,7 @@ trait jwtClass
     }
 
 
-    /**
-     * checking an array from the object
-     * also selection some array
-     * @param $selection
-     * @param $ar
-     * @return array|bool
-     */
-    public function choose_array($selection, $ar)
-    {
-        $arr = array();
-        foreach ($selection as $row) {
-            array_key_exists($row, $ar) ? $arr[$row] = $ar[$row] : $arr[$row] = '';
-            if (!$arr) {
-                return false;
-                break;
-            }
-        }
 
-        return $arr;
-    }
 
     public function post_token(array $r)
     {

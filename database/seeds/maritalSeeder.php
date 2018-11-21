@@ -14,7 +14,13 @@ class maritalSeeder extends Seeder
         $x['en']=['Single','Married','Rather Not Say'];
         $x['id']=['Lajang','Menikah','Lainnya'];
         for ($i=0;$i<count($x['id']);$i++){
-            \App\Model\sideMaritalStatus::create(['ind'=>$x['id'][$i], 'en'=>$x['en'][$i]]);
+            \App\Model\sideMaritalStatus::insert([
+                'id'=>(string)\Webpatser\Uuid\Uuid::generate(4),
+                'ind'=>$x['id'][$i],
+                'en'=>$x['en'][$i],
+                'created_at'=>now()->addSecond($i),
+                'updated_at'=>now()->addSecond($i)
+            ]);
         }
     }
 }

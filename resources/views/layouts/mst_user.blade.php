@@ -1,11 +1,4 @@
 <!DOCTYPE html>
-<!-- 
-Template Name: Educo
-Version: 2.0.0
-Author: Kamleshyadav
-Website: http://himanshusofttech.com/
-Purchase: http://themeforest.net/user/kamleshyadav
--->
 <!--[if IE 8]>
 <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]>
@@ -24,14 +17,9 @@ Purchase: http://themeforest.net/user/kamleshyadav
     <meta name="author" content="fahmi rizky"/>
     <meta name="MobileOptimized" content="320"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!--srart theme style -->
     <link href="{{asset('css/main.css')}}" rel="stylesheet" type="text/css"/>
-
-    <!-- end theme style -->
-    <!-- favicon links -->
     <link rel="shortcut icon" type="image/png" href="images/header/favicon.png"/>
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
-
     <style>
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button {
@@ -161,6 +149,43 @@ Purchase: http://themeforest.net/user/kamleshyadav
             font-size: 16px;
             vertical-align: text-top;
         }
+
+        .ed_login_form .button_exchange {
+            display: none;
+        }
+
+        .ed_info_wrapper .button_exchange {
+            padding: 12px 7px;
+            margin: 0px;
+            color: #fff;
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -ms-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            transition: all 0.3s;
+        }
+
+        .ed_info_wrapper .button_exchange .badge-small {
+            position: relative;
+            bottom: 7px;
+            left: 3px;
+            font-size: 9px;
+            padding: 0px 4px;
+            line-height: unset;
+        }
+
+        @media (max-width: 680px) {
+            .ed_info_wrapper .button_exchange {
+                display: none;
+            }
+
+            .ed_login_form .button_exchange {
+                display: block;
+            }
+
+        }
+
+
     </style>
 
     @stack('style')
@@ -178,6 +203,12 @@ Purchase: http://themeforest.net/user/kamleshyadav
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <p>Selamat Datang...</p>
                         <div class="ed_info_wrapper">
+                            @if(!empty($user_cookie))
+                            <a href="{{route('order.checkout')}}" class="button_exchange" data-toggle="tooltip"
+                               data-placement="bottom" title="Transaksi">
+                                <i class="fa fa-exchange zoom"></i><span class="badge badge-small">1</span>
+                            </a>
+                            @endif
                             <a href="#" class="button_link" id="login_button">
                                 @if(!empty($user_cookie))
                                     <img class="asd" src="{{asset($user_cookie->url)}}"/>&nbsp;
@@ -186,7 +217,6 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                     Masuk
                                 @endif
                             </a>
-
                             <div id="login_one" class="ed_login_form">
                                 @if($user_cookie)
                                     <div class="row" style="color: black">
@@ -194,7 +224,11 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                         {{--<a href="#">Laman Admin</a>--}}
                                         {{--</div>--}}
                                         <div class="choose_one">
-                                            <a href="#">Profil</a>
+                                            <a href="{{route('user.profile')}}">Profil</a>
+                                        </div>
+                                        <div class="choose_one button_exchange">
+                                            <a href="{{route('order.checkout')}}">Transaksi <span
+                                                        class="badge pull-right">1</span></a>
                                         </div>
                                         {{--<div class="choose_one">--}}
                                         {{--<a href="#">Simdepad</a>--}}
@@ -213,7 +247,7 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                                   style="display: none;">
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="token"
-                                                       value="{{json_decode(\Illuminate\Support\Facades\Cookie::get('uzanto'))->token}}">
+                                                       value="{{session('uzanto')->token}}">
                                             </form>
                                         </div>
                                     </div>
@@ -245,14 +279,14 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                     </span>
                                             @endif
                                         </div>
-                                        <div class="form-group">
-                                            <div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}"></div>
-                                            @if($errors->has('g-recaptcha-response'))
-                                                <div class="invalid-feedback" style="display: block">
-                                                    <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                                                </div>
-                                            @endif
-                                        </div>
+                                        {{--<div class="form-group">--}}
+                                        {{--<div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}"></div>--}}
+                                        {{--@if($errors->has('g-recaptcha-response'))--}}
+                                        {{--<div class="invalid-feedback" style="display: block">--}}
+                                        {{--<strong>{{ $errors->first('g-recaptcha-response') }}</strong>--}}
+                                        {{--</div>--}}
+                                        {{--@endif--}}
+                                        {{--</div>--}}
                                         <div class="form-group">
                                             <div class="checkbox">
                                                 <label>
@@ -291,8 +325,11 @@ Purchase: http://themeforest.net/user/kamleshyadav
                         <div class="edoco_menu">
                             <ul class="collapse navbar-collapse" id="ed_menu">
                                 <li><a href="{{route('welcome')}}">Beranda</a></li>
-                                <li><a href="{{route('course')}}">Program</a>
+                                <li><a href="#">Program</a>
                                     <ul class="sub-menu">
+                                        <li>
+                                            <a href="{{route('course')}}">Semua Program</a>
+                                        </li>
                                         @foreach($default[1] as $row)
                                             <li>
                                                 <a href="{{route('course.opsi',['class'=>$row->id])}}">{{$row->name}}</a>
@@ -306,12 +343,18 @@ Purchase: http://themeforest.net/user/kamleshyadav
                                         <li><a href="event_single.html">events-single</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#">FAQs</a>
+                                {{--<li><a href="#">FAQs</a>--}}
+                                {{--<ul class="sub-menu">--}}
+                                {{--<li><a href="courses.html">all courses</a></li>--}}
+                                {{--<li><a href="course_sidebar.html">course-sidebar</a></li>--}}
+                                {{--<li><a href="course_single.html">course-single</a></li>--}}
+                                {{--<li><a href="course_lesson.html">course-lesson</a></li>--}}
+                                {{--</ul>--}}
+                                {{--</li>--}}
+                                <li><a href="#">Pendaftaran</a>
                                     <ul class="sub-menu">
-                                        <li><a href="courses.html">all courses</a></li>
-                                        <li><a href="course_sidebar.html">course-sidebar</a></li>
-                                        <li><a href="course_single.html">course-single</a></li>
-                                        <li><a href="course_lesson.html">course-lesson</a></li>
+                                        <li><a href="{{route('register')}}">Pengguna</a></li>
+                                        <li><a href="{{route('order.step')}}">Program ABK</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{{route('about')}}">Tentang Kami</a></li>
@@ -469,9 +512,10 @@ Purchase: http://themeforest.net/user/kamleshyadav
                 e.preventDefault();
         });
     });
+    @if(!$user_cookie)
     $(function ($) {
-        var formLogin = $('#login_one form');
-        var svg_loader = '<svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n' +
+        const formLogin = $('#login_one form');
+        const svg_loader = '<svg version="1.1" id="L5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n' +
             '  viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">\n' +
             '  <circle fill="#fff" stroke="none" cx="6" cy="50" r="6">\n' +
             '    <animateTransform\n' +
@@ -542,12 +586,11 @@ Purchase: http://themeforest.net/user/kamleshyadav
             })
                 .then(function (res) {
                     login_done();
-                    console.log('aku');
                     $('#login_button').click().html(' <img class="asd" src="' + res.data.url + '">&nbsp;\n' +
                         '                                <span class="name-user">' + res.data.name + '</span></a>');
                     $('#login_one').html('<div class="row" style="color: black">\n' +
                         '                                        <div class="choose_one">\n' +
-                        '                                            <a href="#">rubah profil</a>\n' +
+                        '                                            <a href="{{route('user.profile')}}">rubah profil</a>\n' +
                         '                                        </div>\n' +
                         '                                        <div class="choose_one">\n' +
                         '<a href="' + '{{ route('logoutjwt') }}' + '"\n' +
@@ -556,6 +599,8 @@ Purchase: http://themeforest.net/user/kamleshyadav
                         '                                                Logout\n' +
                         '                                            </a>\n' +
                         '                                            <form id="logout-form" action="' + '{{ route('logoutjwt') }}' + '" method="POST" style="display: none;">\n' +
+                        '<input type="hidden" name="token"\n' +
+                        '                                                       value="' + res.data.token + '">' +
                         '                                            </form>' +
                         '                                        </div>\n' +
                         '                                    </div>');
@@ -582,6 +627,7 @@ Purchase: http://themeforest.net/user/kamleshyadav
 
 
     });
+    @endif
 </script>
 </body>
 </html>

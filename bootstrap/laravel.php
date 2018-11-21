@@ -42,5 +42,9 @@ $app->singleton(
     App\Exceptions\Laravel::class
 );
 
+// fix `BindingResolutionException` problem
+//$app->bind(Illuminate\Session\SessionManager::class, function ($app) {
+//    return $app->make('session');
+//});
 
 return $app;

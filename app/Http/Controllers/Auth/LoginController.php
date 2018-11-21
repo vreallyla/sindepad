@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Rules\Captcha;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -57,9 +58,13 @@ class LoginController extends Controller
 
     public function authenticated(Request $request,$user)
     {
-        if (1==1){
-            return redirect()->intended($this->redirectPath());
+        if ($user->role_id=='admin'){
+            return redirect()->route('admin');
         }
+        elseif ($user->role_id=='user'){
+            return redirect()->route('admin');
+        }
+        Auth::logout();
         return redirect()->back()->with('warning','You need confirm your account, We have sent you an activation code, check your email');
 
     }

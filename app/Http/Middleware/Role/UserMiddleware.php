@@ -12,6 +12,7 @@ class UserMiddleware
     use jwtClass;
 
     protected $data;
+
     /**
      * Handle an incoming request.
      *
@@ -21,29 +22,28 @@ class UserMiddleware
      */
     public function handle($request, Closure $next)
     {
+        $checkCookie = self::checkCookie();
 
         try {
-            $check = self::checkCookie() ? $request->request->add(['token' => self::get_cookie()->token]) : true;
+            $check = $checkCookie ? $request->request->add(['token' => self::get_cookie()->token]) : true;
 
         } catch (\Exception $e) {
 
-            if ($this->checkCookie()) {
-                $this->remove_cookie($this->get_cookie(), 59);
-            }
+            $checkCookie ? $this->remove_cookie() : false;
 
             return redirect()->route('welcome')->with('msg', 'terdapat kesalahan, silakan login terlebih dahulu');
 
         }
         if (!$check) {
-            $this->data= $this->refreshWithCookie();
-            $userLabel=$this->guard()->user();
-            $status= self::convertToObject($userLabel->only('email','ni','gender_id','phone','address','religion','born_place','dob','created_at','name'));
+            $this->data = $this->refreshWithCookie();
+            $userLabel = $this->guard()->user();
+            $status = self::convertToObject($userLabel->only('email', 'ni', 'gender_id', 'phone', 'address', 'religion', 'born_place', 'dob', 'created_at', 'name'));
 
-            $child= rsUserToStudent::where('user_id',$userLabel->id)->get();
+            $child = rsUserToStudent::where('user_id', $userLabel->id)->get();
 
-                foreach ($child as $row){
-                    $kid[]=self::convertToObject($row->getStudent->only('name','class_id'));
-                }
+            foreach ($child as $row) {
+                $kid[] = self::convertToObject($row->getStudent->only('name', 'class_id'));
+            }
 
         }
         if (empty($this->data)) {
@@ -52,8 +52,8 @@ class UserMiddleware
 
         $request->request->add([
             'data' => $this->data,
-            'more'=> $status,
-            'kids'=>$kid
+            'more' => $status,
+            'kids' => isset($kid) ? $kid : null
 
         ]);
 
