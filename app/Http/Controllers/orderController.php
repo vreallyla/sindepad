@@ -68,13 +68,14 @@ class orderController extends Controller
     public function __construct()
     {
         $this->middleware('order');
-        $this->middleware('method_permissions')->only('info', 'confirm');
+        $this->middleware('method_permissions')->only('info', 'confirm','method');
     }
 
     public function method(Request $r)
     {
+        $token = $r->token;
         $title = 'Ubah Metode Pembayaran';
-        return view('user.order.method_tf.method', compact('title'));
+        return view('user.order.method_tf.method', compact('title','token'));
     }
 
     public function confirm(Request $r)
@@ -165,6 +166,7 @@ class orderController extends Controller
 
     public function describe(Request $r)
     {
+        $token=$r->token;
         $code = $r->q;
         $title = 'Detail Transaksi';
         $array = [];
@@ -241,7 +243,7 @@ class orderController extends Controller
 
         $array['total'] = $total;
 //        return $array;
-        return view('user.order.describ.describ', compact('title', 'array', 'code'));
+        return view('user.order.describ.describ', compact('title', 'array', 'code','token'));
     }
 
     private function getDetailCont($code, $creat, $obj, $date_end, $method, $aggre)

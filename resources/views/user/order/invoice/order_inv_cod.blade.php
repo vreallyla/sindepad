@@ -30,11 +30,11 @@
                 <span>Sub Total: </span><h4 class="add-rp">{{number_format($data->total,0,',','.')}}</h4>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 obj-detail">
-                <span>Diskon: </span><h4 class="{{$data->disc->type==='Diskon'?'add-percent-minus':'add-rp-minus'}}">
-                    {{$data->disc->type==='Diskon'?$data->disc->amount:number_format($data->disc->amount,0,',','.')}}</h4>
+                <span>Diskon: </span><h4 class="{{isset($data->disc)?($data->disc->type==='Diskon'?'add-percent-minus':'add-rp-minus'):''}}">
+                    {{isset($data->disc)?($data->disc->type==='Diskon'?$data->disc->amount:number_format($data->disc->amount,0,',','.')):0}}</h4>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 obj-detail delimiter">
-                <span>Total: </span><h4 class="hightlight add-rp">{{number_format(($data->disc?
+                <span>Total: </span><h4 class="hightlight add-rp">{{number_format((isset($data->disc)?
         ($data->disc->type==='Diskon'?
         $data->total*(100-$data->disc->amount)/100:$data->total-$data->disc->amount
         ):$data->total),0,',','.')}}</h4>

@@ -157,6 +157,11 @@ trait extraClass
         return response()->json(['msg'=>'Harap tidak mengganti data'],405);
     }
 
+    private function notFound()
+    {
+        return response()->json(['msg'=>'Data tidak ditemukan'],404);
+    }
+
 
 
 }

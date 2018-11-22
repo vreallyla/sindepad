@@ -4,15 +4,18 @@
 @section('content')
     <div class="col-lg-12 obj-contido">
         <div class="tarxeta-contido">
-            <div class="tarxeta-titulo pagamento-metodo deslizamento">
-                <input type="radio" name="metodo" id="metodo">
-                <label class="comprobar" for="metodo"></label>
-                Bayar Ditempat
-            </div>
-            <div class="pagamento-contido">
-                Pembayaran dapat dilakukan di tempat Sanggar ABK.
-            </div>
-            <div class="tarxeta-titulo pagamento-metodo deslizamento">
+            @foreach(\App\Model\order\payingMethod::where('method',"Bayar Ditempat")->get() as $row)
+                <div class="tarxeta-titulo pagamento-metodo deslizamento cod">
+                    <input type="radio" name="metodo" id="metodo">
+                    <label class="comprobar" for="metodo"></label>
+                    <input type="radio" name="obj_metodo" id="metodo" value="{{$row->id}}">
+                    {{$row->method}}
+                </div>
+                <div class="pagamento-contido">
+                    {!!$row->desc!!}
+                </div>
+            @endforeach
+            <div class="tarxeta-titulo pagamento-metodo deslizamento tf">
                 <input type="radio" name="metodo" id="metodo1">
                 <label class="comprobar" for="metodo1"></label>
                 Transfer Bank
@@ -22,20 +25,23 @@
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                         Pilih Bank
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pagamento-cotenta">
-                                <input type="radio" name="obj_metodo" id="radio1"><label for="radio1"
-                                                                                         class="pagamento-radio"></label>
-                                <img class="pagamento-imaxe"
-                                     src="{{asset('images/paying-method/bni.png')}}"
-                                     alt="">
-                                <h4 class="pagamento-titulo">bni (cek manual)</h4>
-                                <h6 class="pagamento-aviso">Menerima transfer dari semua bank</h6>
-                                <h6 class="pagamento-aviso-ben">Perlu upload bukti transfer</h6>
+                    @foreach(\App\Model\order\payingMethod::where('method',"Transfer")->get() as $i=>$row)
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pagamento-cotenta">
+                                    <input type="radio" name="obj_metodo" id="radio{{$i}}" value="{{$row->id}}">
+                                    <label for="radio{{$i}}" class="pagamento-radio"></label>
+                                    <img class="pagamento-imaxe"
+                                         src="{{asset($row->url)}}"
+                                         alt="">
+                                    <h4 class="pagamento-titulo">{{$row->name}}</h4>
+                                    <h6 class="pagamento-aviso">Menerima transfer dari semua bank</h6>
+                                    <h6 class="pagamento-aviso-ben">{!! $row->desc!!}</h6>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
+
                 </div>
             </div>
             <div class="btn-submit">
@@ -281,11 +287,5 @@
 @endpush
 
 @push('js')
-    <script>
-        const metodo = $('.pagamento-metodo');
-        metodo.click(function () {
-            metodo.removeClass('activo');
-            $(this).addClass('activo').find('input').prop('checked',true);
-        });
-    </script>
+   @include('user.order.method_tf.js_method_tf.method_tf_async')
 @endpush

@@ -1,11 +1,20 @@
 <script>
+    const noticeDel = 'Yakin dihapus?';
+
+    function cancelTrans(e) {
+        $('#payment').find('.payment-footer').find('.btn-right').find('ul').toggle(300);
+        if (confirm(noticeDel)) {
+            console.log($(e).data('code'))
+        }
+    }
+
     $(function () {
         const modalpage = $('#modal-container'), errNotice = 'terjadi kesalahan silakan, harap refresh /  kontak admin',
             showLoading = $('#loading'), manipNotice = 'Harap tidak merubah data', tabActive = 'activo',
             detailType = 'Diskon', successContent = '#success', noticeSuccess = 'Pembayaran di Konfirmasi: ',
             failedContent = $('#failed'), targetFailed = failedContent.children('.payment-fill'),
             waitingContent = '#waiting', noticeWaiting = 'Konfirmasi Pembayaran: ',
-            targetTab = '.payment-fill',
+            targetTab = '.payment-fill', noticeEmpty = 'data tidak ditemukan, harap muat ulang',
             discCont = $('.disc-content'), codeCheck = 'checkout', radioTrans = 'input[name="select_item"]',
             confrimObj = $('#confirm'), btn_succ = $('.modal .button-success'), code = $('#code'),
             radioMethod = 'input[name="obj_metodo"], .cod', checkTab = $('.guia'), metodo = $('.pagamento-metodo'),
@@ -196,7 +205,6 @@
             let clonePayment = paymentFill.clone(),
                 targetFillPayment = clonePayment.eq(0);
             paymentContent.empty();
-            console.log(res)
             $.each(res.data, function (key, val) {
 
                 targetFillPayment.children('.payment-title').children('span').text(val.entity + ' Anak').prop('title', loopShortName(val.list))
@@ -208,7 +216,6 @@
                     .text(val.method.method === "Bayar Ditempat" ? 'Info Pembayaran' : 'Transfer Sekarang')
                     .next().prop('href', '{{route('order.describe')}}?q=' + val.id)
                     .parent().children('ul').children().eq(0).prop('href', '{{route('order.method')}}?q=' + val.id)
-                    .next().data('code', val.id)
                     .closest('.payment-footer').children().eq(0).children('h3').text(convertRp(val.total));
 
                 if ($.trim(val.voucher)) {
@@ -219,8 +226,31 @@
                 paymentContent.append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tarxeta payment-fill" style="background: #fff">' +
                     clonePayment[0].innerHTML
                     + '</div>');
+
+                paymentContent.children('.payment-fill').eq(key).data('code', val.id);
+                console.log(key)
             })
         }
+
+        $('#payment').on('click', '.delete-trans', function () {
+            if (confirm("Hapus Transaksi?")) {
+                let formDel = new FormData();
+                formDel.append('q', $(this).closest('.payment-fill').data('code'));
+                loading.show();
+                axios.post('{{route('api.order.transDelete')}}', formDel)
+                    .then(function (res) {
+                        loading.hide();
+                        swallCustom2('Transaksi berhasil dihapus');
+                        guia.eq(1).click();
+                    })
+                    .catch(function (er) {
+                        loading.hide();
+                        er.response.status === 404 ? swallCustom2(noticeEmpty) : swallCustom2(errNotice);
+
+                    })
+            }
+        });
+
 
         function loopShortName(ulang) {
             let fillNames = '';
@@ -367,7 +397,7 @@
                         hideAlert('Transaksi berhasil dikonfirmasi');
                         guia.eq(1).click();
                     }).catch(function (er) {
-                    hideAlert(er.response.status === 422 ? manipNotice : errNotice);
+                    hideAlert(er.response.status === 422 ? manipNotice : (er.response.status === 404 ? noticeEmpty : errNotice));
                 });
             }
         })

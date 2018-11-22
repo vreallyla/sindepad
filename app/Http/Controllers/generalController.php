@@ -53,8 +53,8 @@ class generalController extends Controller
 //        })->get();
 //        $tahu=[1,2,3,4];
 
-
-
+$obj=mstTransactionList::find('c0d76312-008f-4fe5-b37a-2b7eb051fba0');
+dd([now()->lt($obj->updated_at->addDays(1)),now(),$obj->updated_at->addDays(1)]);
     }
 
     public function log2()

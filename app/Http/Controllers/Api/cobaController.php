@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\DeclaredPDO\Additional\plugClass;
+use App\Model\mstTransactionList;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,8 +21,12 @@ class cobaController extends Controller
      */
     public function index(Request $r)
     {
-
-return now();    }
+        try{
+            return mstTransactionList::findOrFail('asdasdasd');
+        }catch (\Exception $e){
+            return $e;
+        }
+    }
 
     /**
      * Show the form for creating a new resource.

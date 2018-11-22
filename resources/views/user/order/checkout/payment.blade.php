@@ -33,7 +33,7 @@
                 <a class="btn-payment-support add-sub">Lainnya</a>
                 <ul>
                     <a href="{{route('order.info')}}"><li>Rubah Metode Pembayaran</li></a>
-                    <a href="javascript:void(0);"><li>Batalkan Pendaftaran</li></a>
+                    <a href="javascript:void(0);" class="delete-trans"><li>Batalkan Pendaftaran</li></a>
                 </ul>
             </div>
         </div>

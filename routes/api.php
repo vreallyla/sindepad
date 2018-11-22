@@ -45,7 +45,7 @@ Route::group(['prefix' => '/api'], function () {
     ]);
 
 //    user role
-    Route::group(['middleware'=>'api_user','namespace' => 'User'], function () {
+    Route::group(['middleware' => 'api_user', 'namespace' => 'User'], function () {
 
 //        menu profile
         Route::group(['prefix' => 'profile'], function () {
@@ -87,15 +87,28 @@ Route::group(['prefix' => '/api'], function () {
                 ]);
                 Route::post('voucher', [
                     'uses' => 'orderSeatController@checkCode',
-                    'as' => 'api.order.voucher'
+                    'as' => 'api.order.voucher',
                 ]);
                 Route::post('post-confirm', [
                     'uses' => 'orderSeatController@confirmPost',
-                    'as' => 'api.order.confirmPost'
+                    'as' => 'api.order.confirmPost',
+                    'middleware' => 'confirm_confirm_handdler'
                 ]);
+
                 Route::post('confirm-payment', [
                     'uses' => 'orderSeatController@confirmPayment',
-                    'as' => 'api.order.confirmPayment'
+                    'as' => 'api.order.confirmPayment',
+                    'middleware' => 'confirm_payment_handdler'
+                ]);
+                Route::post('change-method', [
+                    'uses' => 'orderSeatController@methodChange',
+                    'as' => 'api.order.methodChange',
+                    'middleware' => 'confirm_payment_handdler'
+                ]);
+                Route::post('delete-trans', [
+                    'uses' => 'orderSeatController@transDelete',
+                    'as' => 'api.order.transDelete',
+                    'middleware' => 'confirm_payment_handdler'
                 ]);
             });
 

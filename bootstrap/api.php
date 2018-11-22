@@ -1,7 +1,7 @@
 <?php
 
 try {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
+    (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     //
 }
@@ -18,7 +18,7 @@ try {
 */
 
 $app = new Laravel\Lumen\Application(
-    realpath(__DIR__.'/../')
+    realpath(__DIR__ . '/../')
 );
 
 $app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
@@ -26,9 +26,14 @@ $app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storag
 
 $app->withFacades(true, [
     Tymon\JWTAuth\Facades\JWTAuth::class => 'JWTAuth',
-    Tymon\JWTAuth\Facades\JWTFactory::class => 'JWTFactory'
+    Tymon\JWTAuth\Facades\JWTFactory::class => 'JWTFactory',
+    Intervention\Image\Facades\Image::class => 'Image'
 ]);
 //
+
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+$app->register(Intervention\Image\ImageServiceProvider::class);
+
 $app->withEloquent();
 
 /*
@@ -48,7 +53,9 @@ $app->singleton(
 );
 
 //storage
-$app->singleton('filesystem', function ($app) { return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem'); });
+$app->singleton('filesystem', function ($app) {
+    return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem');
+});
 
 
 /*
@@ -90,7 +97,7 @@ $app->middleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
- $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
 
 // Add this line
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
@@ -121,16 +128,17 @@ $app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storag
 $app->router->group([
     'namespace' => 'App\Http\Controllers\Api',
 ], function ($router) {
-    require __DIR__.'/../routes/api.php';
+    require __DIR__ . '/../routes/api.php';
 });
-
 
 
 $app->routeMiddleware([
     'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
 //    'anu' => App\Http\Middleware\reMiddleware::class
     'jwttes' => App\Http\Middleware\jwtMiddleware::class,
-    'api_user'=>\App\Http\Middleware\Lumen\Role\userMiddleware::class
+    'api_user' => \App\Http\Middleware\Lumen\Role\userMiddleware::class,
+    'confirm_payment_handdler'=>\App\Http\Middleware\Lumen\transConfirmHanddlerMiddleware::class,
+    'confirm_confirm_handdler'=>\App\Http\Middleware\Lumen\transConfTransMiddleware::class
 ]);
 
 return $app;

@@ -10,6 +10,7 @@ use App\Model\order\expression;
 use App\Model\order\voucherRegister;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image; //Intervention Image
 use Illuminate\Support\Facades\Storage;
 
 
@@ -42,7 +43,7 @@ class orderSeatController extends Controller
         $transaction = mstTransactionList::create([
             'user_id' => $user->id,
             'status' => 'menunggu',
-            'code' => 'SG'.now()->format('ymd').sprintf("%04d", (count(mstTransactionList::whereDate('created_at', '=', now()->format('Y-m-d'))->get()) + 1)).'PK'
+            'code' => 'SG' . now()->format('ymd') . sprintf("%04d", (count(mstTransactionList::whereDate('created_at', '=', now()->format('Y-m-d'))->get()) + 1)) . 'PK'
         ]);
 
         foreach ($r->fullName as $i => $row) {
@@ -80,20 +81,21 @@ class orderSeatController extends Controller
         }
     }
 
-    public function confirmPayment(Request $r){
-        $re=$r->only('img_','date','name','bank','code');
+    public function confirmPayment(Request $r)
+    {
+        $re = $r->only('img_', 'date', 'name', 'bank', 'q');
         $rule = [
-            'img_' => 'required|image|max:500',
-            'date'=>'required|date',
-            'name'=>'required|min:3',
-            'bank'=>'required|exists:data_banks,id',
-            'code'=>'required|exists:mst_transaction_lists,id'
+            'img_' => 'required|image|max:2000',
+            'date' => 'required|date',
+            'name' => 'required|min:3',
+            'bank' => 'required|exists:data_banks,id',
+            'q' => 'required|exists:mst_transaction_lists,id'
         ];
         $msg = [
             'required' => 'harap isi form',
             'img_.image' => 'format harus photo',
-            'img_.max' => 'photo maksimal 500 KB',
-            'exists'=>'harap tidak merubah data'
+//            'img_.max' => 'photo maksimal 1500 KB',
+            'exists' => 'harap tidak merubah data'
         ];
 
         if ($error = self::validates($re, $rule, $msg)) {
@@ -111,19 +113,36 @@ class orderSeatController extends Controller
             $name = Storage::disk('local')->put('public/order/invoice', $new);
             $url = self::slice_public($name);
 
+            $thumbnailpath = $url;
+
+            $img = Image::make($thumbnailpath)->resize(800, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            $img->encode('jpg', 100)->save($thumbnailpath);
+
+            if (!file_exists($url)) {
+                return response()->json(['msg' => 'upload gambar gagal'], 400);
+            }
 
             linkPaymentInvoice::create([
                 'img' => $url,
-                'name'=>$r->name,
-                'date_send'=>$r->date,
-                'bank_id'=>$r->bank,
-                'tran_id'=>$r->code
+                'name' => $r->name,
+                'date_send' => $r->date,
+                'bank_id' => $r->bank,
+                'tran_id' => $r->q
             ]);
+
+            mstTransactionList::findOrFail($r->q)->update([
+                'status' => 'administrasi'
+            ]);
+
             return response()->json(['url' => asset($url)]);
         }
 
         return $r;
     }
+
     public function confirmPost(Request $r)
     {
         $re = $r->only('trans', 'met', 'disc');
@@ -162,6 +181,42 @@ class orderSeatController extends Controller
         ]);
 
         return response()->json(['msg' => 'Konfirmasi Berhasil'], 200);
+    }
+
+    public function transDelete(Request $r)
+    {
+        try{
+            mstTransactionList::findOrFail($r->q)->update([
+               'status'=>'batal'
+            ]);
+        }catch (\Exception $e){
+            return $this->notFound();
+        }
+
+        return response()->json('transaksi berhasil dihapus');
+    }
+
+    public function methodChange(Request $r)
+    {
+        $re = $r->only('choice');
+        $rules = [
+            'choice' => 'required|exists:paying_methods,id',
+//            'q' => 'required|exists:mst_transaction_lists,id',
+        ];
+        $msg = [
+            'required' => 'Harap tidak merubah data',
+            'exists' => 'Harap tidak merubah data',
+        ];
+
+        if ($error = self::validates($re, $rules, $msg)) {
+            return $error;
+        }
+
+        mstTransactionList::find($r->q)->update([
+            'method_id' => $r->choice
+        ]);
+
+        return response()->json(['msg'=>'metode berhasil diganti'],200);
     }
 
     public function checkCode(Request $request)

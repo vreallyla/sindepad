@@ -15,8 +15,23 @@
             background-size: cover;
         }
 
-        .container-notice{
+        .container-notice {
             display: none;
+        }
+
+        #loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(192, 192, 192, 0.5);
+            background-image: url({{asset('images/elipse_color_loader.svg')}});
+            background-repeat: no-repeat;
+            background-position: center;
+
         }
 
         .side-header {
@@ -73,7 +88,7 @@
         </div>
     </div>
 </div>
-
+<div id="loading"></div>
 <script src="{{asset('js/side.js')}}" type="text/javascript"></script>
 
 <script>

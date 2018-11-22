@@ -44,15 +44,15 @@
             </button>
         @elseif($array['notice']['status']==='payment')
             @if($array['method']['method']==='Bayar Ditempat')
-                <button class="btn-suc" onclick="window.location='{{route('order.info.cod').'?q='.$code}}';">Info Pembayaran
+                <button class="btn-suc" onclick="window.location='{{route('order.info').'?q='.$code}}';">Info Pembayaran
                 </button>
             @else
                 <button class="btn-suc" onclick="window.location='{{route('order.info').'?q='.$code}}';">Transfer
                     Sekarang
                 </button>
             @endif
-            <button class="btn-oth">Batalkan Pesanan</button>
-            <button class="btn-oth" onclick="window.location='{{route('order.method').'?q='.$code}};'">Rubah Metode
+            <button class="btn-oth delete-trans">Batalkan Pesanan</button>
+            <button class="btn-oth" onclick="window.location='{{route('order.method').'?q='.$code}}';">Rubah Metode
             </button>
         @elseif($array['notice']['status']==='failed')
             <button class="btn-suc" onclick="window.location='{{route('order.info').'?q='.$code}}';">Hapus Transaksi
@@ -96,17 +96,52 @@
     </div>
 @endsection
 @push('js')
+    @include('user.order.general.order_general_js.swallCustom')
     <script>
         $(function () {
+            const loading = $('#loading '), errNotice = 'terjadi kesalahan silakan, harap refresh /  kontak admin',
+                noticeEmpty = 'data tidak ditemukan, harap muat ulang';
+            let getUrlParameter = function getUrlParameter(sParam) {
+                let sPageURL = window.location.search.substring(1),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+
+                for (i = 0; i < sURLVariables.length; i++) {
+                    sParameterName = sURLVariables[i].split('=');
+
+                    if (sParameterName[0] === sParam) {
+                        return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                    }
+                }
+            };
+
+            window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + '{{$token}}';
 
             $(window).load(e => {
                 $('[data-toggle="tooltip"]').tooltip();
             });
-            // $(document).on('click', 'p', function(event) {
-            //     $('#logs').append(event.target.tagName + ' - ' + event.type + '<br />');
-            // });
-            $('.side-header').find('h4').find(':before').on('click', function () {
-                console.log('a')
+
+            $('.delete-trans').click(function () {
+                if (confirm("Hapus Transaksi?")) {
+                    console.log(getUrlParameter('q'));
+                    let formDel = new FormData();
+                    formDel.append('q', getUrlParameter('q'));
+                    loading.show();
+                    axios.post('{{route('api.order.transDelete')}}', formDel)
+                        .then(function (res) {
+                            loading.hide();
+                            swallCustom('Transaksi berhasil dihapus');
+                            setTimeout(e => {
+                                window.location = "{{route('order.checkout')}}?tab=payment"
+                            }, 300);
+                        })
+                        .catch(function (er) {
+                            loading.hide();
+                            er.response.status === 404 ? swallCustom(noticeEmpty) : swallCustom(errNotice);
+
+                        })
+                }
             })
         })
     </script>
