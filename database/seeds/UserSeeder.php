@@ -35,25 +35,25 @@ class UserSeeder extends Seeder
             'remember_token' => str_random(100),
         ]);
 
-//        for ($i = 0; $i <= 19999999; $i++) {
-//            $kode = \App\Model\sideGender::inRandomOrder()->first();
-//            $status = \App\Model\sideStatusUser::inRandomOrder()->first();
-//            \App\User::create([
-//                'name' => $faker->unique()->name,
-//                'url' => 'images/img_unvailable.png',
-//                'email' => $faker->unique()->safeEmail,
-//                'phone' => $faker->unique()->phoneNumber,
-//                'address' => $faker->unique()->address,
-//                'ni' => $faker->unique()->numerify($string = '1########'),
-//                'gender_id' => $kode->id,
-//                'status_id' => $status->id,
-//                'code_status' => bcrypt(true),
-//                'born_place' => $faker->city,
-//                'dob' => $faker->date('Y-m-d'),
-//                'password' => bcrypt('secret'),
-//                'remember_token' => str_random(100)
-//            ]);
-//        }
+        for ($i = 0; $i <= 5; $i++) {
+            $kode = \App\Model\sideGender::inRandomOrder()->first();
+            $status = \App\Model\sideStatusUser::inRandomOrder()->first();
+            \App\User::create([
+                'name' => $faker->unique()->name,
+                'url' => 'images/img_unvailable.png',
+                'email' => $faker->unique()->safeEmail,
+                'phone' => $faker->unique()->phoneNumber,
+                'address' => $faker->unique()->address,
+                'ni' => $faker->unique()->numerify($string = '1########'),
+                'gender_id' => $kode->id,
+                'status_id' => $status->id,
+                'code_status' => bcrypt(true),
+                'born_place' => $faker->city,
+                'dob' => $faker->date('Y-m-d'),
+                'password' => bcrypt('secret'),
+                'remember_token' => str_random(100)
+            ]);
+        }
 
 
     }

@@ -3,7 +3,7 @@
         const errInput = 'Harap mengisi formulir dengan benar',
             errServ = 'Terdapat kesalahan, harap muat ulang / kontak admin',
             limitImg = 'Ukuran gambar maks 2 mb.',
-            noticeSucc='Bukti Pembayaran berhasil dikirim.'.
+            noticeSucc='Bukti Pembayaran berhasil dikirim.',
             loadingCont = $('#loading');
         window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + '{{$token}}';
 

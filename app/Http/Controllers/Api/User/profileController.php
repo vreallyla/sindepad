@@ -80,7 +80,7 @@ class profileController extends Controller
 
     public function edit_profile(Request $r)
     {
-        $user = User::findOrFail($r->code);
+        $user = User::findOrFail($this->getId()->id);
 //        return $r;
         $rules = [
             'email' => [
@@ -147,7 +147,7 @@ class profileController extends Controller
     {
 
         try{
-            $user=User::find($r->code);
+            $user=User::find($this->getId()->id);
         }catch (\Exception $e){
             return response()->json(['error'=>'ada kesalahan, refresh halaman atau kontak admin'],401);
         }

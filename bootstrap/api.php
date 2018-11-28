@@ -137,6 +137,7 @@ $app->routeMiddleware([
 //    'anu' => App\Http\Middleware\reMiddleware::class
     'jwttes' => App\Http\Middleware\jwtMiddleware::class,
     'api_user' => \App\Http\Middleware\Lumen\Role\userMiddleware::class,
+    'api_admin' => \App\Http\Middleware\Lumen\Role\adminMiddleware::class,
     'confirm_payment_handdler'=>\App\Http\Middleware\Lumen\transConfirmHanddlerMiddleware::class,
     'confirm_confirm_handdler'=>\App\Http\Middleware\Lumen\transConfTransMiddleware::class
 ]);

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Model\mstTransactionList;
+use App\Model\sideStatusUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -77,5 +78,9 @@ class User extends Authenticatable implements JWTSubject
     public function getTrans()
     {
         return $this->hasMany(mstTransactionList::class,'user_id');
+    }
+    public function getStatus()
+    {
+        return $this->belongsTo(sideStatusUser::class,'status_id');
     }
 }

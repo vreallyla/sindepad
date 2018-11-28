@@ -1,4 +1,4 @@
-window._ = require('lodash');
+// window._ = require('lodash');
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -8,8 +8,8 @@ window._ = require('lodash');
 
 try {
     window.$ = window.jQuery = require('jquery');
-    require('bootstrap/dist/js/bootstrap.min');
-    $.fn._ = require('lodash');
+    require('bootstrap-sass');
+    // $.fn._ = require('lodash');
     require('./assets/datepicker');
     require('bootstrap-datepicker/js/locales/bootstrap-datepicker.id');
     window.currency = require('./assets/currency');
@@ -26,23 +26,12 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //sweetalert
 window.swal = require('sweetalert2');
 
+
 //moment date
 require('./moment');
 
-// //bulma-extentions
-// window.bulma_ext=require('bulma-extensions');
+window.CanvasJS =require('./assets/js/canvasjs.min');
 
-// require('../../../public/js/bootstrap');
-// require('../../../public/js/modernizr');
-// require('../../../public/js/owl.carousel');
-// require('../../../public/js/jquery-1.12.2');
-
-/**
- * Next we will register the CSRF Token as a common header with Axios so that
- * all outgoing HTTP requests automatically have it attached. This is just
- * a simple convenience so we don't have to attach every token manually.
- */
-//
 let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {

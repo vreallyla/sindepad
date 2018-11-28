@@ -41,6 +41,7 @@ trait extraClass
 //        return false;
     }
 
+
     /**
      * get the cookie as stdclass
      * this funct for get user datas

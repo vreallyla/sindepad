@@ -32,7 +32,7 @@
 //co
 //});
 
-Route::group(['prefix' => '/api'], function () {
+Route::group(['prefix' => '/api/v1/'], function () {
 
     Route::get('/a', [
         'uses' => 'cobaController@index',
@@ -114,6 +114,24 @@ Route::group(['prefix' => '/api'], function () {
 
         });
 
+    });
+
+    //admin role
+    Route::group(['middleware'=>'api_admin','namespace' => 'Admin', 'prefix' => 'admin'], function () {
+        Route::group(['prefix' => 'transactions', 'namespace' => 'Trans'], function () {
+            Route::get('register-list', [
+                'uses' => 'orderSignController@getList',
+                'as' => 'api.admin.trans.sign.list'
+            ]);
+            Route::get('register-detail', [
+                'uses' => 'orderSignController@getDetail',
+                'as' => 'api.admin.trans.sign.detail'
+            ]);
+            Route::post('register-confirm', [
+                'uses' => 'orderSignController@postConfirm',
+                'as' => 'api.admin.trans.sign.confirm'
+            ]);
+        });
     });
 
 

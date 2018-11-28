@@ -31,6 +31,7 @@ class userMiddleware
             return response()->json(['error' => 'terdapat kesalahan, harap muat ulang halaman'], 401);
         }
 
+
         return $next($request);
     }
 }

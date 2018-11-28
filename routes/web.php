@@ -16,8 +16,8 @@ Route::group(['prefix' => '/'], function () {
     \Illuminate\Support\Facades\App::setlocale('id');
 
     Route::get('test1', function () {
-        $title = 'Info Pembayaran';
-        return view('user.order.invoice.order_inv_cod', compact('title'));
+
+        return view('layouts.other_side');
     });
 
     Route::group(['namespace' => 'User'], function () {
@@ -124,11 +124,6 @@ Route::group(['prefix' => '/'], function () {
             'as' => 'order.first'
         ]);
 
-//        Route::post('validation', [
-//            'uses' => 'orderController@overwriteCheck',
-//            'as' => 'order.validate'
-//        ]);
-
         Route::get('check-day', [
             'uses' => 'orderController@checkDay',
             'as' => 'order.checkDay'
@@ -138,6 +133,31 @@ Route::group(['prefix' => '/'], function () {
             'as' => 'order.checkProgram'
         ]);
 
+    });
+
+    Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+        Route::get('/', [
+            'uses' => 'AdminController@index',
+            'as' => 'admin.index'
+        ]);
+        Route::group(['prefix' => 'transactions'], function () {
+            Route::get('register-list', [
+                'uses' => 'AdminController@register',
+                'as' => 'admin.register'
+            ]);
+        });
+        Route::group(['prefix' => 'settings'], function () {
+            Route::get('register-list', [
+                'uses' => 'AdminController@rpp',
+                'as' => 'admin.settings.rpp'
+            ]);
+        });
+        Route::group(['prefix' => 'data-master'], function () {
+            Route::get('users', [
+                'uses' => 'AdminController@users',
+                'as' => 'admin.master.users'
+            ]);
+        });
     });
 
 

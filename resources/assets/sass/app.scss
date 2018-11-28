@@ -1,38 +1,10 @@
-
-// Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
 
-// Variables
-//@import "variables";
-
- //Bootstrap
-//@import "~bootstrap-sass/assets/stylesheets/bootstrap";
-
-//Bulma
-//@import "~bulma/bulma";
-
-
-////animate
-////@import "~animate.css/animate.min.css";
-////
-//////fa
-////@import '~@fortawesome/fontawesome-free/scss/brands';
-////@import '~@fortawesome/fontawesome-free/scss/regular';
-////@import '~@fortawesome/fontawesome-free/scss/solid';
-////@import '~@fortawesome/fontawesome-free/scss/fontawesome';
-//////@import '~@fortawesome/fontawesome-free/scss/_animated';
-////@import "~font-awesome-animation/dist/font-awesome-animation.min.css";
-////
-//////bulma-extentions
-////@import "~bulma-extensions/dist/css/bulma-extensions.min.css";
-////@import "~bulma-extensions/bulma-carousel/dist/css/bulma-carousel";
-
 @import '../js/assets/css/fonts.css';
-@import url("~bootstrap/dist/css/bootstrap.min.css");
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
 @import url("~bootstrap-select/dist/css/bootstrap-select.min.css");
 @import url("~bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css");
 @import url("~bootstrap-datepicker/dist/css/bootstrap-datepicker3.standalone.min.css");
-@import "../js/assets/css/font-awesome.css";
-@import "../js/assets/css/owl.carousel.css";
+@import "~font-awesome/scss/font-awesome";
 @import "../js/assets/css/animate.css";
 @import "~sweetalert2/dist/sweetalert2";

@@ -2,7 +2,7 @@
 @section('desc','checkout sanggar abk')
 @section('key','abk, disablitas, difabel, slb')
 @section('content')
-    <div class="col-lg-12 card-notice radius-bottom {{$array['notice']['status']==='batal'?'trans-notice-failed':'trans-notice-success'}}">
+    <div class="col-lg-12 card-notice radius-bottom {{$array['notice']['status']==='failed'?'trans-notice-failed':'trans-notice-success'}}">
         <h4>{{$array['notice']['title']}}</h4>
         <p>{{$array['notice']['content']}}</p>
         <span>waktu pendaftaran : {{$array['date']['created_at']['date_str']}}</span>
@@ -65,10 +65,10 @@
             <span>{{$array['code']}}</span>
         </div>
         <div class="row describ-notice">
-            @foreach($array['list'] as $row)
+            @foreach($array['list'] as $i=>$row)
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 detail-notice">
                     <div class="title-describ">
-                        <h4>Pendaftar #1</h4>
+                        <h4>Pendaftar #{{$i+1}}</h4>
                         <p class="show-pc">: {{$row['FullName']}}</p>
                         <p class="show-tablet-hp">
                             : {{strlen($row['FullName'])>14?substr($row['FullName'],0,14).'...':$row['FullName']}}</p>

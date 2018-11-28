@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\general\dataBank;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
 
@@ -19,5 +20,10 @@ class linkPaymentInvoice extends Model
         self::creating(function ($model) {
             $model->id = (string) Uuid::generate(4);
         });
+    }
+
+    public function getBank()
+    {
+        return $this->belongsTo(dataBank::class,'bank_id');
     }
 }

@@ -4,7 +4,7 @@
     function cancelTrans(e) {
         $('#payment').find('.payment-footer').find('.btn-right').find('ul').toggle(300);
         if (confirm(noticeDel)) {
-            console.log($(e).data('code'))
+            $(e).data('code');
         }
     }
 
@@ -62,8 +62,7 @@
             $('#empty-data, #error-data').hide();
             if ($(this).index() === 0 || $(this).index() === 1 || $(this).index() === 2 || $(this).index() === 3 || $(this).index() === 4) {
                 getConfirm()
-            }
-            else {
+            } else {
                 getOther()
 
             }
@@ -87,16 +86,13 @@
                 .then(function (res) {
                     if (guia.eq(0).hasClass(tabActive)) {
                         succesConfirmTab(res);
-                    }
-                    else if (guia.eq(1).hasClass(tabActive)) {
+                    } else if (guia.eq(1).hasClass(tabActive)) {
                         successPaymentTab(res)
-                    }
-                    else if (guia.eq(2).hasClass(tabActive)) {
+                    } else if (guia.eq(2).hasClass(tabActive)) {
                         successBerhasilTab(res, waitingContent, noticeWaiting)
                     } else if (guia.eq(3).hasClass(tabActive)) {
                         successBerhasilTab(res, successContent, noticeSuccess)
-                    }
-                    else if (guia.eq(4).hasClass(tabActive)) {
+                    } else if (guia.eq(4).hasClass(tabActive)) {
                         successFaileTab(res)
                     }
                     runTooltip();
@@ -105,8 +101,7 @@
                 .catch(function (er) {
                     if (er.response.status === 403) {
                         showEl('#empty-data');
-                    }
-                    else {
+                    } else {
                         showEl('#error-data');
                     }
                 });
@@ -233,7 +228,7 @@
         }
 
         $('#payment').on('click', '.delete-trans', function () {
-            if (confirm("Hapus Transaksi?")) {
+            if (confirm("batalkan Transaksi?")) {
                 let formDel = new FormData();
                 formDel.append('q', $(this).closest('.payment-fill').data('code'));
                 loading.show();
@@ -307,8 +302,7 @@
             if (e.state.num !== '') {
                 urlPage = false;
                 guia.eq(e.state.num).click();
-            }
-            else {
+            } else {
                 history.back();
             }
         });
@@ -349,8 +343,7 @@
                 res = er.response;
                 if (res.status === 422) {
                     objNotice.text(res.code).hide().fadeIn(300)
-                }
-                else {
+                } else {
                     objNotice.text(errNotice).hide().fadeIn(300)
 
                 }

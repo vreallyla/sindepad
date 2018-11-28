@@ -7,6 +7,7 @@ use App\Http\Middleware\jwtMiddleware;
 use App\Http\Middleware\order\handdleTfMiddleware;
 use App\Http\Middleware\orderMiddleware;
 use App\Http\Middleware\reMiddleware;
+use App\Http\Middleware\Role\justAdminMiddleware;
 use App\Http\Middleware\Role\justInController;
 use App\Http\Middleware\Role\UserMiddleware;
 use App\Http\Middleware\validUserMiddleware;
@@ -67,6 +68,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'anu' => reMiddleware::class,
         'order' => justInController::class,
+        'adminRole' => justAdminMiddleware::class,
         'jwttes' => jwtMiddleware::class,
         'access' => accessMiddleware::class,
         'user_role'=>UserMiddleware::class,

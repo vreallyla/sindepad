@@ -41,7 +41,7 @@
             axios.post('{{route('api.order.register.save')}}', formData)
                 .then(function (response) {
                     noticeHanddler();
-                    window.history.replaceState('', '', '{{url('404')}}');
+                    window.history.replaceState('', '', '/');
                     swallCustom2('Pendaftaran Berhasil');
                     setTimeout(function () {
                         window.location = "{{route('order.checkout')}}"

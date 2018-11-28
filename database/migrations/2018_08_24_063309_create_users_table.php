@@ -32,9 +32,6 @@ class CreateUsersTable extends Migration
             $table->string('status_id',36);
             $table->foreign('status_id')->references('id')->on('side_status_users');
 
-            $table->string('teacher_id',36)->nullable();
-            $table->foreign('teacher_id')->references('id')->on('link_user_teachers');
-
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

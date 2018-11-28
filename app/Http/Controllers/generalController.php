@@ -52,9 +52,9 @@ class generalController extends Controller
 //            $query->orderBy('id','desc');
 //        })->get();
 //        $tahu=[1,2,3,4];
+        $art=['sata','makan','sapi'];
 
-$obj=mstTransactionList::find('c0d76312-008f-4fe5-b37a-2b7eb051fba0');
-dd([now()->lt($obj->updated_at->addDays(1)),now(),$obj->updated_at->addDays(1)]);
+        dd( array_search('S',$art));
     }
 
     public function log2()

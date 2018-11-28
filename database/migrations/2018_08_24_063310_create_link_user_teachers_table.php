@@ -25,6 +25,8 @@ class CreateLinkUserTeachersTable extends Migration
             $table->foreign('marital_id')->references('id')->on('side_marital_statuses');
             $table->string('occupation_id',36);
             $table->foreign('occupation_id')->references('id')->on('side_occupations');
+            $table->string('user_id',36);
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

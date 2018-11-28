@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\linkPaymentInvoice;
 use App\Model\order\payingMethod;
 use App\Model\order\voucherRegister;
 use App\rsTransMultiStudent;
@@ -30,6 +31,11 @@ class mstTransactionList extends Model
         return $this->hasMany(rsTransMultiStudent::class,'trans_id');
     }
 
+    public function getInvoice()
+    {
+        return $this->hasOne(linkPaymentInvoice::class,'tran_id');
+    }
+
     public function getMethod()
     {
         return $this->belongsTo(payingMethod::class,'method_id');
@@ -47,5 +53,10 @@ class mstTransactionList extends Model
             $values[] = trim($value, "'");
         }
         return $values;
+    }
+
+    public function checkStatus()
+    {
+        return $this->belongsTo(linkPaymentInvoice::class,'tran_id');
     }
 }
