@@ -10,6 +10,7 @@ namespace App\DeclaredPDO\Jwt;
 
 
 use App\DeclaredPDO\Additional\plugClass;
+use App\DeclaredPDO\response;
 use App\Model\mstDataPaket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Session;
 trait extraClass
 {
     use plugClass;
+    use response;
 
     /**
      * checking user cookie exist
@@ -141,7 +143,7 @@ trait extraClass
 
     private function changeThousand($val)
     {
-        return is_float($val)? number_format($val,1,',','.'):number_format($val,0,',','.');
+        return is_float($val) ? number_format($val, 1, ',', '.') : number_format($val, 0, ',', '.');
     }
 
     private function getId()
@@ -149,20 +151,20 @@ trait extraClass
         return Auth::guard('api')->user();
     }
 
-    private function noticeNull(){
-        return response()->json(['msg'=>'data kosong'],403);
-
-    }
-    private function noticechangeData()
+    private function setPaginate($arr, $row, $delimiter)
     {
-        return response()->json(['msg'=>'Harap tidak mengganti data'],405);
+        $limit = ceil(count($arr) / $row);
+        $toward = $row * $delimiter;
+        $from = $toward - $row;
+        if ($limit >= $delimiter) {
+            return response()->json([
+                'max_page' => $limit,
+                'current_page' => $delimiter,
+                'data' => array_slice($arr, $from, $row)
+            ]);
+        } else {
+            return response()->json(['msg' => 'Halaman Kosong'], 403);
+        }
     }
-
-    private function notFound()
-    {
-        return response()->json(['msg'=>'Data tidak ditemukan'],404);
-    }
-
-
 
 }

@@ -16,7 +16,7 @@
 
 </head>
 <body>
-<div class="preloader-wrapper">
+<div class="preloader-wrapper" >
     <div class="preloader">
         <img src="{{asset('images/loader/clock.svg')}}" alt="NILA">
     </div>
@@ -43,9 +43,9 @@
                     <li class="profile-up add-sub-header">
                         <a href="#" class="content-header-right">
                             <label class="circular--portrait">
-                                <img src="{{asset('images/img_unvailable.png')}}" alt="">
+                                <img src="{{$data->url}}" alt="">
                             </label>
-                            <span class="name-up">Sdr/i Fransiska</span></a>
+                            <span class="name-up">Sdr/i {{$data->name}}</span></a>
                         <ul class="content-sub-header">
                             <li class="list-sub-header">
                                 <a href="">
@@ -65,8 +65,6 @@
                         </ul>
                     </li>
                 </ul>
-
-
             </div>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 trigger-burger">
@@ -85,7 +83,7 @@
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content-sub-menu">
                     <div class="list-sub-menu">
-                        <a href="#" class="point-dot">Pengguna</a>
+                        <a href="{{route('admin.master.users')}}" class="point-dot">Pengguna</a>
                     </div>
 
                 </div>
@@ -97,7 +95,7 @@
                         <a href="{{route('admin.register')}}" class="point-dot">Pendaftar</a>
                     </div>
                     <div class="list-sub-menu">
-                        <a href="#" class="point-dot">SPP</a>
+                        <a href="{{route('admin.trans.tuition')}}" class="point-dot">SPP</a>
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu-detail add-sub-menu">
@@ -105,6 +103,8 @@
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content-sub-menu">
                     <div class="list-sub-menu">
+                        <a href="{{route('admin.settings.aggre')}}" class="point-dot">Persetujuan</a>
+                        <a href="{{route('admin.settings.price')}}" class="point-dot">Harga</a>
                         <a href="{{route('admin.settings.rpp')}}" class="point-dot">RPP</a>
                     </div>
                 </div>
@@ -117,13 +117,23 @@
             </div>
             @yield('content')
         </div>
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-7 place-right">
+            <div class="title-place-right col-lg-12 col-md-12 col-sm-12 col-xs-12 remove-padding text-center">
+                <h4>@yield('title-right')</h4>
+                <i class="fa fa-window-close"></i>
+                @yield('step-right')
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @yield('content-right')
+            </div>
 
+
+        </div>
     </div>
 </div>
 <div id="loading"></div>
 <script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('js/admin.js')}}"></script>
 @stack('js')
-
 </body>
 </html>

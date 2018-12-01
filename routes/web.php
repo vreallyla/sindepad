@@ -135,28 +135,42 @@ Route::group(['prefix' => '/'], function () {
 
     });
 
-    Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
-        Route::get('/', [
-            'uses' => 'AdminController@index',
-            'as' => 'admin.index'
-        ]);
-        Route::group(['prefix' => 'transactions'], function () {
-            Route::get('register-list', [
-                'uses' => 'AdminController@register',
-                'as' => 'admin.register'
+    Route::group(['prefix' => 'simdepad'], function () {
+        Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+            Route::get('/', [
+                'uses' => 'AdminController@index',
+                'as' => 'admin.index'
             ]);
-        });
-        Route::group(['prefix' => 'settings'], function () {
-            Route::get('register-list', [
-                'uses' => 'AdminController@rpp',
-                'as' => 'admin.settings.rpp'
-            ]);
-        });
-        Route::group(['prefix' => 'data-master'], function () {
-            Route::get('users', [
-                'uses' => 'AdminController@users',
-                'as' => 'admin.master.users'
-            ]);
+            Route::group(['prefix' => 'transactions'], function () {
+                Route::get('register-list', [
+                    'uses' => 'AdminController@register',
+                    'as' => 'admin.register'
+                ]);
+                Route::get('monthly-tuition', [
+                    'uses' => 'AdminController@tuition',
+                    'as' => 'admin.trans.tuition'
+                ]);
+            });
+            Route::group(['prefix' => 'settings'], function () {
+                Route::get('rpp-set', [
+                    'uses' => 'AdminController@rpp',
+                    'as' => 'admin.settings.rpp'
+                ]);
+                Route::get('aggrement-set', [
+                    'uses' => 'AdminController@aggre',
+                    'as' => 'admin.settings.aggre'
+                ]);
+                Route::get('price-set', [
+                    'uses' => 'AdminController@price',
+                    'as' => 'admin.settings.price'
+                ]);
+            });
+            Route::group(['prefix' => 'data-master'], function () {
+                Route::get('users', [
+                    'uses' => 'AdminController@users',
+                    'as' => 'admin.master.users'
+                ]);
+            });
         });
     });
 

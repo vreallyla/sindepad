@@ -3,13 +3,11 @@
 namespace App\Model\order;
 
 use App\linkStudentFamily;
-use App\Model\mstTransactionList;
 use App\Model\rsDisability;
 use App\rsStudentFamily;
 use App\rsTransMultiStudent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Validation\Rule;
 
 const types = ['fullName', 'sex', 'rs', 'needed', 'desc', 'aggrement'];
 const payments = ['code', 'an', 'paying_method'];
@@ -49,6 +47,7 @@ class expression extends Model
     {
         $family = linkStudentFamily::create([
             'name' => $user->name,
+            'address' => $user->address,
             'gender_id' => $user->gender_id,
             'born_place' => $user->born_place,
             'dob' => $user->dob,
@@ -58,7 +57,8 @@ class expression extends Model
         rsStudentFamily::create([
             'student_id' => $student,
             'family_id' => $family->id,
-            'hub_id' => $hub
+            'hub_id' => $hub,
+            'user_id'=>$user->id
         ]);
     }
 

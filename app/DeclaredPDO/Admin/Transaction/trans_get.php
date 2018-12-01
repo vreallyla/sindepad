@@ -6,11 +6,16 @@
  * Time: 23:24
  */
 
-namespace App\DeclaredPDO\Transaction;
+namespace App\DeclaredPDO\Admin\Transaction;
 
+
+use App\DeclaredPDO\Jwt\jwtClass;
+use App\Model\linkUserStudent;
+use App\User;
 
 class trans_get
 {
+    use jwtClass;
     protected $model;
 
     public function __construct($qlo)
@@ -34,22 +39,6 @@ class trans_get
 
         }
         return $new;
-    }
-
-    public static function setPaginate($arr, $row, $delimiter)
-    {
-        $limit = ceil(count($arr) / $row);
-        $toward = $row * $delimiter;
-        $from = $toward - $row;
-        if ($limit >= $delimiter) {
-            return response()->json([
-                'max_page' => $limit,
-                'current_page' => $delimiter,
-                'data' => array_slice($arr, $from, $row)
-            ]);
-        } else {
-            return response()->json(['msg' => 'Halaman Kosong'], 403);
-        }
     }
 
     public function get_tf()
@@ -143,16 +132,6 @@ class trans_get
         return $arr;
     }
 
-    private function getNeeded($rel)
-    {
-        $str = '';
-        foreach ($rel as $row) {
-
-            $str .= $row->getDetailDis->name . ', ';
-        }
-        return substr($str, 0, -2);
-
-    }
 
     private function getListRegis($model)
     {
@@ -202,16 +181,27 @@ class trans_get
         return substr($nameGroup, 0, -2);
     }
 
+
+
     public function confirmTrans()
     {
 
         foreach ($this->model->getMultiTrans as $row) {
             $row->getStudent->update([
-                'status' => 'Active'
+                'status' => 'Active',
+                'register' => now()->toDateString(),
+                'ni' => $this->niSet(new linkUserStudent(), 4)
             ]);
         }
+
+        if(!$this->model->getUser->ni){
+            $this->model->getUser->update([
+            'ni'=>$this->niSet(new User(),3)
+        ]);
+        }
         $this->model->update([
-            'status' => 'berhasil'
+            'status' => 'berhasil',
+            'admin_id' => $this->get_id()->id
         ]);
 
         return response()->json(['msg' => 'Transasi berhasil dikonfirmasi']);

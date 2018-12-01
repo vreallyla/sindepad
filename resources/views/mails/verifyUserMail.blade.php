@@ -157,14 +157,14 @@
                                                                      style="width: auto; max-width: 100% !important; border: 0;">
                                                             </a>
                                                             <a class="email-social-bar-social-icon"
-                                                               href="https://www.facebook.com/KPPMadyasurabaya/"
+                                                               href="https://www.facebook.com/qisenglish/"
                                                                style="-moz-transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); -o-transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); -webkit-transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); color: #4EAACC; padding: 0 5px; text-decoration: none;">
                                                                 <img class="auto-width"
                                                                      src="https://simple.com/email-images/icons/social-facebook.png"
                                                                      style="width: auto; max-width: 100% !important; border: 0;">
                                                             </a>
                                                             <a class="email-social-bar-social-icon"
-                                                               href="https://www.instagram.com/kppmadyasurabaya/"
+                                                               href="https://www.instagram.com/explore/locations/876857549/qis-english-surabaya"
                                                                style="-moz-transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); -o-transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); -webkit-transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); transition: color 0.175s cubic-bezier(0.215, 0.61, 0.355, 1); color: #4EAACC; padding: 0 5px; text-decoration: none;">
                                                                 <img class="auto-width"
                                                                      src="https://simple.com/email-images/icons/social-instagram.png"
@@ -203,14 +203,6 @@
     </tr>
     </tbody>
 </table>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script>
-    (function ($) {
-        $('.phone').text(function (i, text) {
-            return text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-        });
-    })();
-</script>
 </body>
 
 </html>

@@ -19,6 +19,7 @@ use App\Model\sideGender;
 use App\Model\sideTimeList;
 use App\mstHub;
 use App\rsStudentFamily;
+use App\sideNote;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -301,11 +302,12 @@ class orderController extends Controller
         $step = session()->has('order') ? session('order')['step'] : 1;
         $time = sideTimeList::orderBy('created_at', 'asc')->get();
         $sub_total = array_sum(sideTypePrice::where('name', 'Wajib')->first()->getrsTransPrice()->pluck('amount')->toArray());
+        $aggrement=sideNote::where('status','active')->first();
 
         return view('user.order.index.order', compact(
             'token', 'default', 'gender',
             'rs', 'dis', 'title', 'day', 'sub_total',
-            'user_cookie', 'method', 'entity', 'step', 'time'
+            'user_cookie', 'method', 'entity', 'step', 'time','aggrement'
         ));
     }
 

@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Model\mstTransactionList;
+use App\Model\rsHomeroom;
+use App\Model\sideGender;
 use App\Model\sideStatusUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -23,11 +25,11 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token','deleted_at'
+        'password', 'remember_token', 'deleted_at'
     ];
 
-    protected $guarded = ['id','created_at','updated_at','deleted_at'];
-    public $incrementing =false ;
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
+    public $incrementing = false;
 
     /**
      *  Setup model event hooks
@@ -36,7 +38,7 @@ class User extends Authenticatable implements JWTSubject
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->id = (string) Uuid::generate(4);
+            $model->id = (string)Uuid::generate(4);
         });
     }
 
@@ -60,11 +62,12 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public static function getReligion(){
+    public static function getReligion()
+    {
         $type = DB::select(DB::raw('SHOW COLUMNS FROM users WHERE Field = "religion"'))[0]->Type;
         preg_match('/^enum\((.*)\)$/', $type, $matches);
         $values = array();
-        foreach(explode(',', $matches[1]) as $value){
+        foreach (explode(',', $matches[1]) as $value) {
             $values[] = trim($value, "'");
         }
         return $values;
@@ -77,10 +80,26 @@ class User extends Authenticatable implements JWTSubject
 
     public function getTrans()
     {
-        return $this->hasMany(mstTransactionList::class,'user_id');
+        return $this->hasMany(mstTransactionList::class, 'user_id');
     }
+
     public function getStatus()
     {
-        return $this->belongsTo(sideStatusUser::class,'status_id');
+        return $this->belongsTo(sideStatusUser::class, 'status_id');
+    }
+
+    public function getSex()
+    {
+        return $this->belongsTo(sideGender::class, 'gender_id');
+    }
+
+    public function getRsStudent()
+    {
+        return $this->hasMany(rsStudentFamily::class, 'user_id');
+    }
+
+    public function getRsHomerooms()
+    {
+        return $this->hasMany(rsHomeroom::class, 'teacher_id');
     }
 }

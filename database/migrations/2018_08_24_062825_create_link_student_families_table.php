@@ -16,8 +16,8 @@ class CreateLinkStudentFamiliesTable extends Migration
         Schema::create('link_student_families', function (Blueprint $table) {
             $table->string('id', 36)->primary();
             $table->string('name');
-            $table->string('born_place');
-            $table->date('dob');
+            $table->string('born_place')->nullable();
+            $table->date('dob')->nullable();
             $table->string('phone')->nullable();
             $table->string('profession')->nullable();
             $table->string('address')->nullable();

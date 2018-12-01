@@ -6,6 +6,7 @@ use App\linkPaymentInvoice;
 use App\Model\order\payingMethod;
 use App\Model\order\voucherRegister;
 use App\rsTransMultiStudent;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Webpatser\Uuid\Uuid;
@@ -53,6 +54,12 @@ class mstTransactionList extends Model
             $values[] = trim($value, "'");
         }
         return $values;
+    }
+
+    public function getUser()
+    {
+        return $this->belongsTo(User::class,'user_id');
+
     }
 
     public function checkStatus()

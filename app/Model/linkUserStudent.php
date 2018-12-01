@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\rsStudentFamily;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
 
@@ -28,5 +29,15 @@ class linkUserStudent extends Model
     public function getDisablity()
     {
         return $this->hasMany(rsDisability::class,'student_id');
+    }
+
+    public function getFams()
+    {
+        return $this->hasMany(rsStudentFamily::class,'student_id');
+    }
+
+    public function getSex()
+    {
+        return $this->belongsTo(sideGender::class,'gender_id');
     }
 }

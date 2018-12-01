@@ -26,7 +26,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //sweetalert
 window.swal = require('sweetalert2');
 
-
 //moment date
 require('./moment');
 

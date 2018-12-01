@@ -117,7 +117,7 @@ Route::group(['prefix' => '/api/v1/'], function () {
     });
 
     //admin role
-    Route::group(['middleware'=>'api_admin','namespace' => 'Admin', 'prefix' => 'admin'], function () {
+    Route::group(['middleware' => 'api_admin', 'namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::group(['prefix' => 'transactions', 'namespace' => 'Trans'], function () {
             Route::get('register-list', [
                 'uses' => 'orderSignController@getList',
@@ -130,6 +130,31 @@ Route::group(['prefix' => '/api/v1/'], function () {
             Route::post('register-confirm', [
                 'uses' => 'orderSignController@postConfirm',
                 'as' => 'api.admin.trans.sign.confirm'
+            ]);
+            Route::post('new-register', [
+                'uses' => 'orderSignController@create',
+                'as' => 'api.admin.trans.sign.new'
+            ]);
+        });
+        Route::group(['prefix' => 'settings', 'namespace' => 'settings'], function () {
+            Route::post('aggrement-post', [
+                'uses' => 'aggrementController@post',
+                'as' => 'api.admin.settings.aggre.post'
+            ]);
+
+        });
+        Route::group(['prefix' => 'master', 'namespace' => 'master'], function () {
+            Route::get('users', [
+                'uses' => 'userListController@getList',
+                'as' => 'api.admin.master.users.list'
+            ]);
+            Route::get('user-detail', [
+                'uses' => 'userListController@user_detail',
+                'as' => 'api.admin.master.user.detail'
+            ]);
+            Route::post('make-user', [
+                'uses' => 'userListController@create',
+                'as' => 'api.admin.master.user.create'
             ]);
         });
     });

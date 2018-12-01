@@ -24,7 +24,6 @@ class CreateUsersTable extends Migration
             $table->foreign('gender_id')->references('id')->on('side_genders');
             $table->string('born_place')->nullable();
             $table->date('dob')->nullable();
-            $table->enum('religion', ['Islam', 'Non Muslim'])->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('code_status');

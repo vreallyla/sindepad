@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(voucherSeeder::class);
         $this->call(bankSeeder::class);
         $this->call(payMethodSeeder::class);
+        $this->call(noteSeeder::class);
         //end needed
 //        $this->call(timeOptionSeeder::class);
 //        $this->call(rulesTimeOptionSeeder::class);

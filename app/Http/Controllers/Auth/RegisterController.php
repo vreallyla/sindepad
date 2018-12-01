@@ -63,7 +63,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
             'gender' => 'required|exists:side_genders,id',
-//            'g-recaptcha-response'=> new Captcha(),
+            'g-recaptcha-response'=> new Captcha(),
         ]);
     }
 
@@ -115,10 +115,13 @@ class RegisterController extends Controller
     {
         $verify=verifyUser::where('token',$token)->first();
         if (isset($verify)){
+
             $user=$verify->user;
             if (Hash::check(false,$user->code_status)){
-                $verify->user->code_status=bcrypt(true);
-                $verify->save();
+
+                $verify->user->update([
+                   'code_status'=>bcrypt(true)
+                ]);
                 $status="your email is verified, you can login right now...";
             }
             else{

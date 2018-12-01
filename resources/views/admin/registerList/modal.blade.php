@@ -3,7 +3,7 @@
         <span class="btn-back"><i class="fa fa-arrow-left"></i></span>
         <h4>Detail Transaksi</h4>
     </div>
-    <div class="col-lg-offset-2 col-lg-8 col-md-12 col-sm-12 col-xs-12 body-modal">
+    <div class="col-lg-offset-2 col-lg-8 col-md-offset-1 col-sm-offset-1 col-md-10 col-sm-10 col-xs-12 body-modal">
         <div class="col-lg-12 card-notice radius-bottom trans-notice-success">
             <h4>Menunggu Pembayaran</h4>
             <span>waktu pendaftaran : {{{now()->toDateTimeString()}}}</span>
@@ -38,10 +38,12 @@
                 <h4>Bukti Transfer</h4>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 fill-tf-info">
-                <span>Nama</span><h5>Sogolo lahir</h5>
+                <span>Nama</span><h5 data-toggle="tooltip" data-placement="top"
+                                     title="Tooltip on right">Sogolo lahir</h5>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 fill-tf-info">
-                <span>Melalui Bank</span><h5>Bank Bri</h5>
+                <span>Melalui Bank</span><h5 data-toggle="tooltip" data-placement="top"
+                                             title="Tooltip on right">Bank Bri</h5>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 fill-tf-info">
                 <span>Tanggal</span><h5>27/12/2018</h5>
@@ -51,7 +53,7 @@
             <img src="http://localhost:8000/images/ex_invoices/bni.jpg" alt="">
             <span>Photo Bukti Pembayaran</span>
         </div>
-        <div class="col-lg-12 card-notice content-notice">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card-notice content-notice">
             <div class="title-notice">
                 <h4>Pendaftaran Kelas</h4>
                 <span>SG1811200006PK</span>

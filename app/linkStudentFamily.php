@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\sideGender;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
 
@@ -19,5 +20,10 @@ class linkStudentFamily extends Model
         self::creating(function ($model) {
             $model->id = (string) Uuid::generate(4);
         });
+    }
+
+    public function getSex()
+    {
+        return $this->belongsTo(sideGender::class, 'gender_id');
     }
 }

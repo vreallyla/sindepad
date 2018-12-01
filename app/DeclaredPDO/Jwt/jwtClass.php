@@ -28,12 +28,6 @@ trait jwtClass
     }
 
     /**
-     * Log the user out (Invalidate the token)
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-
-    /**
      * Refresh a token.
      *
      * @return \Illuminate\Http\JsonResponse

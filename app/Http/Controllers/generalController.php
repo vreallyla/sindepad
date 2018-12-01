@@ -15,6 +15,7 @@ use App\Model\Order\timeOption;
 use App\Model\rsUserToStudent;
 use App\Model\sideDaylist;
 use App\Model\sideGender;
+use App\Model\sideStatusUser;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -52,13 +53,15 @@ class generalController extends Controller
 //            $query->orderBy('id','desc');
 //        })->get();
 //        $tahu=[1,2,3,4];
-        $art=['sata','makan','sapi'];
-
-        dd( array_search('S',$art));
+return User::find('7f79ef28-095f-4e35-85f7-e69ec0dae257')->forceDelete();
     }
 
-    public function log2()
+    public function log2($model)
     {
+        $i = 0;
+        do {
+            echo $i;
+        } while ($i > 0);
 
     }
 
@@ -75,7 +78,7 @@ class generalController extends Controller
 
     public function about(Request $r)
     {
-        $user_cookie = $r->data;;
+        $user_cookie = $r->data;
         $default = Selingan::index('Tentang Kami');
         $menu = 'Tentang Kami';
         $title = 'Tentang Sanggar ABK';

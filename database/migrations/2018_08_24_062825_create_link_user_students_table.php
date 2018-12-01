@@ -16,6 +16,7 @@ class CreateLinkUserStudentsTable extends Migration
         Schema::create('link_user_students', function (Blueprint $table) {
             $table->string('id', 36)->primary();
             $table->string('name');
+            $table->string('url')->nullable();
             $table->string('gender_id',36);
             $table->foreign('gender_id')->references('id')->on('side_genders');
             $table->string('born_place')->nullable();

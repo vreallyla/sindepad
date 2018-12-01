@@ -441,6 +441,10 @@ body {
         padding: 10px 10px;
     }
 
+    .place-right {
+        margin-top: 3.2em !important;
+    }
+
     .header-right {
         right: -14px;
     }
@@ -608,19 +612,20 @@ body {
 }
 
 /*----------------- loading magnify -----------------*/
-#register-list .loading h4 {
+.loading h4 {
     margin: 0;
     position: relative;
     bottom: 3px;
 }
 
-#register-list .loading img {
+.loading img {
     width: 9em;
 }
 
-#register-list .loading {
+.loading {
     text-align: center;
     margin-top: 5em;
+    display: none;
 }
 
 /*----------------- loading magnify -----------------*/
@@ -1001,6 +1006,7 @@ body {
     background: #c64757;
     color: #fff;
 }
+
 .title-notice span {
     position: absolute;
     right: 22px;
@@ -1060,6 +1066,21 @@ tr:hover {
     padding: 7px 13px;
 }
 
+.img-conf .title-tf-info h4 {
+    display: inline-block;
+}
+
+.img-conf .title-tf-info span {
+    display: inline-block;
+    float: right;
+    background: #b2dfdb;
+    padding: 2px 9px;
+    position: relative;
+    bottom: 1px;
+    left: 12px;
+    font-weight: bold;
+}
+
 .img-conf .title-tf-info {
     padding: 9px 12px 11px 12px;
 }
@@ -1089,11 +1110,27 @@ tr:hover {
     top: 3px;
 }
 
-@media(max-width: 1199px){
-    .content-notice{
-        margin-top: 25em;
+@media (max-width: 386px) {
+    .list-total .highlight {
+        font-size: 1.3em !important;
     }
+
+    .list-total h5 {
+        margin-left: 5px;
+        min-width: 140px;
+    }
+
+    .list-total span {
+        font-size: 11px;
+    }
+
+    .botton-option {
+        padding: 0 14px 16px 14px;
+    }
+
 }
+
+
 /*------------------------- end modal detail tf -------------------------*/
 /*--------------------------- modal photo tf ---------------------------*/
 
@@ -1146,6 +1183,7 @@ tr:hover {
 #modal-container .modal-background .modal img {
     width: 16em;
 }
+
 #modal-container .modal-background .modal {
     background: white;
     padding: 0px 20px 28px 20px;
@@ -1305,6 +1343,7 @@ tr:hover {
         transform: scale(0);
     }
 }
+
 /*------------------------- end modal photo tf -------------------------*/
 
 
@@ -1322,4 +1361,384 @@ tr:hover {
     background-repeat: no-repeat;
     background-position: center;
 }
+
 /*--------------------- end loading paticles --------------------- */
+
+/*--------------------- end data master user--------------------- */
+.add-margin-top {
+    margin-top: 1.9em;
+}
+
+.btn-group span {
+    display: inline-block !important;
+    color: #fff;
+}
+
+.card-img-cover {
+    position: absolute;
+    width: 90px;
+    height: 83px;
+    overflow: hidden;
+    left: 18px;
+    top: 17px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.parent-card {
+    min-height: 8.3em;
+    border: 1px solid #eee;
+    border: 1px solid #eee;
+    background: #fff;
+}
+
+
+.card-img:hover img {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+.card-img {
+    min-height: 9em;
+    padding: 0px 6px;
+}
+
+
+.card-img-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.card-detail h3 {
+    margin-bottom: 0px;
+    font-size: 1.5em;
+}
+
+.card-detail {
+    padding: 0px 0px 4px 112px;
+    position: relative;
+}
+
+.card-detail span {
+    display: block;
+    margin-bottom: 9px;
+}
+
+.card-detail label:hover {
+    color: #5bc0de;
+    cursor: pointer;
+}
+
+
+.card-detail label {
+    font-weight: unset;
+}
+
+.fixed-right-page {
+    margin-right: 7px;
+}
+
+.away-luss {
+    padding: 0 7px;
+}
+
+@media (max-width: 771px)   and (min-width: 400px) {
+    .card-detail label {
+        font-weight: unset;
+        position: absolute;
+        top: 23px;
+        right: 12px;
+    }
+}
+
+@media (max-width: 771px) {
+    .fixed-right-page {
+        padding: 0 7px;
+    }
+}
+
+@media (max-width: 991px) {
+    .add-margin-top {
+        margin-top: 0;
+    }
+
+    .add-margin-top-hp {
+        margin-top: 1.5em;
+    }
+}
+
+/*--------------------- end data master user--------------------- */
+
+/*-------------------- profile modal*/
+
+.header-card-profil {
+    background: #fff;
+    border: 1px solid #eee;
+}
+
+.header-card-profi-detail span {
+    color: #686363;
+}
+
+.header-card-profi-detail h3 {
+    margin: 12px 0 0 0;
+}
+
+.header-card-profi-detail {
+    text-align: center;
+}
+
+.header-card-profi-content {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 1.5em;
+}
+
+.header-card-profi-pp {
+    width: 10em;
+    z-index: 0;
+    height: 10em;
+    overflow: hidden;
+    border-radius: 100%;
+    margin: 0 auto;
+    margin-top: 4.2em;
+    border: 5px solid #B2DFDB;
+}
+
+.header-card-profi-pp img {
+    filter: blur(0.6px);
+}
+
+.header-card-profi-pp img, .header-card-profi-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.header-card-profi-bg img {
+    -webkit-filter: grayscale(70%) blur(3.2px);
+    filter: grayscale(70%) blur(3.2px);
+}
+
+.header-card-profi-bg {
+    width: 100%;
+    height: 10em;
+    position: absolute;
+    overflow: hidden;
+    right: 0em;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.radius-top-modif {
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-top: 2px dashed #eee;
+}
+
+.border-left-right {
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+.remove-margin-top {
+    margin-top: 0;
+}
+
+.radius-bottom-modif {
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-bottom: unset;
+}
+
+.fill-pers-info span {
+    font-weight: bold;
+}
+
+.fill-pers-info {
+    border-top: 1px solid #eee;
+    padding: 0 25px;
+}
+
+.add-padding-hori {
+    padding: 0 12px;
+}
+
+.remove-padding {
+    padding: 0;
+}
+
+.sub-fill-pers-info {
+    padding: 7px 0 0 0;
+}
+
+.sub-fill-pers-info-right {
+    border-left: 1px solid #eee;
+    padding-left: 25px;
+}
+
+.label-cus {
+    display: block;
+    width: fit-content;
+    padding: 4px 10px;
+    margin: 9px 0 0 0;
+    position: relative;
+    bottom: 5px;
+}
+
+.add-margin-left-sm {
+    margin-left: 0.5em;
+}
+
+
+@media (max-width: 356px) {
+    .center-hp {
+        text-align: center;
+    }
+}
+
+@media (max-width: 767px) {
+    .sub-fill-pers-info {
+        padding: 7px 25px !important;
+    }
+
+    .sub-fill-pers-info-right {
+        border-left: unset;
+        border-top: 1px solid #eee;
+    }
+
+    .fill-pers-info {
+        padding: 0;
+    }
+}
+
+/*------------------ end profile modal---------------*/
+
+
+/*side right*/
+
+.trigger-right:hover {
+    opacity: 1;
+    font-weight: bold;
+    background: #fff;
+    border-bottom-left-radius: unset;
+    border-top-left-radius: unset;
+}
+
+.trigger-right.non {
+
+    transform: translateX(100%) translateY(0);
+}
+
+.trigger-right {
+    position: fixed;
+    top: 15.9em;
+    width: fit-content;
+    right: 0px;
+    border: 1px solid #d5d4d4;
+    border-right: unset;
+    padding: 12px 19px;
+    background: #eee;
+    border-bottom-left-radius: 13px;
+    border-top-left-radius: 10px;
+    opacity: 0.5;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    transform: translateX(0%) translateY(0);
+}
+
+.place-right.activo {
+    transform: translateX(0%) translateY(0);
+}
+
+.place-right {
+    padding-bottom: 4em;
+    position: fixed;
+    right: 0;
+    background: #fff;
+    height: 100%;
+    border-left: 1px solid #eee;
+    margin-top: 3.8em;
+    overflow: auto;
+    transform: translateX(100%) translateY(0);
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+.place-right .title-place-right {
+    margin-top: 1.6em;
+}
+
+.place-right .title-place-right .fa{
+    position: absolute;
+    top: -23px;
+    right: -15px;
+    font-size: 1.9em;
+    color: #d51b1b;
+}
+
+.place-right .title-place-right h4 {
+    font-family: 'Roboto Slab', serif;
+}
+
+.place-right .title-place-right h4:after {
+    background-color: #5bc0de;
+    content: "";
+    display: block;
+    height: 2px;
+    margin: 0.75rem auto 2.25rem;
+    width: 6rem;
+}
+
+.step-right {
+    margin-top: -20px;
+    margin-bottom: 1em;
+}
+
+.step-pre.activo {
+    box-shadow: 0 0px 2px 0 #5bc0de, 0 0px 3px 0 rgba(0, 0, 0, 0.19);
+}
+.step-pre {
+    border: 1px solid #5bc0de;
+    padding: 0px 4px;
+    border-radius: 42%;
+    font-size: 7.1px;
+    position: relative;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    margin-left: 4px;
+}
+
+.step-pre.activo:after{
+    content: '';
+    height: 6px;
+    width: 6px;
+    background: #5bc0de;
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: none;
+    position: absolute;
+    right: 1px;
+    border: transparent;
+    border-radius: 8px;
+    bottom: 1px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.step-content-right {
+display: none;
+}
+/*end side right*/
+
+/*aggrement*/
+.btn-save-aggrement{
+    position: absolute;
+    right: 14px;
+    top: -43px;
+}
+/*aggrement*/
