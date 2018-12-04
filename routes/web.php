@@ -152,20 +152,32 @@ Route::group(['prefix' => '/'], function () {
                 ]);
             });
             Route::group(['prefix' => 'settings'], function () {
-                Route::get('rpp-set', [
-                    'uses' => 'AdminController@rpp',
-                    'as' => 'admin.settings.rpp'
-                ]);
                 Route::get('aggrement-set', [
                     'uses' => 'AdminController@aggre',
                     'as' => 'admin.settings.aggre'
                 ]);
+
                 Route::get('price-set', [
                     'uses' => 'AdminController@price',
                     'as' => 'admin.settings.price'
                 ]);
             });
-            Route::group(['prefix' => 'data-master'], function () {
+            Route::group(['prefix' => 'student-config'], function () {
+                Route::get('shadow', [
+                    'uses' => 'AdminController@shadow',
+                    'as' => 'admin.student.shadow'
+                ]);
+                Route::get('activities', [
+                    'uses' => 'AdminController@activity',
+                    'as' => 'admin.student.activity'
+                ]);
+                Route::get('schedules', [
+                    'uses' => 'AdminController@schedule',
+                    'as' => 'admin.student.schedule'
+                ]);
+            });
+
+                Route::group(['prefix' => 'data-master'], function () {
                 Route::get('users', [
                     'uses' => 'AdminController@users',
                     'as' => 'admin.master.users'

@@ -141,8 +141,60 @@ Route::group(['prefix' => '/api/v1/'], function () {
                 'uses' => 'aggrementController@post',
                 'as' => 'api.admin.settings.aggre.post'
             ]);
+            Route::get('shadows-list', [
+                'uses' => 'shadowController@getList',
+                'as' => 'api.admin.settings.shadow.list'
+            ]);
+            Route::put('shadows-change', [
+                'uses' => 'shadowController@change',
+                'as' => 'api.admin.settings.shadow.change'
+            ]);
 
         });
+        Route::group(['prefix' => 'student-config', 'namespace' => 'studentConfig'], function () {
+            Route::get('sub-activity-detail', [
+                'uses' => 'activitiesController@sub',
+                'as' => 'api.admin.studentConfig.activities.sub'
+            ]);
+            Route::put('sub-activity-edit', [
+                'uses' => 'activitiesController@subEdit',
+                'as' => 'api.admin.studentConfig.activities.subEdit'
+            ]);
+            Route::put('sub-activity-delete', [
+                'uses' => 'activitiesController@subDel',
+                'as' => 'api.admin.studentConfig.activities.subDel'
+            ]);
+            Route::get('activity-edit', [
+                'uses' => 'activitiesController@actEdit',
+                'as' => 'api.admin.studentConfig.activities.actEdit'
+            ]);
+            Route::patch('activity-update', [
+                'uses' => 'activitiesController@actUpdate',
+                'as' => 'api.admin.studentConfig.activities.actUpdate'
+            ]);
+            Route::delete('activity-delete', [
+                'uses' => 'activitiesController@actDel',
+                'as' => 'api.admin.studentConfig.activities.actDel'
+            ]);
+            Route::post('sub-activity-post', [
+                'uses' => 'activitiesController@subPost',
+                'as' => 'api.admin.studentConfig.activities.subPost'
+            ]);
+            Route::get('activity-list', [
+                'uses' => 'activitiesController@list',
+                'as' => 'api.admin.studentConfig.activities.list'
+            ]);
+            Route::get('activity-detail', [
+                'uses' => 'activitiesController@detail',
+                'as' => 'api.admin.studentConfig.activities.detail'
+            ]);
+            Route::post('activity-post', [
+                'uses' => 'activitiesController@post',
+                'as' => 'api.admin.studentConfig.activities.post'
+            ]);
+        });
+
+
         Route::group(['prefix' => 'master', 'namespace' => 'master'], function () {
             Route::get('users', [
                 'uses' => 'userListController@getList',

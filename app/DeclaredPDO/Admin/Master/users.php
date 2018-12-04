@@ -8,20 +8,19 @@
 
 namespace App\DeclaredPDO\Admin\Master;
 
-const TYPE_USER = ['Admin', 'Pengajar', 'User', 'Peserta Didik', 'Hub'];
-const STATUS_USER = ['Non Aktif', 'Aktif', 'Kadaluwarsa'];
-const STATUS_STUDENT = [
+const TYPE_USER = ['Admin', 'Pengajar', 'User', 'Peserta Didik', 'Hub'],
+STATUS_USER = ['Non Aktif', 'Aktif', 'Kadaluwarsa'],
+STATUS_STUDENT = [
     'Non Active' => STATUS_USER[0], 'Active' => STATUS_USER[1]
-];
+],
+SHADOW_LIST = ['Sudah Diatur', 'Belum Diatur'];
 
 use App\DeclaredPDO\response;
-use App\linkStudentFamily;
 use App\Model\linkUserStudent;
 use App\Model\sideStatusUser;
 use App\rsStudentFamily;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\File;
 
 class users
 {
@@ -39,7 +38,6 @@ class users
         foreach ($arr as $tow) {
             if (strpos(strtolower($tow['name']), strtolower($q)) !== false) {
                 $new[] = $tow;
-                break;
             }
 
         }
@@ -69,6 +67,56 @@ class users
     public function getStudents()
     {
         return $this->conUser($this->listUser());
+    }
+
+    public function getShadow()
+    {
+        return $this->shadowInfo($this->listUser());
+    }
+
+    private function shadowInfo($model)
+    {
+        $arr = [];
+        $cat = $this->re->cat;
+        foreach ($model as $i => $row) {
+            if ($data = $this->setArray($row, $cat)) {
+                $shadow = $row->getShadow;
+                if ($this->re->cat === SHADOW_LIST[0]) {
+                    if (!$shadow->isEmpty())
+                        $arr[]=$this->dataShadow($data, $i, $row, $shadow, $cat);
+
+                } else {
+                    if ($shadow->isEmpty())
+                        $arr[]=$this->dataShadow($data, $i, $row, $shadow, $cat);
+                }
+
+            }
+
+        }
+
+        return $arr;
+    }
+
+    private function dataShadow($data, $i, $row, $shadow, $cat)
+    {
+        $arr = $data;
+        $arr['key'] = $row->id;
+        $arr['needed'] = $this->getNeeded($row->getDisablity);
+        $arr['shadow'] = !$shadow->isEmpty() ? $this->getspecShadow($shadow, $cat) : null;
+
+        return $arr;
+    }
+
+    private function getspecShadow($models, $cat)
+    {
+        foreach ($models as $i => $model) {
+            $user = $model->getTeacher;
+            return [
+                'name' => $user->name,
+                'numb_regist' => $model->ni ? $model->ni : 'belum terdatar',
+                'key' => $user->id
+            ];
+        }
     }
 
     private function listUser()

@@ -46,30 +46,25 @@
             <ul class="pagination pagination-responsive paginate fixed-right-page">
                 <li><a href="javascript:void(0);">&laquo; <span class="hidden-sm hidden-md hidden-lg">Sebelumnya</span></a>
                 </li>
-                <li><a href="javascript:void(0);"><span class="hidden-sm hidden-md hidden-lg">Halaman</span> 1</a></li>
-                <li><a href="javascript:void(0);"><span class="hidden-sm hidden-md hidden-lg">Halaman</span> 2</a></li>
-                <li><a href="javascript:void(0);"><span class="hidden-sm hidden-md hidden-lg">Halaman</span> 3</a></li>
-                <li><a href="javascript:void(0);"><span class="hidden-sm hidden-md hidden-lg">Halaman</span> 4</a></li>
-                <li><a href="javascript:void(0);"><span class="hidden-sm hidden-md hidden-lg">Halaman</span> 5</a></li>
-                <li><a href="javascript:void(0);"><span class="hidden-sm hidden-md hidden-lg">Halaman</span> 6</a></li>
-                <li><a href="javascript:void(0);"><span class="hidden-sm hidden-md hidden-lg">Selanjutnya</span> &raquo;</a>
+                <li><a href="javascript:void(0);">
+                        <span class="hidden-sm hidden-md hidden-lg">Halaman</span> 1</a></li>
+                <li><a href="javascript:void(0);">
+                        <span class="hidden-sm hidden-md hidden-lg">Halaman</span> 2</a></li>
+                <li><a href="javascript:void(0);">
+                        <span class="hidden-sm hidden-md hidden-lg">Halaman</span> 3</a></li>
+                <li><a href="javascript:void(0);">
+                        <span class="hidden-sm hidden-md hidden-lg">Halaman</span> 4</a></li>
+                <li><a href="javascript:void(0);">
+                        <span class="hidden-sm hidden-md hidden-lg">Halaman</span> 5</a></li>
+                <li><a href="javascript:void(0);">
+                        <span class="hidden-sm hidden-md hidden-lg">Halaman</span> 6</a></li>
+                <li><a href="javascript:void(0);">
+                        <span class="hidden-sm hidden-md hidden-lg">Selanjutnya</span> &raquo;</a>
                 </li>
             </ul>
         </div>
 
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 not-found-notice">
-            <img src="{{asset('images/icons/notfound.svg')}}" alt="">
-            <h3>Data Tidak Ditemukan. Coba gunakan kunci lain</h3>
-        </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 error-notice">
-            <img src="{{asset('images/icons/not-found.svg')}}" alt="">
-            <h3>Terjadi kesalahan. Silakan muat ulang / kontak admin</h3>
-        </div>
-
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 loading">
-            <img src="{{asset('images/loader/magnify.svg')}}" alt="loading">
-            <h4>Mencari Data</h4>
-        </div>
+        @include('admin.general.notice')
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 trigger-right">
             <i class="fa fa-plus"></i>
         </div>

@@ -85,7 +85,7 @@ class orderSeatController extends Controller
     {
         $re = $r->only('img_', 'date', 'name', 'bank', 'q');
         $rule = [
-            'img_' => 'required|image|max:2000',
+            'img_' => 'required|image|max:6000',
             'date' => 'required|date',
             'name' => 'required|min:3',
             'bank' => 'required|exists:data_banks,id',
@@ -115,7 +115,7 @@ class orderSeatController extends Controller
 
             $thumbnailpath = $url;
 
-            $img = Image::make($thumbnailpath)->resize(800, null, function ($constraint) {
+            $img = Image::make($thumbnailpath)->resize(400, null, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
@@ -124,8 +124,9 @@ class orderSeatController extends Controller
             if (!file_exists($url)) {
                 return response()->json(['msg' => 'upload gambar gagal'], 400);
             }
+//
 
-            linkPaymentInvoice::create([
+            $anu=linkPaymentInvoice::create([
                 'img' => $url,
                 'name' => $r->name,
                 'date_send' => $r->date,
@@ -133,14 +134,15 @@ class orderSeatController extends Controller
                 'tran_id' => $r->q
             ]);
 
+//
             mstTransactionList::findOrFail($r->q)->update([
                 'status' => 'administrasi'
             ]);
 
-            return response()->json(['url' => asset($url)]);
+            return $this->noticeSuc();
         }
 
-        return $r;
+        return $this->noticeFail();
     }
 
     public function confirmPost(Request $r)

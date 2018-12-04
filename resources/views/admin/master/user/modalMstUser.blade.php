@@ -1,7 +1,7 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 modal-full">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 title-modal">
         <span class="btn-back"><i class="fa fa-arrow-left"></i></span>
-        <h4>Tambah Pengguna</h4>
+        <h4>Detail Pengguna</h4>
     </div>
     <div class="col-lg-offset-2 col-lg-8 col-md-offset-1 col-sm-offset-1 col-md-10 col-sm-10 col-xs-12 body-modal">
         <div class="header-card-profil col-lg-12 col-md-12 col-sm-12 col-xs-12 radius-bottom-modif">

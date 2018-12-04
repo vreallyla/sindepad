@@ -22,7 +22,6 @@ class CreateLinkPaymentInvoicesTable extends Migration
             $table->foreign('bank_id')->references('id')->on('data_banks');
             $table->string('tran_id',36);
             $table->foreign('tran_id')->references('id')->on('mst_transaction_lists');
-
             $table->timestamps();
         });
     }

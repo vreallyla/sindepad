@@ -7,6 +7,11 @@ if ($('body').find('#mst-users').length > 0) {
             rowAvail = [10, 30, 50], catAvail = ['tf', 'cop'],
             modalOut = $('.title-content,.card-mod,.paginated'), targetList = targetObj.find('.card-mod'),
             fillList = targetList.children(),
+            loadPart = $('#loading'),
+            errNotice = 'terdapat kesalahan. silakan muat ulang / kontak admin',
+            nullNotice = "Belum diisi",
+            fillNotice = 'pastikan mengisi kolom dengan benar',
+            sucNotice = 'berhasil dibuat',
             showModal = 'label', addUser = $('.add-user').children(), qTarget = targetObj.find('input[name=search]'),
             objMain = $('.card-mod,.paginated'), loadingMagnify = targetObj.find('.loading'),
             noticeGroup = $('.error-notice,.not-found-notice'),
@@ -150,10 +155,15 @@ if ($('body').find('#mst-users').length > 0) {
                     .then(function (res) {
                         loadPart.hide();
                         getModalAsync(res.data);
-                        console.log(res);
                     })
                     .catch(function (er) {
-                        errSet(er.response.status);
+                        loadPart.hide();
+                        if (errNotice.response){
+                            errSet(er.response.status);
+                        }
+                        else{
+                            swallCustom(errNotice);
+                        }
                     });
             },
             /*---------------- end get async detail ----------------*/
@@ -222,9 +232,12 @@ if ($('body').find('#mst-users').length > 0) {
             e.preventDefault();
             let formFill = new FormData($(this)[0]);
             loadPart.show();
+            contentRight.find('.help-block').text('');
             axios.post(urlApi + 'make-user', formFill)
                 .then(function (res) {
                     loadPart.hide();
+                    contentRight.find('input').val('');
+                    contentRight.find('select').prop('selectedIndex', 0);
                     swallCustom(sucNotice);
                 })
                 .catch(function (er) {

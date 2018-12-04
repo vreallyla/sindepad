@@ -40,4 +40,9 @@ class linkUserStudent extends Model
     {
         return $this->belongsTo(sideGender::class,'gender_id');
     }
+
+    public function getShadow()
+    {
+        return $this->hasMany(rsHomeroom::class,'student_id');
+    }
 }

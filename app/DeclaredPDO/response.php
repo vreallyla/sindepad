@@ -25,7 +25,9 @@ trait response
     {
         return response()->json(['msg' => 'Gagal dibuat'], 406);
 
-    }private function noticeSuc()
+    }
+
+    private function noticeSuc()
     {
         return response()->json(['msg' => 'berhasil dibuat'], 200);
 
@@ -45,6 +47,10 @@ trait response
     {
         return File::exists($img) ? asset($img) : asset('images/img_unvailable.png');
     }
+    private function conditionImg($img)
+    {
+        return File::exists($img) ? asset($img) : false;
+    }
 
     private function getNeeded($rel)
     {
@@ -62,6 +68,15 @@ trait response
         do {
             $kode = $code . now()->format('ym') . sprintf("%04d", rand(0001, 9999));
         } while (!$model->where('ni', $kode)->get());
+
+        return $kode;
+    }
+
+    private function kodeSet($model, $code, $target)
+    {
+        do {
+            $kode = $code . now()->format('ym') . sprintf("%04d", rand(0001, 9999));
+        } while (!$model->where($target, $kode)->get());
 
         return $kode;
     }

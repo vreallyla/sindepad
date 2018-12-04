@@ -16,7 +16,7 @@
 
 </head>
 <body>
-<div class="preloader-wrapper" >
+<div class="preloader-wrapper">
     <div class="preloader">
         <img src="{{asset('images/loader/clock.svg')}}" alt="NILA">
     </div>
@@ -88,24 +88,31 @@
 
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu-detail add-sub-menu">
+                    <a href="javascript:void(0)">Pengaturan</a>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content-sub-menu">
+                    <div class="list-sub-menu">
+                        <a href="{{route('admin.settings.price')}}" class="point-dot">Harga</a>
+                        <a href="{{route('admin.settings.aggre')}}" class="point-dot">Persetujuan</a>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu-detail add-sub-menu">
+                    <a href="javascript:void(0)">Peserta Didik</a>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content-sub-menu">
+                    <div class="list-sub-menu">
+                        <a href="{{route('admin.student.activity')}}" class="point-dot">Kegiatan</a>
+                        <a href="{{route('admin.student.schedule')}}" class="point-dot">Jadwal</a>
+                        <a href="{{route('admin.student.shadow')}}" class="point-dot">Pendamping</a>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu-detail add-sub-menu">
                     <a href="javascript:void(0)">Tranksasi</a>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content-sub-menu">
                     <div class="list-sub-menu">
                         <a href="{{route('admin.register')}}" class="point-dot">Pendaftar</a>
-                    </div>
-                    <div class="list-sub-menu">
                         <a href="{{route('admin.trans.tuition')}}" class="point-dot">SPP</a>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu-detail add-sub-menu">
-                    <a href="javascript:void(0)">Pengaturan</a>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content-sub-menu">
-                    <div class="list-sub-menu">
-                        <a href="{{route('admin.settings.aggre')}}" class="point-dot">Persetujuan</a>
-                        <a href="{{route('admin.settings.price')}}" class="point-dot">Harga</a>
-                        <a href="{{route('admin.settings.rpp')}}" class="point-dot">RPP</a>
                     </div>
                 </div>
             </div>

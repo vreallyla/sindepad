@@ -443,6 +443,7 @@ body {
 
     .place-right {
         margin-top: 3.2em !important;
+        z-index: 1;
     }
 
     .header-right {
@@ -1656,6 +1657,7 @@ tr:hover {
 }
 
 .place-right {
+    z-index: 1;
     padding-bottom: 4em;
     position: fixed;
     right: 0;
@@ -1673,7 +1675,7 @@ tr:hover {
     margin-top: 1.6em;
 }
 
-.place-right .title-place-right .fa{
+.place-right .title-place-right .fa {
     position: absolute;
     top: -23px;
     right: -15px;
@@ -1702,6 +1704,7 @@ tr:hover {
 .step-pre.activo {
     box-shadow: 0 0px 2px 0 #5bc0de, 0 0px 3px 0 rgba(0, 0, 0, 0.19);
 }
+
 .step-pre {
     border: 1px solid #5bc0de;
     padding: 0px 4px;
@@ -1713,7 +1716,7 @@ tr:hover {
     margin-left: 4px;
 }
 
-.step-pre.activo:after{
+.step-pre.activo:after {
     content: '';
     height: 6px;
     width: 6px;
@@ -1731,14 +1734,150 @@ tr:hover {
 }
 
 .step-content-right {
-display: none;
+    display: none;
 }
+
 /*end side right*/
 
 /*aggrement*/
-.btn-save-aggrement{
+.btn-save-aggrement {
     position: absolute;
     right: 14px;
     top: -43px;
 }
+
+.td-resize .btn.dropdown-toggle {
+    width: 12em;
+}
+
+.td-resize .add {
+    width: 13.5em;
+    padding-right: 1em;
+}
+
 /*aggrement*/
+
+
+.bootstrap-select {
+    display: none;
+}
+
+/*Activity*/
+.padding-modif {
+    padding: 0;
+    padding-bottom: 1em;
+}
+
+.remove-effect {
+    webkit-filter: grayscale(0) blur(0) !important;
+    filter: grayscale(0) blur(0) !important;
+}
+
+.modif-img-activity {
+    position: relative;
+    height: 15em;
+}
+
+.btn-add-sub:hover {
+    background: #478da8;
+    cursor: pointer;
+}
+
+.btn-add-sub {
+    text-align: center;
+    background: #5bc0de;
+    color: #fff;
+    padding: 15px 0;
+}
+
+.act-sub-list .fa:hover {
+    color: #5bc0de;
+    cursor: pointer;
+}
+
+.act-sub-list .tool-act {
+    position: absolute;
+    top: 15px;
+    right: 22px;
+}
+
+.act-sub-list .fa {
+    padding: 0 4px;
+    font-size: 1.5em;
+}
+
+.act-sub-list h4 {
+    margin: 0;
+    font-size: 1.1em;
+    position: relative;
+    top: 2px;
+    display: inline-block;
+
+}
+
+.act-sub-list {
+    padding: 12px 23px 14px 23px;
+}
+
+.header-modal-anim .fa {
+    float: right;
+    color: #9b9797;
+}
+
+.header-modal-anim h4 {
+    display: inline-block;
+    margin: 0;
+}
+
+.header-modal-anim {
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    padding-bottom: 6px;
+}
+
+#modal-container button {
+    width: 100%;
+    text-align: center;
+}
+
+#modal-container form {
+    overflow: auto !important;
+    text-align: left;
+    padding-top: 10px;
+}
+
+.btn-handdle .btn-back-act {
+    display: none;
+}
+
+.btn-handdle {
+    top: 1.6em;
+}
+
+
+.exc-btn-list .fa {
+    position: absolute;
+    font-size: 4em;
+    top: 32px;
+    left: 40px;
+    z-index: 1;
+    color: #5bc0de;
+    opacity: 0.7;
+    display: none;
+}
+.exc-btn-list .fa:hover {
+    cursor: pointer;
+    color: #5bc0de;
+    opacity: 1 ;
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+@media (max-width: 991px) {
+    .btn-handdle {
+        top: unset !important;
+        text-align: center;
+    }
+}
+
+/*end Activity*/

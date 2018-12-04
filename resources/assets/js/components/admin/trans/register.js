@@ -9,8 +9,13 @@ if ($('body').find('#register-list').length > 0) {
             rowAvail = [10, 30, 50], catAvail = ['tf', 'cop'],
             targetPage = targetObj.find('.paginate'),
             loadingMagnify = targetObj.find('.loading'),
+            loadPart = $('#loading'),
+            errNotice = 'terdapat kesalahan. silakan muat ulang / kontak admin',
+            sucNotice = 'berhasil dibuat', placeRight = $('.place-right'),
+            stepPointRight = $('.step-pre'),
             tableLabel = targetObj.find('.table-register'),
             btnSearch = qTarget.next().children('button'),
+            stepContRight = $('.step-content-right'),
             btnDetail = '.btn-info', modalTarget = targetObj.find('.modal-full'),
             objnonModal = $('.title-content,.table-register,.not-found-notice,.error-notice,.loading'),
             triggerHideModal = targetObj.find('.btn-back'),
@@ -140,6 +145,11 @@ if ($('body').find('#register-list').length > 0) {
                 setTimeout(e => {
                     $('.title-content,.table-register').fadeIn(300);
                 }, 500);
+            },
+            getTabRIght = function (getTab) {
+                stepContRight.hide().eq(getTab).fadeIn(300);
+                anim('animated shake', stepContRight.eq(getTab), 'animated shake');
+                stepPointRight.removeClass('activo').eq(getTab).addClass('activo');
             };
 
         history.replaceState('', "", urlPage);
@@ -286,10 +296,15 @@ if ($('body').find('#register-list').length > 0) {
             if ((stepContRight.length - 1) === indexRight && $(this).is('[type=submit]')) {
                 let formFill = new FormData(placeRight.find('form')[0]);
                 loadPart.show();
+                placeRight.find('.help-block').text('');
                 axios.post(urlApi + 'new-register', formFill)
                     .then(function (res) {
                         swallCustom(sucNotice);
                         loadPart.hide();
+                        placeRight.find('input').val('');
+                        placeRight.find('select').prop('selectedIndex', 0);
+                        $('.selectpicker').selectpicker('refresh');
+                        getTabRIght(0);
                     }).catch(function (er) {
                     let statusEr = er.response.status,
                         getTab = 0;
@@ -307,16 +322,14 @@ if ($('body').find('#register-list').length > 0) {
                                 return false;
                             }
                         });
-                        stepContRight.hide().eq(getTab).fadeIn(300);
-                        anim('animated shake', stepContRight.eq(getTab), 'animated shake');
-                        stepPointRight.removeClass('activo').eq(getTab).addClass('activo');
 
+                        getTabRIght(getTab);
                         $.each(er.response.data, function (i, val) {
                             let targetEr = i === 'needed' ? placeRight.find('[for=needed]') : placeRight.find('[name=' + i + ']');
                             targetEr.closest('.form-group').find('.help-block').text(val);
                         });
                     } else {
-
+                        swalcustom(errNotice);
                     }
                     loadPart.hide();
                 })

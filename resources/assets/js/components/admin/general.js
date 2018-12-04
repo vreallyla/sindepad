@@ -1,5 +1,5 @@
 /*--------------------- get params url ---------------------*/
-window.getUrlParameter = getUrlParameter = function getUrlParameter(sParam) {
+window.getUrlParameter = function (sParam) {
     let sPageURL = window.location.search.substring(1),
         sURLVariables = sPageURL.split('&'),
         sParameterName,
@@ -15,13 +15,20 @@ window.getUrlParameter = getUrlParameter = function getUrlParameter(sParam) {
 };
 /*------------------- end get params url -------------------*/
 /*------------------- loading part -------------------*/
-const loadPart = $('#loading');
+const loadPart = $('#loading'),
+    errNotice = 'terdapat kesalahan. silakan muat ulang / kontak admin',
+    nullNotice = "Belum diisi",
+    manipNotice = "Harap tidak merubah data",
+    fillNotice = 'pastikan mengisi kolom dengan benar',
+    sucNotice = 'berhasil dibuat', placeRight = $('.place-right'),
+    stepContRight = $('.step-content-right'), stepPointRight = $('.step-pre'),
+    Body = $('body');
 
-window.showLoading = showLoading = function showLoading() {
+window.showLoading = function () {
     loadPart.show();
 };
 
-window.hideLoading = hideLoading = function hideLoading() {
+window.hideLoading = function () {
     loadPart.hide();
 };
 /*----------------- end loading part -----------------*/
@@ -34,24 +41,59 @@ $(function () {
         triggerMenu = $('.trigger-burger'),
         showMenu = 'geserMasukKiri',
         hideMenu = 'geserKeluarKiri',
-        burgerss = $('.burgers'),
-        Body = $('body');
+        hideMenus = $('.content-up,.burgers'),
+        triggerRight = $('.trigger-right');
 
-    let changeMenu = false;
-    Body.addClass('preloader-site');
-    $('.preloader img').show();
-    anim('animated rubberBand', $('.preloader img'), 'animated rubberBand');
-
-    $(window).on('load', function () {
-        setTimeout(e => {
-            $('.preloader-wrapper').fadeOut();
-            $('body').removeClass('preloader-site');
+    let changeMenu = false
+        , changeStepRight = function (i) {
+        stepContRight.hide().eq(i).fadeIn(300);
+        stepPointRight.removeClass('activo').eq(i).addClass('activo');
+    }
+        , hideContentRight = function () {
+        placeRight.removeClass('activo');
+        setTimeout(function () {
+            triggerRight.removeClass('non')
         }, 300);
-    });
+    }
+        , removClas = function (obj) {
+        obj.hasClass(showMenu) ?
+            obj.removeClass(showMenu) :
+            (obj.hasClass(hideMenu) ?
+                obj.removeClass(hideMenu) :
+                '');
+    }
+        , respMenu = function (obj1, obj2, hidup, mati) {
+        anim(hidup, obj1, mati);
+        setTimeout(function () {
+            anim(mati, obj2, hidup);
+        }, 300);
+    };
+
+    Body.addClass('preloader-site');
+    let imgA=$('.preloader img');
+    imgA.show();
+    anim('animated rubberBand', imgA, 'animated rubberBand');
 
     $(document).ready(function () {
-        $("body").tooltip({selector: '[data-toggle=tooltip]'});
+        Body.tooltip({selector: '[data-toggle=tooltip]'});
+        setTimeout(function () {
+            $('.preloader-wrapper').remove();
+            Body.removeClass('preloader-site');
+        }, 500);
     });
+
+    if (stepContRight.length > 1) {
+        stepContRight.on('click', 'button', function (e) {
+            e.preventDefault();
+            let stepActiveRight = $('.step-pre.activo');
+            let indexActiveRight = stepContRight.index($(this).closest('.step-content-right'));
+            if ($(this).text() === 'Selanjutnya' && indexActiveRight < stepContRight.length) {
+                changeStepRight(indexActiveRight + 1);
+            } else if ($(this).text() === 'Sebelumnya' && indexActiveRight > 0) {
+                changeStepRight(indexActiveRight - 1);
+            }
+        });
+    }
 
     $(window).resize(function () {
         if ($(window).width() >= 992 && changeMenu === true) {
@@ -72,13 +114,15 @@ $(function () {
 
     });
 
-    function removClas(obj) {
-        obj.hasClass(showMenu) ?
-            obj.removeClass(showMenu) :
-            (obj.hasClass(hideMenu) ?
-                obj.removeClass(hideMenu) :
-                '');
-    }
+    triggerRight.click(function () {
+        placeRight.addClass('activo');
+        $(this).addClass('non');
+        $('input[name=name]').focus();
+    });
+
+    placeRight.on('click', '.fa-window-close', function () {
+        hideContentRight();
+    });
 
     for (let i = 1; i < menuDetail.length; i++) {
         menuDetail.eq(i).css('bottom', i);
@@ -87,19 +131,18 @@ $(function () {
     triggerMenu.click(function () {
         changeMenu = true;
         respMenu(triggerMenu, menuUp, hideMenu, showMenu);
-
-    });
-    burgerss.click(function () {
-        changeMenu = true;
-        respMenu(menuUp, triggerMenu, hideMenu, showMenu);
-    });
-
-    function respMenu(obj1, obj2, hidup, mati) {
-        anim(hidup, obj1, mati);
-        setTimeout(function () {
-            anim(mati, obj2, hidup);
+        setTimeout(e => {
+            hideContentRight();
         }, 300);
-    }
+    });
+
+    hideMenus.click(function () {
+        if ($(window).width() < 992) {
+            changeMenu = true;
+            respMenu(menuUp, triggerMenu, hideMenu, showMenu);
+        }
+    });
+
 
     menuDetail.click(function (e) {
         window.location = $(this).children('a').eq(0).prop('href');
@@ -120,102 +163,118 @@ let pagePrev = '&laquo; <span class="hidden-sm hidden-md hidden-lg">Sebelumnya</
     pageLabel = '<span class="hidden-sm hidden-md hidden-lg">Halaman</span>',
     maxTable = 1, currentTable = 1;
 
-window.setPagination=function setPagination(obj, max, curr) {
-    maxTable = max = parseInt(max);
-    currentTable = curr = parseInt(curr);
-    let nextPagination = '<li class="next-page"><a href="javascript:void(0);">\n' + pageNext +
-        '</a></li>',
-        prevPagination = '<li class="prev-page"><a href="javascript:void(0);">\n' + pagePrev +
+    window.setPagination = function (obj, max, curr) {
+        maxTable = max = parseInt(max);
+        currentTable = curr = parseInt(curr);
+        let nextPagination = '<li class="next-page"><a href="javascript:void(0);">\n' + pageNext +
             '</a></li>',
-        subNextPagination = '<li class="sub-next-page"><a href="javascript:void(0);">\n' + '...' +
-            '</a></li>',
-        subPrevPagination = '<li class="sub-prev-page"><a href="javascript:void(0);">\n' + '...' +
-            '</a></li>',
-        maxPagination = '<li class="page"><a href="javascript:void(0);">\n' + pageLabel + '<span class="hal">' + max + '</span>' +
-            '</a></li>',
-        minPagination = '<li class="page"><a href="javascript:void(0);">\n' + pageLabel + '<span class="hal">' + 1 + '</span>' +
-            '</a></li>', paginationFill = '';
+            prevPagination = '<li class="prev-page"><a href="javascript:void(0);">\n' + pagePrev +
+                '</a></li>',
+            subNextPagination = '<li class="sub-next-page"><a href="javascript:void(0);">\n' + '...' +
+                '</a></li>',
+            subPrevPagination = '<li class="sub-prev-page"><a href="javascript:void(0);">\n' + '...' +
+                '</a></li>',
+            maxPagination = '<li class="page"><a href="javascript:void(0);">\n' + pageLabel + '<span class="hal">' + max + '</span>' +
+                '</a></li>',
+            minPagination = '<li class="page"><a href="javascript:void(0);">\n' + pageLabel + '<span class="hal">' + 1 + '</span>' +
+                '</a></li>', paginationFill = '';
 
-    if (max === 1) {
-        obj.hide();
-    } else {
-        if (7 > max) {
-            paginationFill = loopPaginate(1, max, curr);
+        if (max === 1) {
+            obj.hide();
+        } else {
+            if (7 > max) {
+                paginationFill = loopPaginate(1, max, curr);
 
-        } else if (5 > curr) {
-            paginationFill += loopPaginate(1, 4, curr);
-            paginationFill += subNextPagination + maxPagination;
+            } else if (5 > curr) {
+                paginationFill += loopPaginate(1, 4, curr);
+                paginationFill += subNextPagination + maxPagination;
 
-        } else if ((max - 3) < curr) {
-            paginationFill = minPagination + subPrevPagination;
-            paginationFill += loopPaginate((curr - 2), max, curr);
-        } else if (5 <= curr) {
-            paginationFill = minPagination + subPrevPagination;
-            paginationFill += loopPaginate((curr - 2), (curr + 2), curr);
-            paginationFill += subNextPagination + maxPagination;
+            } else if ((max - 3) < curr) {
+                paginationFill = minPagination + subPrevPagination;
+                paginationFill += loopPaginate((curr - 2), max, curr);
+            } else if (5 <= curr) {
+                paginationFill = minPagination + subPrevPagination;
+                paginationFill += loopPaginate((curr - 2), (curr + 2), curr);
+                paginationFill += subNextPagination + maxPagination;
+            }
+            obj.fadeIn(500);
+            obj.empty().append(prevPagination + paginationFill + nextPagination);
         }
-        obj.fadeIn(500);
-        obj.empty().append(prevPagination + paginationFill + nextPagination);
-    }
 
-};
+    };
 
-window.loopPaginate = function loopPaginate(start, end, curr) {
-    let paginationFill = '';
-    for (let i = start; i <= end; i++) {
-        paginationFill += i === curr ? '<li class="active"><a href="javascript:void(0);">\n' + pageLabel + '<span class="hal">' + i + '</span>' +
-            '</a></li>' : '<li class="page"><a href="javascript:void(0);">\n' + pageLabel + '<span class="hal">' + i + '</span>' +
-            '</a></li>';
-    }
-    return paginationFill;
-};
+    window.loopPaginate = function (start, end, curr) {
+        let paginationFill = '';
+        for (let i = start; i <= end; i++) {
+            paginationFill += i === curr ? '<li class="active"><a href="javascript:void(0);">\n' + pageLabel + '<span class="hal">' + i + '</span>' +
+                '</a></li>' : '<li class="page"><a href="javascript:void(0);">\n' + pageLabel + '<span class="hal">' + i + '</span>' +
+                '</a></li>';
+        }
+        return paginationFill;
+    };
 
-/*------------------ end pagination setting ------------------*/
+    /*------------------ end pagination setting ------------------*/
 
 
-/*-------------------- animate setting --------------------*/
-window.anim = function anim(x, obj, i) {
-    obj.removeClass(i).addClass(x).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-        $(this).removeClass(i);
-    });
-};
+    /*-------------------- animate setting --------------------*/
+    window.anim = function (x, obj, i) {
+        obj.removeClass(i).addClass(x).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $(this).removeClass(i);
+        });
+    };
 
-/*------------------ animate setting ------------------*/
+    /*------------------ animate setting ------------------*/
 
-/*--convert currency rp--*/
-window.convertRp = function convertRp(val) {
-    return currency(val, {
-        separator: '.',
-        precision: 0
-    }).format();
-};
+    /*--convert currency rp--*/
+    window.convertRp = function (val) {
+        return currency(val, {
+            separator: '.',
+            precision: 0
+        }).format();
+    };
 
-/*--end convert currency rp--*/
+    /*--end convert currency rp--*/
 
 // function to search array using for loop
-window.findInArray = function findInArray(ar, val) {
-    for (var i = 0, len = ar.length; i < len; i++) {
-        if (ar[i] === val) { // strict equality test
-            return i;
+    window.findInArray = function (ar, val) {
+        for (var i = 0, len = ar.length; i < len; i++) {
+            if (ar[i] === val) { // strict equality test
+                return i;
+            }
         }
-    }
-    return false;
-};
+        return false;
+    };
 
-/*------------------- swall custom ------------------- */
-window.swallCustom = function swallCustom(msg) {
-    swal({
-        defaultStyling: false,
-        html: '<h5 style="color: #' + 'fff' + ';font-size:1.7em">' + msg + '</h5>',
-        animation: false,
-        showConfirmButton: false,
-        background: '#555454',
-        customClass: 'animated rubberBand',
-        timer: 2500
+    /*------------------- swall custom ------------------- */
+    window.swallCustom = function (msg) {
+        swal({
+            defaultStyling: false,
+            html: '<h5 style="color: #' + 'fff' + ';font-size:1.7em">' + msg + '</h5>',
+            animation: false,
+            showConfirmButton: false,
+            background: '#555454',
+            customClass: 'animated rubberBand',
+            timer: 2500
 
-    });
-    $('.swal2-popup').css('border-radius', '7px');
-    $('.swal2-container').css('background-color', 'transparent');
-};
+        });
+        $('.swal2-popup').css('border-radius', '7px');
+        $('.swal2-container').css('background-color', 'transparent');
+    };
+
+    window.errSet = function (statusEr) {
+        statusEr === 422 ? swallCustom(manipNotice) : (statusEr === 404 ? swallCustom(nullNotice) : swallCustom(errNotice));
+    };
 
 /*----------------- end swall custom ----------------- */
+
+/*----------------- token jwt -------------------------*/
+let tokenJWT = document.head.querySelector('meta[name="token-jwt"]');
+
+if (tokenJWT) {
+    window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + tokenJWT.content;
+} else {
+    console.error('token jwt not found');
+}
+
+/*----------------- end token jwt -------------------------*/
+

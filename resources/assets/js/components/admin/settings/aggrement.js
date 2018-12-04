@@ -2,7 +2,10 @@ if ($('body').find('#aggrement').length > 0) {
     $(function () {
         const targetObj = $('#aggrement'),
             triggerBtn = targetObj.find('.btn-save-aggrement'),
-            urlPage = '/simdepad/admin/settings/aggrement',
+            loadPart = $('#loading'),
+            errNotice = 'terdapat kesalahan. silakan muat ulang / kontak admin',
+            sucNotice = 'berhasil dibuat', placeRight = $('.place-right'),
+            // urlPage = '/simdepad/admin/settings/aggrement',
             urlApi = '/api/v1/admin/settings/';
 
         triggerBtn.click(function () {

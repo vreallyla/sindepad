@@ -3,26 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\DeclaredPDO\Jwt\extraClass;
-use App\Model\linkUserStudent;
 use App\Model\mstClass;
 use App\Model\mstDataPaket;
 use App\Model\mstDisability;
 use App\Model\mstTransactionList;
-use App\Model\order\payingMethod;
 use App\Model\Order\Setting\rulesTimeOption;
-use App\Model\order\sideTypePrice;
 use App\Model\Order\timeOption;
-use App\Model\rsUserToStudent;
 use App\Model\sideDaylist;
 use App\Model\sideGender;
-use App\Model\sideStatusUser;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\DeclaredPDO\allNeeded as Selingan;
 use App\DeclaredPDO\relation as Hub;
 use GuzzleHttp\Client;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 const types = ['name', 'gender', 'sex ', 'relligion ', 'course ', 'rs ', 'needed ', 'desc'];
 
@@ -53,7 +47,11 @@ class generalController extends Controller
 //            $query->orderBy('id','desc');
 //        })->get();
 //        $tahu=[1,2,3,4];
-return User::find('7f79ef28-095f-4e35-85f7-e69ec0dae257')->forceDelete();
+        mstTransactionList::findOrFail('87a306b1-d018-4ace-8fc6-e15ada71d1f9')->update([
+            'status' => 'administrasi'
+        ]);
+
+return 'a' ;
     }
 
     public function log2($model)
