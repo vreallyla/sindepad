@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Model\sideGender;
+use App\Model\sideLastEducation;
+use App\Model\sideProfessionList;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
 
@@ -26,4 +28,15 @@ class linkStudentFamily extends Model
     {
         return $this->belongsTo(sideGender::class, 'gender_id');
     }
+
+    public function getProfession()
+    {
+        return $this->belongsTo(sideProfessionList::class,'profession_id');
+    }
+
+    public function getEducation()
+    {
+        return $this->belongsTo(sideLastEducation::class,'education_id');
+    }
+
 }

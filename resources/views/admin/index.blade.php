@@ -6,40 +6,40 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 box-card">
                 <div class="box-detail">
                     <i class="fa fa-user-secret"></i>
-                    <h2>140</h2>
+                    <h2>{{$entity->pengajar}}</h2>
                     <h4>Pendamping</h4>
                 </div>
                 <div class="box-footer">
-                    <span>Selengkapnya</span>
-                    <i class="fa fa-arrow-circle-right"></i>
+                    <a href="{{route('admin.master.users')}}?cat=Pengajar">Selengkapnya <i
+                                class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 box-card">
                 <div class="box-detail">
                     <i class="fa fa-users"></i>
-                    <h2>140</h2>
+                    <h2>{{$entity->user}}</h2>
                     <h4>Pengguna</h4>
                 </div>
                 <div class="box-footer">
-                    <span>Selengkapnya</span>
-                    <i class="fa fa-arrow-circle-right"></i>
+                    <a href="{{route('admin.master.users')}}?cat=User">Selengkapnya <i
+                                class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 box-card">
                 <div class="box-detail">
                     <i class="fa fa-blind"></i>
-                    <h2>140</h2>
+                    <h2>{{$entity->student}}</h2>
                     <h4>Siswa Didik</h4>
                 </div>
                 <div class="box-footer">
-                    <span>Selengkapnya</span>
-                    <i class="fa fa-arrow-circle-right"></i>
+                    <a href="{{route('admin.master.users')}}?cat=Peserta">Selengkapnya <i
+                                class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- preparing a DOM with width and height for ECharts -->
 
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 graph">
-                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                <canvas id="myChart" width="100%" height="30" style="background: #fff;"></canvas>
             </div>
 
         </div>
@@ -48,102 +48,115 @@
 @endsection
 @push('js')
     <script type="text/javascript">
-        window.onload = function () {
-            var chart = new CanvasJS.Chart("chartContainer", {
-                animationEnabled: true,
-                theme: "light2",
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var lineData = {
+            datasets: [
+                {
+                    label: 'Pengajar',
+                    data: [
+                            @foreach($graph['shadow'] as $row)
+                        {
+                            x: moment('{{$row->date}}','YYYY-MM-DD'), y: '{{$row->entity}}'
+                        },
+                        @endforeach
+                    ],
+                    showLine: true,
+                    fill: false,
+                    borderColor: 'rgba(0, 200, 0, 1)',
+
+                },
+                {
+                    label: 'Pengguna',
+                    data: [
+                            @foreach($graph['user'] as $row)
+                        {
+                            x: moment('{{$row->date}}','YYYY-MM-DD'), y: '{{$row->entity}}'
+                        },
+                        @endforeach
+                    ]
+                    ,
+                    showLine: true,
+                    fill: false,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255,99,132,1)'
+                }, {
+                    label: 'Peserta Didik',
+                    data: [
+                            @foreach($graph['student'] as $row)
+                        {
+                            x: moment('{{$row->date}}','YYYY-MM-DD'), y: '{{$row->entity}}'
+                        },
+                        @endforeach
+                    ]
+                    ,
+                    showLine: true,
+                    fill: false,
+                    backgroundColor: 'rgba(0, 160, 244, 0.2)',
+                    borderColor: 'rgba(0, 160, 244, 0.73)'
+                }
+
+            ]
+        };
+        var myChart = new Chart(ctx, {
+            type: 'scatter',
+            data: lineData,
+            options: {
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                events: ['click'],
+
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
                 title: {
-                    text: "Arus Data Pengguna"
-                },
-                axisX: {
-                    valueFormatString: "DD MMM",
-                    crosshair: {
-                        enabled: true,
-                        snapToDataPoint: true
-                    }
-                },
-                axisY: {
-                    title: "Jumlah Pengguna",
-                    crosshair: {
-                        enabled: true
-                    }
-                },
-                toolTip: {
-                    shared: true
+                    display: true,
+                    text: 'Grafik Pendaftar',
+                    fontSize: 18,
+                    padding: 5
                 },
                 legend: {
-                    cursor: "pointer",
-                    verticalAlign: "bottom",
-                    horizontalAlign: "left",
-                    dockInsidePlotArea: true,
-                    itemclick: toogleDataSeries
-                },
-                data: [{
-                    type: "line",
-                    showInLegend: true,
-                    name: "Total Visit",
-                    markerType: "square",
-                    xValueFormatString: "DD MMM, YYYY",
-                    color: "#F08080",
-                    dataPoints: [
-                        {x: new Date(2017, 0, 3), y: 650},
-                        {x: new Date(2017, 0, 4), y: 700},
-                        {x: new Date(2017, 0, 5), y: 710},
-                        {x: new Date(2017, 0, 6), y: 658},
-                        {x: new Date(2017, 0, 7), y: 734},
-                        {x: new Date(2017, 0, 8), y: 963},
-                        {x: new Date(2017, 0, 9), y: 847},
-                        {x: new Date(2017, 0, 10), y: 853},
-                        {x: new Date(2017, 0, 11), y: 869},
-                        {x: new Date(2017, 0, 12), y: 943},
-                        {x: new Date(2017, 0, 13), y: 970},
-                        {x: new Date(2017, 0, 14), y: 869},
-                        {x: new Date(2017, 0, 15), y: 890},
-                        {x: new Date(2017, 0, 16), y: 930}
-                    ]
-                },
-                    {
-                        type: "line",
-                        showInLegend: true,
-                        name: "Unique Visit",
-                        lineDashType: "dash",
-                        dataPoints: [
-                            {x: new Date(2017, 0, 3), y: 510},
-                            {x: new Date(2017, 0, 4), y: 560},
-                            {x: new Date(2017, 0, 5), y: 540},
-                            {x: new Date(2017, 0, 6), y: 558},
-                            {x: new Date(2017, 0, 7), y: 544},
-                            {x: new Date(2017, 0, 8), y: 693},
-                            {x: new Date(2017, 0, 9), y: 657},
-                            {x: new Date(2017, 0, 10), y: 663},
-                            {x: new Date(2017, 0, 11), y: 639},
-                            {x: new Date(2017, 0, 12), y: 673},
-                            {x: new Date(2017, 0, 13), y: 660},
-                            {x: new Date(2017, 0, 14), y: 562},
-                            {x: new Date(2017, 0, 15), y: 643},
-                            {x: new Date(2017, 0, 16), y: 570},
-                            {x: new Date(2017, 0, 18), y: 570},
-                            {x: new Date(2017, 0, 19), y: 570},
-                            {x: new Date(2017, 0, 30), y: 570},
-                            {x: new Date(2017, 1, 1), y: 570},
-                            {x: new Date(2017, 1, 9), y: 570},
-                        ]
-                    }]
-            });
-            chart.render();
+                    display: true,
+                    position: 'bottom'
 
-            function toogleDataSeries(e) {
-                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                    e.dataSeries.visible = false;
-                } else {
-                    e.dataSeries.visible = true;
-                }
-                chart.render();
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        type: 'time',
+                        distribution: 'linear',
+                        time: {
+                            displayFormats: {
+                                'millisecond': 'YYYY-MM-DD',
+                                'second': 'YYYY-MM-DD',
+                                'minute': 'YYYY-MM-DD',
+                                'hour': 'YYYY-MM-DD',
+                                'day': 'YYYY-MM-DD',
+                                'week': 'YYYY-MM-DD',
+                                'month': 'YYYY-MM-DD',
+                                'quarter': 'YYYY-MM-DD',
+                                'year': 'YYYY-MM-DD',
+                            }
+                        },
+                         ticks: {
+                        callback: function(value) {
+                        return moment(value).format('MMM DD');
+                        },
+                        },
+// scaleLabel: {
+//     display: true,
+//     labelString: 'Date'
+// }
+                    }],
+
+                },
             }
-
-        }
+        });
     </script>
-@endpush
-@push('style')
-
 @endpush

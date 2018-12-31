@@ -17,8 +17,7 @@ class CreateLinkTransPricesTable extends Migration
             $table->string('id', 36)->primary();
             $table->string('name');
             $table->string('amount');
-            $table->string('type_id',36)->nullable();
-            $table->foreign('type_id')->references('id')->on('side_type_prices');
+            $table->enum('status',['active','non active']);
 
             $table->text('detail')->nullable();
             $table->timestamps();

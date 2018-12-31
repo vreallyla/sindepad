@@ -61,6 +61,5 @@
             <i class="fa fa-plus"></i>
         </div>
     </div>
-
-    @include('admin.studentConfig.activity.modalRightActivity')
 @endsection
+@include('admin.studentConfig.activity.modalRightActivity')

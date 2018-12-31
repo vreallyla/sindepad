@@ -27,7 +27,6 @@ class CreateUsersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('code_status');
-
             $table->string('status_id',36);
             $table->foreign('status_id')->references('id')->on('side_status_users');
 

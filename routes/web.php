@@ -15,10 +15,21 @@ Route::group(['prefix' => '/'], function () {
     setlocale(LC_TIME, 'id');
     \Illuminate\Support\Facades\App::setlocale('id');
 
-    Route::get('test1', function () {
+    Route::get('privacy-policy', [
+        'uses' => 'generalController@privacy',
+            'as' => 'privacy',
+    ]);
 
-        return view('layouts.other_side');
-    });
+    Route::get('redirect',[
+        'uses' => 'generalController@privacy',
+        'as' => 'redirect',
+        'middleware'=>['order','redirectLogin']
+    ]);
+
+    Route::post('signout', [
+        'uses' => 'generalController@signout',
+        'as' => 'user.signout',
+    ]);
 
     Route::group(['namespace' => 'User'], function () {
 
@@ -61,6 +72,17 @@ Route::group(['prefix' => '/'], function () {
             Route::get('{class}', [
                 'uses' => 'generalController@courseOpsi',
                 'as' => 'course.opsi'
+            ]);
+        });
+
+        Route::group(['prefix' => '/blog'], function () {
+            Route::get('', [
+                'uses' => 'blogController@index',
+                'as' => 'blog.all'
+            ]);
+            Route::get('{blog}', [
+                'uses' => 'blogController@single',
+                'as' => 'blog.single'
             ]);
         });
 
@@ -141,7 +163,13 @@ Route::group(['prefix' => '/'], function () {
                 'uses' => 'AdminController@index',
                 'as' => 'admin.index'
             ]);
+
+            Route::get('side/profile', [
+                'uses' => 'AdminController@sideProfile',
+                'as' => 'admin.profile'
+            ]);
             Route::group(['prefix' => 'transactions'], function () {
+
                 Route::get('register-list', [
                     'uses' => 'AdminController@register',
                     'as' => 'admin.register'
@@ -151,15 +179,43 @@ Route::group(['prefix' => '/'], function () {
                     'as' => 'admin.trans.tuition'
                 ]);
             });
+
+            Route::group(['prefix' => 'news'], function () {
+                Route::get('categories', [
+                    'uses' => 'AdminController@newsCategory',
+                    'as' => 'admin.news.category'
+                ]);
+
+                Route::get('list', [
+                    'uses' => 'AdminController@newsList',
+                    'as' => 'admin.news.list'
+                ]);
+            });
+
             Route::group(['prefix' => 'settings'], function () {
                 Route::get('aggrement-set', [
                     'uses' => 'AdminController@aggre',
                     'as' => 'admin.settings.aggre'
                 ]);
 
+                Route::get('discon-set', [
+                    'uses' => 'AdminController@discon',
+                    'as' => 'admin.discon'
+                ]);
+
                 Route::get('price-set', [
                     'uses' => 'AdminController@price',
                     'as' => 'admin.settings.price'
+                ]);
+
+                Route::get('carousels-set', [
+                    'uses' => 'AdminController@slide',
+                    'as' => 'admin.settings.slide'
+                ]);
+
+                Route::get('banks-set', [
+                    'uses' => 'AdminController@loadBank',
+                    'as' => 'admin.settings.bank'
                 ]);
             });
             Route::group(['prefix' => 'student-config'], function () {
@@ -177,12 +233,88 @@ Route::group(['prefix' => '/'], function () {
                 ]);
             });
 
-                Route::group(['prefix' => 'data-master'], function () {
+            Route::group(['prefix' => 'data-master'], function () {
                 Route::get('users', [
                     'uses' => 'AdminController@users',
                     'as' => 'admin.master.users'
                 ]);
             });
+        });
+
+
+        Route::group(['namespace' => 'Simdepad'], function () {
+
+            Route::group(['prefix' => 'shadow'], function () {
+                Route::get('/', [
+                    'uses' => 'shadowController@index',
+                    'as' => 'shadow.index',
+                ]);
+                Route::get('users', [
+                    'uses' => 'shadowController@users',
+                    'as' => 'shadow.users',
+                ]);
+
+                Route::get('monitoring', [
+                    'uses' => 'shadowController@tracking',
+                    'as' => 'shadow.tracking',
+                ]);
+
+                Route::group(['prefix' => 'schedules'], function () {
+                    Route::get('list', [
+                        'uses' => 'shadowController@scheList',
+                        'as' => 'shadow.sche.list',
+                    ]);
+                    Route::get('activities', [
+                        'uses' => 'shadowController@scheAct',
+                        'as' => 'shadow.sche.act',
+                    ]);
+                    Route::get('student', [
+                        'uses' => 'shadowController@scheStudent',
+                        'as' => 'shadow.sche.student',
+                    ]);
+                });
+
+                Route::group(['prefix' => 'side'], function () {
+                    Route::get('profile', [
+                        'uses' => 'shadowController@sideProfile',
+                        'as' => 'shadow.side.profile',
+                    ]);
+                });
+
+            });
+
+            Route::group(['prefix' => 'user'], function () {
+                Route::get('monitoring', [
+                    'uses' => 'userInController@tracking',
+                    'as' => 'user.tracking',
+                ]);
+
+                Route::get('/', [
+                    'uses' => 'userInController@index',
+                    'as' => 'user.in.home'
+                ]);
+
+                Route::group(['prefix' => 'side'], function () {
+                    Route::get('profile', [
+                        'uses' => 'userInController@profile',
+                        'as' => 'user.side.profile',
+                    ]);
+                });
+
+                    Route::group(['prefix' => 'schedules'], function () {
+                    Route::get('list', [
+                        'uses' => 'userInController@scheList',
+                        'as' => 'user.sche.list',
+                    ]);
+                    Route::get('activities', [
+                        'uses' => 'userInController@scheAct',
+                        'as' => 'user.sche.act',
+                    ]);
+                });
+
+            });
+
+
         });
     });
 

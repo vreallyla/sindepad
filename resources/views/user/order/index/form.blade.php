@@ -24,7 +24,7 @@
                         <a href="#accordion{{$i+1}}" aria-expanded="false"
                            aria-controls="accordion{{$i+1}}"
                            class="accordion-title accordionTitle js-accordionTrigger">
-                            <span class="content-accord">Pendaftar #{{$i+1}}{{session('order')&&array_key_exists('name',session('order')['data'][$i]) ? ' : '.session('order')['data'][$i]['name']:''}}</span>
+                            <span class="content-accord">Pendaftar #{{$i+1}}{{' '.session('reg')['name']}}</span>
                             <span class="pull-right remove-accordion"
                                   data-toggle="tooltip"
                                   data-placement="right" title="Tutup"
@@ -42,8 +42,8 @@
                                 <input type="text" name="fullName[]"
                                        placeholder="Nama siswa yang mendaftar"
                                        class="form-control modify-input change-tittle fullName"
-                                       @if(session('order')&&array_key_exists('name',session('order')['data'][$i]))value="{{session('order')['data'][$i]['name']}}"
-                                       @endif
+                                       value="{{session('reg')['name']}}"
+
                                        data-index="0">
                                 <span class="help-block"
                                       style="display: none">
@@ -60,7 +60,7 @@
                                     </option>
                                     @foreach($gender as $row)
                                         <option value="{{$row->id}}"
-                                                @if(session('order')&&array_key_exists('sex',session('order')['data'][$i])&&session('order')['data'][$i]['sex']==$row->id)selected @endif>{{$row->ind}}</option>
+                                                {{session('reg')['sex']===$row->id?'selected':''}}>{{$row->ind}}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block"
@@ -77,7 +77,7 @@
                                     </option>
                                     @foreach($rs as $row)
                                         <option value="{{$row->id}}"
-                                                @if(session('order')&&array_key_exists('rs',session('order')['data'][$i])&&session('order')['data'][$i]['rs']==$row->id)selected @endif>{{$row->ind}}</option>
+                                                {{session('reg')['rel']===$row->id?'selected':''}}>{{$row->ind}}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block"
@@ -91,13 +91,7 @@
                                         class="form-control selectpicker needed"
                                         data-container="body" multiple>
                                     @foreach($dis as $row)
-                                        <option value="{{$row->id}}"
-                                        @if(session('order')&&array_key_exists('needed',session('order')['data'][$i]))
-                                            @foreach (session('order')['data'][$i]['needed'] as $ra)
-                                                {{$row->id==$ra? 'selected':''}}
-                                                    @endforeach
-                                                @endif
-                                        >{{$row->name}}</option>
+                                        <option value="{{$row->id}}">{{$row->name}}</option>
                                     @endforeach
                                 </select>
                                 <span class="help-block"

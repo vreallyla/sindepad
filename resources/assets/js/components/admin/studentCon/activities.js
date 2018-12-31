@@ -10,8 +10,6 @@ if ($('body').find('#student-activities').length > 0) {
             triggerRight = $('.trigger-right'),
             manipNotice = 'Harap tidak merubah data',
             modalpage = $('#modal-container'),
-            modalOut = $('.title-content,.card-mod,.paginated'),
-            objnonModal = $('.title-content,.title-content,.paginated,.not-found-notice,.error-notice'),
             modalTarget = targetObj.find('.modal-full'), triggerHideModal = targetObj.find('.btn-back'),
             targetFillModal = modalTarget.find('.act-fill-sub'),
             targetPage = targetObj.find('.paginate'),
@@ -62,49 +60,49 @@ if ($('body').find('#student-activities').length > 0) {
                 });
             },
 
-        /*------------------ get async detail ------------------*/
-        detailAsync = function (dataa) {
-            const urlDetail = 'activity-detail';
-            axios.get(urlApi + urlDetail, {
-                params: dataa
-            })
-                .then(function (res) {
-                    let cloneModalFull = targetFillModal.children().clone(),
-                        editCloneModal = cloneModalFull.eq(0),
-                        dataDetail = res.data;
-
-                    modalTarget.find('img').prop('src', dataDetail.img).closest('.header-card-profil')
-                    /*name activity*/
-                        .next().children().eq(0).children().eq(0).text(dataDetail.name)
-                    /*code activity*/
-                        .next().text(dataDetail.code);
-
-                    targetFillModal.empty();
-                    if (dataDetail.list.length > 0) {
-                        $.each(dataDetail.list, function (i, val) {
-                            editCloneModal.children().eq(0).text(val.name).next().show();
-                            targetFillModal.append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 fill-pers-info act-sub-list">' + cloneModalFull[0].innerHTML + ' </div>');
-                            targetFillModal.children().eq(i).data('key', val.key);
-                        });
-                    } else {
-                        editCloneModal.children().eq(0).text(nullNotice).next().hide();
-                        targetFillModal.append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 fill-pers-info act-sub-list" >' + cloneModalFull[0].innerHTML + ' </div>');
-
-                    }
-
-                    showModalFull(); /*trigger show modal*/
-                    loadPart.hide();
+            /*------------------ get async detail ------------------*/
+            detailAsync = function (dataa) {
+                const urlDetail = 'activity-detail';
+                axios.get(urlApi + urlDetail, {
+                    params: dataa
                 })
-                .catch(function (er) {
-                    loadPart.hide();
+                    .then(function (res) {
+                        let cloneModalFull = targetFillModal.children().clone(),
+                            editCloneModal = cloneModalFull.eq(0),
+                            dataDetail = res.data;
 
-                    if (errNotice.response) {
-                        errSet(er.response.status);
-                    } else {
-                        swallCustom(errNotice);
-                    }
-                });
-        },
+                        modalTarget.find('img').prop('src', dataDetail.img).closest('.header-card-profil')
+                        /*name activity*/
+                            .next().children().eq(0).children().eq(0).text(dataDetail.name)
+                        /*code activity*/
+                            .next().text(dataDetail.code);
+
+                        targetFillModal.empty();
+                        if (dataDetail.list.length > 0) {
+                            $.each(dataDetail.list, function (i, val) {
+                                editCloneModal.children().eq(0).text(val.name).next().show();
+                                targetFillModal.append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 fill-pers-info act-sub-list">' + cloneModalFull[0].innerHTML + ' </div>');
+                                targetFillModal.children().eq(i).data('key', val.key);
+                            });
+                        } else {
+                            editCloneModal.children().eq(0).text(nullNotice).next().hide();
+                            targetFillModal.append('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 fill-pers-info act-sub-list" >' + cloneModalFull[0].innerHTML + ' </div>');
+
+                        }
+
+                        showModalFull(); /*trigger show modal*/
+                        loadPart.hide();
+                    })
+                    .catch(function (er) {
+                        loadPart.hide();
+
+                        if (errNotice.response) {
+                            errSet(er.response.status);
+                        } else {
+                            swallCustom(errNotice);
+                        }
+                    });
+            },
             /*---------------- end get async detail ----------------*/
 
             /*------------------ get list user with async ------------------*/
@@ -144,34 +142,7 @@ if ($('body').find('#student-activities').length > 0) {
                 });
             },
             /*---------------- end get list user with async ----------------*/
-            /*------------------ for show full modal ------------------*/
-            showModalFull = function () {
-                objnonModal.addClass('animated slideOutDown');
 
-                setTimeout(e => {
-                    modalTarget.show();
-                    objnonModal.removeClass('animated slideOutDown').hide();
-                    anim('animated bounceInDown', modalTarget, 'animated bounceInDown');
-                }, 300);
-            },
-            /*---------------- end for show full modal ----------------*/
-
-            /*------------------ for hide full modal ------------------*/
-            hideModalFull = function () {
-                modalTarget.fadeOut(300);
-                setTimeout(e => {
-                    modalOut.fadeIn(300);
-                }, 500);
-            },
-            /*---------------- end for hide full modal ----------------*/
-
-            /*------------------ for show modal anim ------------------*/
-            showModalAnim = function () {
-                const buttonId = 'one';
-                $('#modal-container').removeAttr('class').addClass(buttonId);
-                $('body').addClass('preloader-site');
-            },
-            /*---------------- end for show modal anim ----------------*/
 
             /*------------- for check popstate when click page other -------------*/
             checkpop = function (clickPage) {
@@ -211,6 +182,9 @@ if ($('body').find('#student-activities').length > 0) {
             if (modalTarget.is(':visible')) {
                 window.history.forward();
                 hideModalFull();
+                setTimeout(function () {
+                    getListAsync()
+                }, 100);
             } else if (e.state !== '') {
                 rowTarget.val(e.state.row);
                 qTarget.val(e.state.q);
@@ -267,6 +241,7 @@ if ($('body').find('#student-activities').length > 0) {
                     contentRight.find('input').val('');
                     contentRight.find('textarea').text('').val('');
                     swallCustom(sucNotice);
+                    getListAsync();
                 })
                 .catch(function (er) {
                     erPlaceRight(er.response)
@@ -450,13 +425,6 @@ if ($('body').find('#student-activities').length > 0) {
 
         }
 
-        function erra(no) {
-            if (no) {
-                no.status === 422 ? swallCustom(manipNotice) : swallCustom(errNotice);
-            } else {
-                swallCustom(errNotice);
-            }
-        }
 
         btnTrigOpsi.children().eq(0).click(function () {
             clickEditAct = true;
@@ -544,13 +512,7 @@ if ($('body').find('#student-activities').length > 0) {
             });
         }
 
-        function permissionsDel() {
-            if (confirm("Data akan hilang, hapus?")) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+
 
     });
 }

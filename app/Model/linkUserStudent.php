@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Model\_sche\mstSchecule;
+use App\Model\_student\dataScoreResult;
 use App\rsStudentFamily;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
@@ -40,9 +42,18 @@ class linkUserStudent extends Model
     {
         return $this->belongsTo(sideGender::class,'gender_id');
     }
+    public function getSche()
+    {
+        return $this->belongsTo(mstSchecule::class,'sche_id');
+    }
 
     public function getShadow()
     {
         return $this->hasMany(rsHomeroom::class,'student_id');
+    }
+
+    public function getScore()
+    {
+        return $this->hasMany(dataScoreResult::class,'student_id');
     }
 }

@@ -16,8 +16,9 @@ import 'tinymce/plugins/preview/plugin.min'
 
 // Initialize
 tinymce.init({
+    branding: false,
     selector: '#description',
     themes: 'inlite',
     skin: false,
-    plugins: ['paste', 'link', 'autoresize', 'lists','fullscreen','preview']
+    plugins: ['paste', 'link', 'autoresize', 'lists', 'fullscreen', 'preview']
 });

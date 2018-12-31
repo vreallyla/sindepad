@@ -3,9 +3,11 @@
 namespace App\Http;
 
 use App\Http\Middleware\accessMiddleware;
+use App\Http\Middleware\justShadowMiddleware;
 use App\Http\Middleware\jwtMiddleware;
 use App\Http\Middleware\order\handdleTfMiddleware;
 use App\Http\Middleware\orderMiddleware;
+use App\Http\Middleware\redirectMiddleware;
 use App\Http\Middleware\reMiddleware;
 use App\Http\Middleware\Role\justAdminMiddleware;
 use App\Http\Middleware\Role\justInController;
@@ -68,7 +70,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'anu' => reMiddleware::class,
         'order' => justInController::class,
+        'redirectLogin' => redirectMiddleware::class,
         'adminRole' => justAdminMiddleware::class,
+        'shadowRole' => justShadowMiddleware::class,
         'jwttes' => jwtMiddleware::class,
         'access' => accessMiddleware::class,
         'user_role'=>UserMiddleware::class,

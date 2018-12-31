@@ -4,7 +4,7 @@
 @section('content')
     <!--Breadcrumb start-->
     <div class="ed_pagetitle" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="0"
-         style="background-image: url(http://placehold.it/921X533);">
+         style="background-image: url({{$parralax}});">
         <div class="ed_img_overlay"></div>
         <div class="container">
             <div class="row">

@@ -65,6 +65,12 @@ return [
         'resources/views/vendor/html',
         'resources/views/vendor/notifications',
         'resources/views/vendor/markdown',
+//        'app',
+//        'bootstrap',
+//        'config',
+//        'public',
+//        'resources',
+
 //        'resources/views/user/order/checkout/js',
     ],
 

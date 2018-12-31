@@ -3,7 +3,8 @@
 @section('key','anu')
 @section('content')
     <!--Breadcrumb start-->
-    <div class="ed_pagetitle" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="0" style="background-image: url({{asset('images/parallax/1.jpg')}});">
+    <div class="ed_pagetitle" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="0"
+         style="background-image: url({{$parralax}});">
         <div class="ed_img_overlay"></div>
         <div class="container">
             <div class="row">
@@ -27,58 +28,27 @@
     <div class="ed_courses ed_toppadder80 ed_bottompadder80">
         <div class="container">
             <div class="row">
-                @foreach($default[1] as $row)
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                    <div class="ed_mostrecomeded_course">
-                        <div class="ed_item_img">
-                            <img src="http://placehold.it/360X227" alt="item1" class="img-responsive">
-                        </div>
-                        <div class="ed_item_description ed_most_recomended_data">
-                            <h4><a href="{{route('course.opsi',['class'=>$row->id])}}">Kelas {{$row->name}} </a><span>£25</span></h4>
-                            <div class="row">
-                                <div class="ed_rating">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                <div class="ed_stardiv">
-                                                    <div class="star-rating"><span style="width:80%;"></span></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                                <div class="row">
-                                                    <p>(5 review)</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="ed_views">
-                                            <i class="fa fa-users"></i>
-                                            <span>35 students</span>
-                                        </div>
-                                    </div>
-                                </div>
+                @foreach($dataN as $row)
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="ed_mostrecomeded_course">
+                            <div class="ed_item_img">
+                                <img src="{{\Illuminate\Support\Facades\File::exists($row->url) ? asset($row->url) : asset('images/img_unvailable.png')}}" alt="item1" class="img-responsive">
                             </div>
-                            <div class="course_detail">
-                                <div class="course_faculty">
-                                    <img src="http://placehold.it/32X32" alt=""> <a href="instructor_dashboard.html">Joanna Simpson</a>
-                                </div>
+                            <div class="ed_item_description ed_most_recomended_data">
+                                <h4 data-toggle="tooltip" data-placement="top"
+                                    title="{{strlen('Kegiatan '.$row->name)>22?'Kegiatan '.$row->name:''}}">
+                                    <a href="{{route('course.opsi',['class'=>$row->id])}}">{{strlen('Kegiatan '.$row->name)>22?substr('Kegiatan '.$row->name,0,22):'Kegiatan '.$row->name}} </a><span
+                                            style="font-size: 12px;"><i class="fa fa-clock-o"> {{$row->time}} menit</i></span>
+                                </h4>
+                                <p>{{strlen(strip_tags($row->summary))>35?substr(strip_tags($row->summary),0,130).'...':strip_tags($row->summary)}} </p>
                             </div>
-                            <p>{{substr($row->detail,0,130)}} ...</p>
-                            <a href="course_single.html" class="ed_getinvolved">Selengkapnya <i class="fa fa-long-arrow-right"></i></a>
                         </div>
                     </div>
-                </div>
-               @endforeach
+                @endforeach
                 <div class="col-lg-12">
                     <div class="ed_blog_bottom_pagination">
                         <nav>
-                            <ul class="pagination">
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li class="active"><a href="#">Next <span class="sr-only">(current)</span></a></li>
-                            </ul>
+                            {{$dataN->links()}}
                         </nav>
                     </div>
                 </div>
@@ -91,7 +61,7 @@
 @push('js')
     <script>
         $(function () {
-            var menu= "{{$default[2]}}";
+            var menu = "{{$default[2]}}";
             // alert(menu);
         });
 

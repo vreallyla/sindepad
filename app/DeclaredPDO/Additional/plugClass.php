@@ -70,7 +70,7 @@ trait plugClass
 
     protected static function check_file($asset)
     {
-        return \Illuminate\Support\Facades\File::exists($asset) ? $asset : asset('images/img_unvailable.png');
+        return \Illuminate\Support\Facades\File::exists($asset) ? asset($asset) : asset('images/img_unvailable.png');
     }
     protected static function check_file_bool($asset)
     {

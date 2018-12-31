@@ -2,10 +2,12 @@
 
 namespace App;
 
+use App\Model\linkUserTeacher;
 use App\Model\mstTransactionList;
 use App\Model\rsHomeroom;
 use App\Model\sideGender;
 use App\Model\sideStatusUser;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -102,4 +104,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(rsHomeroom::class, 'teacher_id');
     }
+
+    public function getTeacher()
+    {
+        return $this->hasOne(linkUserTeacher::class, 'user_id');
+    }
+
 }

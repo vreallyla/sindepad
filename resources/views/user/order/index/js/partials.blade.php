@@ -2,7 +2,8 @@
     $(function ($) {
         let labelFirst = $('#step1'),
             tab_step = getUrlParameter('tab'),
-            get_step = 1;
+            get_step = 1,
+            selpick = [];
 
         const step3 = $('#step3'),
             sub_list = step3.find('.payment-step').children('.payment-header')
@@ -15,11 +16,8 @@
         targetTab = $('#section-tabs').children('li'),
             targetFieldset = $('#fieldsets fieldset'),
             $titleContent = [
-                @if(session('order'))
-                        @foreach(session('order')['data'] as $i=> $row)
-                    '{{array_key_exists('name',$row) ? ' : '.session('order')['data'][$i]['name']:''}}',
-                @endforeach
-                @endif];
+                '{{session('reg')['name']?session('reg')['name']:''}}',
+            ];
 
         $.each([1, 2, 3], function (key, val) {
             get_step = tab_step == val ? val : get_step;
@@ -33,13 +31,17 @@
         targetTab.eq(get_step - 1).addClass('current').addClass('active').siblings().removeClass('current');
         targetFieldset.eq(get_step - 1).addClass('current').removeClass('next').siblings().removeClass('current');
 
-        $(window).on('load', function () {
+
+        $(document).ready(function () {
             $('.accordion-title')[0].click();
 
             $('body,html').animate({
                 scrollTop: $('#signup').offset().top - 80
             }, 1000);
-
+            @foreach(session('reg')['needed']?session('reg')['needed']:[] as $row)
+            selpick.push('{{$row}}');
+            @endforeach
+            $('select.selectpicker').selectpicker('val', selpick);
         });
 
         {{--trigger add accordion on step1 n step2--}}
@@ -75,7 +77,7 @@
             indexRemove = dtLable.index(contentRemove);
             contentRemove2 = $('#step2 dt').eq(indexRemove);
             entityOrder = dtLable.length;
-
+            let anukan = $('#step1 dd');
             contentRemove.next().remove();
             contentRemove.remove();
             contentRemove2.next().remove();
@@ -85,16 +87,16 @@
 
             flattenTitleAccord('#step1');
             flattenTitleAccord('#step2');
+            changeNominal(anukan.length-1);
 
-            showCloseAccord($('#step1 dd').length);
+            showCloseAccord(anukan.length);
         });
 
         function flattenTitleAccord(target) {
             $(target).find('dt').each(function (i) {
                 if (!$.trim($titleContent[i])) {
                     $(this).find('.content-accord').text('Pendaftar #' + (i + 1));
-                }
-                else {
+                } else {
                     $(this).find('.content-accord').text('Pendaftar #' + (i + 1) + ' : ' + $titleContent[i]);
                 }
                 // $(this).next().find('.change-tittle').attr('data-index', i)
@@ -103,7 +105,6 @@
 
         {{--manipulate accordion entity on step 1 n step2 --}}
         function changeEntity(i) {
-            console.log(i)
             $('.selectpicker').selectpicker();
             valEntity = parseInt($('#step1 dd').length);
             $titleContent.push('');
@@ -114,22 +115,25 @@
                 $('.entity-order').text(i).hide().fadeIn('slow');
                 addAccordOnFirst(i);
                 showCloseAccord(i);
-            }
-            else if (1 <= i && valEntity > i && valEntity <= 3) {
+                changeNominal(i);
+            } else if (1 <= i && valEntity > i && valEntity <= 3) {
                 reduceOrder(i);
-            }
-            else if (i < 1) {
+                changeNominal(i);
+            } else if (i < 1) {
                 swallCustom2('minimal 1 pendaftar.');
-            }
-            else {
+            } else {
                 swallCustom2('maksimal 3 pendaftar.');
             }
             setTimeout(() => {
                 $('.selectpicker').selectpicker();
             }, 500);
 
-            total_all.text('Rp'+convertRp(parseInt(sub_nominal.data('nominal')) * i));
-            sub_entity.text(i+'x')
+
+        }
+
+        function changeNominal(i) {
+            total_all.text('Rp' + convertRp(parseInt(sub_nominal.data('nominal')) * i));
+            sub_entity.text(i + 'x')
         }
 
         {{--adding or reducing accordion on step1--}}
@@ -185,6 +189,7 @@
 
         {{--toggle close accordion when entity more than one--}}
         function showCloseAccord(i) {
+
             i > 1 ?
                 $('#step1').find('.remove-accordion').fadeIn('slow') :
                 $('#step1').find('.remove-accordion').fadeOut('slow');

@@ -3,7 +3,7 @@
 @section('key','anu')
 @section('content')
 <!--Breadcrumb start-->
-<div class="ed_pagetitle" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="0" style="background-image: url(http://placehold.it/921X533);">
+<div class="ed_pagetitle" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="0" style="background-image: url({{$parralax}});">
     <div class="ed_img_overlay"></div>
     <div class="container">
         <div class="row">
@@ -32,21 +32,21 @@
                     <div class="ed_chart_ratio">
                         <i class="fa fa-line-chart"></i>
                         <h4>Officially the best</h4>
-                        <p>Just in case there is anyone looking for it,we added new expertise to our knowledge base to make you happy.</p>
+                        <p>{{env('APP_NAME')}} telah menjadi salah satu tempat pembelajaran ABK terbaik.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="ed_chart_ratio">
-                        <i class="fa fa-sliders"></i>
-                        <h4>Redesigned website</h4>
-                        <p>A wonderful serenity has taken possession of my entire soul of spring which I enjoy with my whole heart.</p>
+                        <i class="fa fa-tachometer"></i>
+                        <h4>Tracking Growth</h4>
+                        <p>Mendukung aplikasi monitoring untuk mengetahui perkembangan anak secara langsung.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="ed_chart_ratio">
-                        <i class="fa fa-folder-open-o"></i>
-                        <h4>We are launching</h4>
-                        <p>Incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist.</p>
+                        <i class="fa fa-users"></i>
+                        <h4>Team Experts</h4>
+                        <p>Tenaga kerja berpengalaman yang telah memiliki keahlian dibidangnya.</p>
                     </div>
                 </div>
             </div>

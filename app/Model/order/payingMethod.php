@@ -12,7 +12,7 @@ class payingMethod extends Model
 {
     use SoftDeletes;
 
-    protected $guarded = ['id'];
+    protected $guarded = ['id','created_at','updated_at','deleted_at'];
     public $incrementing =false ;
 
     /**

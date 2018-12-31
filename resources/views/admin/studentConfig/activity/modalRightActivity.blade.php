@@ -9,7 +9,7 @@
         </div>
         <div class="form-group"><label class="control-label">Gambar :</label> <input type="file"
                                                                                     class="form-control"
-                                                                                    name="img">
+                                                                                    name="img" accept="image/*">
             <span class="help-block"></span>
         </div>
         <div class="form-group"><label class="control-label">Tujuan :</label> <input type="text"

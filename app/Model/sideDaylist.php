@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use App\Model\Order\timeOption;
+use App\Model\_sche\rsSchecule;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
 
@@ -22,8 +22,9 @@ class sideDaylist extends Model
         });
     }
 
-    public function getTimeOptions()
+    public function rsSchedules()
     {
-        return $this->hasMany(timeOption::class,'day_id');
+        return $this->hasMany(rsSchecule::class,'day_id');
     }
+
 }

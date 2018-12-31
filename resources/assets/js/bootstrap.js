@@ -19,7 +19,9 @@ window.selectpicker = require('bootstrap-select');
 require('bootstrap-select/dist/js/i18n/defaults-id_ID');
 
 window.axios = require('axios');
-window.currency=require('./assets/currency');
+// window.currency=require('./assets/currency');
+
+require('masonry-layout/dist/masonry.pkgd.min');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -29,7 +31,10 @@ window.swal = require('sweetalert2');
 //moment date
 require('./moment');
 
-window.CanvasJS =require('./assets/js/canvasjs.min');
+//mask phone http://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js
+require('./assets/mask_plugin');
+
+require('chart.js/dist/Chart.min');
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
 

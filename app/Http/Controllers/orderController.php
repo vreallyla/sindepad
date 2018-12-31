@@ -2,30 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\DeclaredPDO\imgParallax;
 use App\DeclaredPDO\Jwt\extraClass;
-use App\linkStudentFamily;
 use App\Model\general\dataBank;
-use App\Model\linkUserStudent;
 use App\Model\mstClass;
 use App\Model\mstDisability;
 use App\Model\mstTransactionList;
+use App\Model\order\linkTransPrice;
 use App\Model\order\payingMethod;
-use App\Model\order\rsTransPrice;
-use App\Model\order\sideTypePrice;
-use App\Model\order\voucherRegister;
-use App\Model\rsDisability;
 use App\Model\sideDaylist;
 use App\Model\sideGender;
 use App\Model\sideTimeList;
 use App\mstHub;
-use App\rsStudentFamily;
 use App\sideNote;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\DeclaredPDO\allNeeded as Selingan;
 use App\Model\order\expression;
-use Illuminate\Support\Facades\File;
 
 const HOMOTYPE = 'bila tidak transaksi akan dibatalkan secara otomatis.',
 types = ['name', 'sex', 'packet', 'course', 'rs', 'needed', 'desc'],
@@ -289,6 +282,7 @@ class orderController extends Controller
 
     public function order(Request $r)
     {
+
         $token = $r->token;
         $default = Selingan::index('Program');
         $gender = sideGender::orderBy('created_at', 'asc')->get();
@@ -301,12 +295,13 @@ class orderController extends Controller
         $entity = session()->has('order') ? count(session('order')['data']) : 1;
         $step = session()->has('order') ? session('order')['step'] : 1;
         $time = sideTimeList::orderBy('created_at', 'asc')->get();
-        $sub_total = array_sum(sideTypePrice::where('name', 'Wajib')->first()->getrsTransPrice()->pluck('amount')->toArray());
+        $sub_total = array_sum(linkTransPrice::where('status','active')->pluck('amount')->toArray());
         $aggrement=sideNote::where('status','active')->first();
+        $parralax=imgParallax::getImgN();
 
         return view('user.order.index.order', compact(
             'token', 'default', 'gender',
-            'rs', 'dis', 'title', 'day', 'sub_total',
+            'rs', 'dis', 'title', 'day', 'sub_total','parralax',
             'user_cookie', 'method', 'entity', 'step', 'time','aggrement'
         ));
     }
@@ -321,16 +316,16 @@ class orderController extends Controller
         $this->validate($r, [
             'name' => 'required',
             'sex' => 'required|exists:side_genders,id',
-            'course' => 'required|exists:mst_classes,id',
-            'packet' => 'required|exists:mst_data_pakets,id'
+            'rel' => 'required|exists:mst_hubs,id',
+            'needed' => 'required|exists:mst_disabilities,id'
         ], [
             'required' => 'Harap pilih kolom diatas',
             'name.required' => 'Harap isi kolom diatas',
             'exists' => 'harap tidak merubah data',
         ]);
-
+        session()->flash('reg',$r->only('name','sex','rel','needed'));
         $this->data_session = [$r->only('name', 'sex', 'course', 'packet')];
-        $this->make_session();
+//        $this->make_session();
 
         return redirect()->route('order.step');
     }

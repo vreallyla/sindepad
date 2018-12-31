@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\DeclaredPDO\Additional\plugClass;
 use App\Model\mstTransactionList;
 use App\User;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cookie;
@@ -21,11 +22,10 @@ class cobaController extends Controller
      */
     public function index(Request $r)
     {
-        try{
-            return mstTransactionList::findOrFail('asdasdasd');
-        }catch (\Exception $e){
-            return $e;
-        }
+        $a = now();
+        $now = $a->copy()->toDateString();
+        $dateNow = $a->copy()->subMonths(1)->toDateString();
+        CarbonPeriod::create($dateNow, $now)->toArray();
     }
 
     /**

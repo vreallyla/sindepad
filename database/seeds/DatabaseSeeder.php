@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(genderSeeder::class);
         $this->call(hariSeeder::class);
         $this->call(maritalSeeder::class);
-        $this->call(occupationSeeder::class);
         $this->call(packetSeeder::class);
         $this->call(professionSeeder::class);
         $this->call(salarySeeder::class);
@@ -32,7 +31,12 @@ class DatabaseSeeder extends Seeder
         $this->call(bankSeeder::class);
         $this->call(payMethodSeeder::class);
         $this->call(noteSeeder::class);
+        $this->call(catInfoSeeder::class);
         //end needed
+
+//        $this->call(occupationSeeder::class);
+
+
 //        $this->call(timeOptionSeeder::class);
 //        $this->call(rulesTimeOptionSeeder::class);
 //        $this->call(addOrderSeeder::class);

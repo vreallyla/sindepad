@@ -84,7 +84,7 @@ class expression extends Model
             'trans_id' => $trans,
             'student_id' => $student
         ]);
-        $type = sideTypePrice::where('name', 'Wajib')->first()->getrsTransPrice;
+        $type = linkTransPrice::where('status','active')->get();
         foreach ($type as $r)
             rsTransPrice::create([
                 'trans_user_id' => $multiCart->id,
@@ -233,7 +233,6 @@ class expression extends Model
                 }
             } else {
                 array_push($array2, $array[$i]);
-
             }
 
 

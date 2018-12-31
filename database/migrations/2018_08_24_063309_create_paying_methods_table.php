@@ -15,7 +15,7 @@ class CreatePayingMethodsTable extends Migration
     {
         Schema::create('paying_methods', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('name')->unique();
+            $table->string('name');
 
             $table->string('url')->unique()->nullable();
             $table->enum('method', ['Bayar Ditempat', 'Transfer']);

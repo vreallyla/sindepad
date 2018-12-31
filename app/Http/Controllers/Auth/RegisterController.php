@@ -63,7 +63,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
             'gender' => 'required|exists:side_genders,id',
-            'g-recaptcha-response'=> new Captcha(),
+//            'g-recaptcha-response'=> new Captcha(),
         ]);
     }
 
@@ -130,15 +130,15 @@ class RegisterController extends Controller
             }
         }
         else{
-            return redirect()->route('welcome')->with('warning','sorry, your email cannot identified..');
+            return redirect()->route('welcome')->with('msg','sorry, your email cannot identified..');
         }
-        return redirect()->route('welcome')->with('success',$status);
+        return redirect()->route('welcome')->with('msg',$status);
     }
 
     protected function registered(Request $request, $user)
     {
         $this->guard()->logout();
-        return redirect()->route('welcome')->with('success', 'We sent you an activication code. Check your email and click on the link to verify.');
+        return redirect()->route('welcome')->with('msg', 'We sent you an activication code. Check your email and click on the link to verify.');
     }
 
     public function showRegistrationForm()

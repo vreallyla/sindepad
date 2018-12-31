@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\DeclaredPDO\imgParallax;
 use App\Model\sideGender;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,9 @@ class ProfileController extends Controller
         $token=$r->token;
         $jk=sideGender::orderBy('ind','desc')->get();
         $kids=$r->kids;
+        $parralax=imgParallax::getImgN();
 
-        return view('user.profile.index',compact('default','menu','title','user_cookie','more','token','jk','kids'));
+
+        return view('user.profile.index',compact('default','menu','title','user_cookie','more','token','jk','kids','parralax'));
     }
 }

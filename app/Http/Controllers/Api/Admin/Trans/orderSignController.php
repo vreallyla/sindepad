@@ -127,13 +127,39 @@ class orderSignController extends Controller
             return $error;
         }
 
-        $arr = [];
+        $arr = $this->getDeti($r->cat);
 
+
+        if ($r->q) {
+            $arr = trans_get::searchSome($arr, $r->q);
+        }
+
+        return $this->setPaginate($arr, $r->row, $r->page);
+    }
+
+    public function getNotif()
+    {
+        $arr = [];
+        $method = ['Bayar ditempat', 'Transfer'];
+        $z = 0;
+        foreach (DATA_CAT as $i => $val) {
+            $data = $this->getDeti($i);
+            $arr[$method[$z]]['list'] = $data;
+            $arr[$method[$z]]['quantity'] = count($data);
+            $arr[$method[$z]]['notice'] = count($data) > 0 ? true : null;
+            $z++;
+        }
+        return $arr;
+    }
+
+    private function getDeti($cat)
+    {
+        $arr = [];
         $trans = mstTransactionList::query();
-        $trans->when($r->cat === 'tf', function ($q, $cat) {
+        $trans->when($cat === 'tf', function ($q, $cat) {
             return $q->where('status', 'administrasi');
         });
-        $trans->when($r->cat === 'cop', function ($q, $cat) {
+        $trans->when($cat === 'cop', function ($q, $cat) {
             return $q->where('status', 'konfirmasi')->wherehas('getMethod', function ($met) {
                 $met->where('method', 'Bayar Ditempat');
             });
@@ -143,11 +169,8 @@ class orderSignController extends Controller
             $arr[] = $getTrans->get_tf();
         }
 
-        if ($r->q) {
-            $arr = trans_get::searchSome($arr, $r->q);
-        }
+        return $arr;
 
-        return $this->setPaginate($arr, $r->row, $r->page);
     }
 
     public function getDetail(Request $r)

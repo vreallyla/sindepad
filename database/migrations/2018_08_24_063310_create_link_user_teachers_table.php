@@ -15,16 +15,11 @@ class CreateLinkUserTeachersTable extends Migration
     {
         Schema::create('link_user_teachers', function (Blueprint $table) {
             $table->string('id', 36)->primary();
-            $table->string('lastschool');
             $table->date('register');
-            $table->string('job_id',36);
-            $table->foreign('job_id')->references('id')->on('side_job_desks');
             $table->string('education_id',36)->nullable();
             $table->foreign('education_id')->references('id')->on('side_last_educations');
             $table->string('marital_id',36);
             $table->foreign('marital_id')->references('id')->on('side_marital_statuses');
-            $table->string('occupation_id',36);
-            $table->foreign('occupation_id')->references('id')->on('side_occupations');
             $table->string('user_id',36);
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

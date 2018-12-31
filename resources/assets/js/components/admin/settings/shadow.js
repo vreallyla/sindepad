@@ -11,11 +11,11 @@ if ($('Body').find('#setting-shadows').length > 0) {
             nullNotice = "Belum diisi",
             manipNotice = "Harap tidak merubah data",
             fillTable = targetTable.children('tr'),
-            rowAvail = [10, 30, 50], catAvail = ['tf', 'cop'],
+            rowAvail = [10, 30, 50], catAvail = ['Belum Diatur', 'Sudah Diatur'],
             targetPage = targetObj.find('.paginate'),
             loadingMagnify = targetObj.find('.loading'),
             tableLabel = targetObj.find('.table-register'),
-            urlPage = '/simdepad/student-config/settings/shadow',
+            urlPage = '/simdepad/admin/student-config/shadow',
             urlApi = '/api/v1/admin/settings/';
 
         let data = {
@@ -56,7 +56,7 @@ if ($('Body').find('#setting-shadows').length > 0) {
                             .next().text(val.needed)
                             .next().find('[data-toggle="tooltip"]').text(val.shadow ? (val.shadow.name.length > 17 ? val.shadow.name.substr(0, 15) + '..' : val.shadow.name) : nullNotice)
                             .prop('title', val.shadow ? (val.shadow.name.length > 10 ? val.shadow.name : '') : nullNotice)
-                            .next().hide().closest('tr')
+                            .next().hide().closest('td')
                             .next().find('span').text(val.status ? val.status.notice : nullNotice)
                             .prop('title', val.status.date ? moment(val.status.date.date).format("Do MMM YYYY") : nullNotice)
                         ;
@@ -64,7 +64,7 @@ if ($('Body').find('#setting-shadows').length > 0) {
                         $('.selectpicker').selectpicker("refresh");
                         targetObj.find('tbody').children().eq(i).data('key', val.key).find('.selectpicker').selectpicker('refresh');
 
-                        targetTable.children().eq(i).find('.add').children().eq(1).children().eq(1).hide();
+                        targetTable.children().eq(i).find('.add').children().eq(1).hide();
                     });
 
                     for (let i = 0; i < datalist.length; i++) {
@@ -80,11 +80,7 @@ if ($('Body').find('#setting-shadows').length > 0) {
                     setPagination(targetPage, res.data.max_page, res.data.current_page);
                 }).catch(function (er) {
                     loadingMagnify.hide();
-                    if (er.response && (er.response.status === 403 || er.response.status === 422)) {
-                        $('.not-found-notice').fadeIn(300);
-                    } else {
-                        $('.error-notice').fadeIn(300);
-                    }
+                    noticeListTable(er.response);
                 });
             };
 

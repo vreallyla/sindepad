@@ -68,7 +68,7 @@
                                 <label class="control-label">Jenis Kelamin :</label>
                                 <select class="form-control" name="gender">
                                     <option value="" disabled="true" selected></option>
-                                    @foreach($default[3] as $row)
+                                    @foreach($default[4] as $row)
                                         <option value="{{$row->id}}">{{$row->ind}}</option>
                                     @endforeach
                                 </select>
@@ -96,3 +96,18 @@
     </div>
 
 @endsection
+
+@push('js')
+    <script>
+        $(function () {
+            $('form').submit(function () {
+                var v = grecaptcha.getResponse();
+                if(v.length == 0)
+                {
+                    alert('Harap centang saya bukan robot');
+                    return false;
+                }
+            });
+        })
+    </script>
+    @endpush

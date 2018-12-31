@@ -12,15 +12,18 @@
     <meta charset="utf-8"/>
     <title>{{$title. ' | '. env('APP_NAME')}}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta property='og:title' content="@yield("title")"/>
+    <meta property='og:image' content="@yield('img')"/>
     <meta name="description" content="@yield('desc')"/>
-    <meta name="keywords" content="@yield('key')"/>
-    <meta name="author" content="fahmi rizky"/>
-    <meta name="MobileOptimized" content="320"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta property='og:url' content="@yield('url')"/>
+    <meta name="keywords" content="@yield('key')"/>
+    <meta name="author" content="vreallyla"/>
+    <meta name="MobileOptimized" content="320"/>
+    {{--<meta name="csrf-token" content="{{ csrf_token() }}">--}}
     <link href="{{asset('css/main.css')}}" rel="stylesheet" type="text/css"/>
     <link rel="shortcut icon" type="image/png" href="images/header/favicon.png"/>
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
-
     @stack('style')
 </head>
 <body>
@@ -37,10 +40,10 @@
                         <p>Selamat Datang...</p>
                         <div class="ed_info_wrapper">
                             @if(!empty($user_cookie))
-                            <a href="{{route('order.checkout')}}" class="button_exchange" data-toggle="tooltip"
-                               data-placement="bottom" title="Transaksi">
-                                <i class="fa fa-exchange zoom"></i><span class="badge badge-small">1</span>
-                            </a>
+                                <a href="{{route('order.checkout')}}" class="button_exchange" data-toggle="tooltip"
+                                   data-placement="bottom" title="Transaksi">
+                                    <i class="fa fa-exchange zoom"></i><span class="badge badge-small">1</span>
+                                </a>
                             @endif
                             <a href="#" class="button_link" id="login_button">
                                 @if(!empty($user_cookie))
@@ -70,18 +73,7 @@
                                         {{--<a href="#">Bayar SPP</a>--}}
                                         {{--</div>--}}
                                         <div class="choose_one">
-                                            <a href="{{ route('logoutjwt') }}"
-                                               onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                                Logout
-                                            </a>
-
-                                            <form id="logout-form" action="{{ route('logoutjwt') }}" method="POST"
-                                                  style="display: none;">
-                                                {{ csrf_field() }}
-                                                <input type="hidden" name="token"
-                                                       value="{{session('uzanto')->token}}">
-                                            </form>
+                                            <a href="#">Keluar</a>
                                         </div>
                                     </div>
                                 @else
@@ -158,10 +150,10 @@
                         <div class="edoco_menu">
                             <ul class="collapse navbar-collapse" id="ed_menu">
                                 <li><a href="{{route('welcome')}}">Beranda</a></li>
-                                <li><a href="#">Program</a>
+                                <li><a href="#">Kegiatan</a>
                                     <ul class="sub-menu">
                                         <li>
-                                            <a href="{{route('course')}}">Semua Program</a>
+                                            <a href="{{route('course')}}">Semua Kegiatan</a>
                                         </li>
                                         @foreach($default[1] as $row)
                                             <li>
@@ -170,10 +162,12 @@
                                         @endforeach
                                     </ul>
                                 </li>
-                                <li><a href="#">blog</a>
+                                <li><a href="#">Artikel</a>
                                     <ul class="sub-menu">
-                                        <li><a href="events.html">all events</a></li>
-                                        <li><a href="event_single.html">events-single</a></li>
+                                        <li><a href="{{route('blog.all')}}">Semua Artikel</a></li>
+                                        @foreach($default[3] as $row)
+                                            <li><a href="{{route('blog.all').'?cat='.$row->id}}">{{$row->name}}</a></li>
+                                        @endforeach
                                     </ul>
                                 </li>
                                 {{--<li><a href="#">FAQs</a>--}}
@@ -186,7 +180,9 @@
                                 {{--</li>--}}
                                 <li><a href="#">Pendaftaran</a>
                                     <ul class="sub-menu">
-                                        <li><a href="{{route('register')}}">Pengguna</a></li>
+                                        @if(empty($user_cookie))
+                                            <li><a href="{{route('register')}}">Pengguna</a></li>
+                                        @endif
                                         <li><a href="{{route('order.step')}}">Program ABK</a></li>
                                     </ul>
                                 </li>
@@ -213,43 +209,37 @@
         <div class="ed_footer_top">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-lg-offset-1 col-md-offset-1 col-lg-4 col-md-4 col-sm-12">
                         <div class="widget text-widget">
                             <p><a href="index.html"><img src="images/footer/F_Logo.png" alt="Footer Logo"/></a></p>
-                            <p>Edution is an outstanding PSD template targeting educational institutions, helping them
-                                establish strong identity on the internet without any real developing knowledge.
+                            <p>Start make changes for now. We excited to see your growth and makes establish strong
+                                identity.
                             </p>
                             <div class="ed_sociallink">
                                 <ul>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Dribble"><i
-                                                    class="fa fa-dribbble"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Retro"><i
-                                                    class="fa fa-camera-retro"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i
+                                    <li><a target="_blank"
+                                           href="https://www.instagram.com/explore/locations/876857549/qis-english-surabaya"
+                                           data-toggle="tooltip" data-placement="bottom" title="Instagram"><i
+                                                    class="fa fa-instagram"></i></a></li>
+                                    <li><a target="_blank" href="https://twitter.com/qis_english" data-toggle="tooltip"
+                                           data-placement="bottom" title="Twitter"><i
+                                                    class="fa fa-twitter"></i></a></li>
+                                    <li><a target="_blank" href="https://web.facebook.com/qisenglish/?_rdc=1&_rdr"
+                                           data-toggle="tooltip" data-placement="bottom" title="Facebook"><i
                                                     class="fa fa-facebook-official"></i></a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-lg-offset-2 col-md-offset-2 col-lg-4 col-md-4 col-sm-12">
                         <div class="widget text-widget">
-                            <h4 class="widget-title">find us</h4>
+                            <h4 class="widget-title">Find Us</h4>
                             <p><i class="fa fa-safari"></i>{{$default[0]->address}}, Indonesia</p>
                             <p><i class="fa fa-envelope-o"></i><a href="#">info@edutioncollege.gov.co.uk</a> <a
                                         href="#">public@edutioncollege.gov.co.uk</a></p>
                             <p><i class="fa fa-phone"></i><a href="tel:{{$default[0]->phone}}" style="cursor: pointer">
                                     <span class="phone">{{$default[0]->phone}}</span>
                                 </a></p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12">
-                        <div class="widget text-widget">
-                            <h4 class="widget-title">social media</h4>
-                            <p><strong>@education </strong> How many students do you educate monthly? Open <a href="">
-                                    http://t.co/KFDdzLSD9</a><br/>2 days ago</p>
-
-                            <p><strong>@educationUK </strong> Web Design that works. Have a look at this masterpiece. <a
-                                        href="">http://t.co/9j8DH93zrO</a><br/>5 days ago</p>
                         </div>
                     </div>
                 </div>
@@ -270,10 +260,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="ed_footer_menu">
                             <ul>
-                                <li><a href="index.html">home</a></li>
-                                <li><a href="private_policy.html">private policy</a></li>
-                                <li><a href="about.html">about</a></li>
-                                <li><a href="contact.html">contact us</a></li>
+                                <li><a href="{{route('privacy')}}">private policy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -308,13 +295,13 @@
         alert('{{session()->get('msg')}}')
     }
 
-    var title = document.getElementsByTagName("title")[0].innerHTML;
-    (function titleScroller(text) {
-        document.title = text;
-        setTimeout(function () {
-            titleScroller(text.substr(1) + text.substr(0, 1));
-        }, 500);
-    }(title + " ~ "));
+    // var title = document.getElementsByTagName("title")[0].innerHTML;
+    // (function titleScroller(text) {
+    //     document.title = text;
+    //     setTimeout(function () {
+    //         titleScroller(text.substr(1) + text.substr(0, 1));
+    //     }, 500);
+    // }(title + " ~ "));
 
     $(function ($) {
         $("[data-toggle=tooltip]").tooltip();
@@ -416,24 +403,25 @@
             })
                 .then(function (res) {
                     login_done();
-                    $('#login_button').click().html(' <img class="asd" src="' + res.data.url + '">&nbsp;\n' +
-                        '                                <span class="name-user">' + res.data.name + '</span></a>');
-                    $('#login_one').html('<div class="row" style="color: black">\n' +
-                        '                                        <div class="choose_one">\n' +
-                        '                                            <a href="{{route('user.profile')}}">rubah profil</a>\n' +
-                        '                                        </div>\n' +
-                        '                                        <div class="choose_one">\n' +
-                        '<a href="' + '{{ route('logoutjwt') }}' + '"\n' +
-                        '                                               onclick="event.preventDefault();\n' +
-                        '                                                     document.getElementById(\'logout-form\').submit();">\n' +
-                        '                                                Logout\n' +
-                        '                                            </a>\n' +
-                        '                                            <form id="logout-form" action="' + '{{ route('logoutjwt') }}' + '" method="POST" style="display: none;">\n' +
-                        '<input type="hidden" name="token"\n' +
-                        '                                                       value="' + res.data.token + '">' +
-                        '                                            </form>' +
-                        '                                        </div>\n' +
-                        '                                    </div>');
+                    {{--$('#login_button').click().html(' <img class="asd" src="' + res.data.url + '">&nbsp;\n' +--}}
+                        {{--'                                <span class="name-user">' + res.data.name + '</span></a>');--}}
+                    {{--$('#login_one').html('<div class="row" style="color: black">\n' +--}}
+                        {{--'                                        <div class="choose_one">\n' +--}}
+                        {{--'                                            <a href="{{route('user.profile')}}">rubah profil</a>\n' +--}}
+                        {{--'                                        </div>\n' +--}}
+                        {{--'                                        <div class="choose_one">\n' +--}}
+                        {{--'<a href="' + '{{ route('logoutjwt') }}' + '"\n' +--}}
+                        {{--'                                               onclick="event.preventDefault();\n' +--}}
+                        {{--'                                                     document.getElementById(\'logout-form\').submit();">\n' +--}}
+                        {{--'                                                Logout\n' +--}}
+                        {{--'                                            </a>\n' +--}}
+                        {{--'                                            <form id="logout-form" action="' + '{{ route('logoutjwt') }}' + '" method="POST" style="display: none;">\n' +--}}
+                        {{--'<input type="hidden" name="token"\n' +--}}
+                        {{--'                                                       value="' + res.data.token + '">' +--}}
+                        {{--'                                            </form>' +--}}
+                        {{--'                                        </div>\n' +--}}
+                        {{--'                                    </div>');--}}
+                    window.location='{{route('redirect')}}';
                 })
                 .catch(function (er) {
                     login_done('login gagal, coba lagi')
@@ -454,8 +442,28 @@
                 });
             }
         }
+    });
 
+    @else
+    $('#login_one .row').children().eq(2).on('click', function (e) {
+        let targetN = $(e.target);
+        $('#loading').show();
+        if (targetN.is('a')) {
+            e.preventDefault();
+        }
 
+        let fragment = document.createDocumentFragment(),
+            creForm = document.createElement("form");
+
+        $(creForm).append('<input name="token" value="' + '{{session('uzanto')->token}}' + '"/>' +
+            '<input name="_token" value="' + '{{csrf_token()}}' + '"/>')
+            .prop('action', '/signout').prop('method', 'post').hide();
+
+        fragment.appendChild(creForm);
+
+        $(this).append(fragment);
+
+        $(this).find('form').submit();
     });
     @endif
 </script>

@@ -160,7 +160,8 @@ trait extraClass
             return response()->json([
                 'max_page' => $limit,
                 'current_page' => $delimiter,
-                'data' => array_slice($arr, $from, $row)
+                'data' => array_slice($arr, $from, $row),
+                'quantity_list'=>count($arr)
             ]);
         } else {
             return response()->json(['msg' => 'Halaman Kosong'], 403);

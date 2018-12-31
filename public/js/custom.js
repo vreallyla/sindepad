@@ -263,11 +263,11 @@
             if (!e.isDefaultPrevented()) {
                 axios.post(url_contact, new FormData($('.form-feedback')[0]))
                     .then(function (response) {
-                        swalcustom('Pesan berhasil dikirim!','2cbab2','FFF');
+                        swalcustom('Pesan berhasil dikirim!', '2cbab2', 'FFF');
                         $('#ed_submit').removeAttr('disabled');
                     })
                     .catch(function (error) {
-                        swalcustom('Pesan gagal dikirim!','F95959','FFF');
+                        swalcustom('Pesan gagal dikirim!', 'F95959', 'FFF');
                         $('#ed_submit').removeAttr('disabled');
                     })
                     .then(function () {
@@ -338,6 +338,7 @@
         /* "YYYY-MM[-DD]" => Date */
         function strToDate(str) {
             try {
+                console.log(str);
                 var array = str.split('-');
                 var year = parseInt(array[0], 10);
                 var month = parseInt(array[1], 10);
@@ -360,12 +361,29 @@
             return year + "-" + (month + 1) + "-" + d.getDate();
         }
 
+        /*--------------------- get params url ---------------------*/
+        window.getUrlParameter = function (sParam) {
+            let sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+        /*------------------- end get params url -------------------*/
+
         $.fn.calendar = function (options) {
             var _this = this;
             var opts = $.extend({}, $.fn.calendar.defaults, options);
-            var week = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+            var week = ['Sn', 'Sl', 'Ra', 'Km', 'Jm', 'Sa', 'Mg'];
             var tHead = week.map(function (day) {
-                return "<th>" + day + "</th>";
+                return "<th style='text-transform: none'>" + day + "</th>";
             }).join("");
 
             _this.init = function () {
@@ -429,7 +447,7 @@
 
                 /* set month head */
                 var monthStr = dateToStr(date).replace(/-\d+$/, '');
-                _this.find('.month').text(monthStr);
+                _this.find('.month').text(moment(date).format('MMMM YYYY')).data('date', monthStr);
             };
 
             _this.getCurrentDate = function () {
@@ -444,11 +462,16 @@
             if (opts.date || !opts.picker) {
                 _this.data('date', dateToStr(initDate));
             }
+
             _this.update(initDate);
 
             /* event binding */
             _this.delegate('tbody td', 'click', function () {
                 var $this = $(this);
+                window.location = window.location.origin + '/blog'+
+                    (getUrlParameter('q') ? '?q=' + getUrlParameter('q') + '&date=' : '?date=')
+                    + moment(_this.find('.month').data('date') + '-' + $this.text()).format('YYYY-MM-DD') +
+                    (getUrlParameter('cat') ? '&cat=' + getUrlParameter('cat') : '');
                 _this.find('.active').removeClass('active');
                 $this.addClass('active');
                 _this.data('date', $this.find('a').data('date'));
@@ -462,7 +485,7 @@
             });
 
             function updateTable(monthOffset) {
-                var date = strToDate(_this.find('.month').text());
+                var date = strToDate(_this.find('.month').data('date'));
                 date.setMonth(date.getMonth() + monthOffset);
                 _this.update(date);
             }
@@ -516,7 +539,15 @@
 
         $(window).load(function () {
             $('.jquery-calendar').each(function () {
-                $(this).calendar();
+                let dateN = $(this).data('date'),
+                    dateA = moment().format('YYYY-MM-DD');
+                $(this).calendar({
+                    date: new Date(dateN ? dateN :
+                        (getUrlParameter('date') ? (moment(getUrlParameter('date')).isValid() ?
+                            getUrlParameter('date') :
+                            dateA) :
+                            dateA))
+                });
             });
         });
 
@@ -524,22 +555,23 @@
 })();
 
 //sweetalert2 custom
-function swalcustom(msg,pick,text) {
+function swalcustom(msg, pick, text) {
     swal({
-        defaultStyling:false,
+        defaultStyling: false,
         position: 'bottom',
         // type: 'success',
-        html: '<h5 style="color: #'+text+'">' + msg + '</h5>',
+        html: '<h5 style="color: #' + text + '">' + msg + '</h5>',
         animation: false,
         showConfirmButton: false,
-        background: '#'+pick,
+        background: '#' + pick,
         customClass: 'animated bounceInDown round-swall',
         timer: 1500
     });
-    $('.swal2-popup').css('border-radius','25px');
-        $('.swal2-popup').css('margin-bottom','25px');
+    $('.swal2-popup').css('border-radius', '25px');
+    $('.swal2-popup').css('margin-bottom', '25px');
     return false;
 }
+
 function swallCustom2(msg) {
     swal({
         defaultStyling: false,

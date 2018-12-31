@@ -11,6 +11,7 @@ namespace App\DeclaredPDO;
 
 use App\Model\sideStatusUser;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 
 trait response
@@ -25,6 +26,26 @@ trait response
     {
         return response()->json(['msg' => 'Gagal dibuat'], 406);
 
+    }
+
+    private function noticeDelSuc()
+    {
+        return response()->json(['msg' => 'berhasil dihapus'], 200);
+
+    }
+
+    private function noticeEditSuc()
+    {
+        return response()->json(['msg' => 'berhasil dirubah'], 200);
+
+    }
+
+    private function noticEditPlusData($data)
+    {
+        return response()->json([
+            'msg' => 'berhasil dirubah',
+            'data' => $data
+        ], 200);
     }
 
     private function noticeSuc()
@@ -47,6 +68,7 @@ trait response
     {
         return File::exists($img) ? asset($img) : asset('images/img_unvailable.png');
     }
+
     private function conditionImg($img)
     {
         return File::exists($img) ? asset($img) : false;
@@ -90,4 +112,95 @@ trait response
         }
 
     }
+
+
+    /*---------------------------- schedule ---------------------------------*/
+    private function dayList($r, $key)
+    {
+        $arr = [];
+
+        if (!$r->rsSchedules->isEmpty()) {
+            foreach ($r->rsSchedules()->where('sche_id', $key)->orderBy('time_start', 'asc')->get() as $row) {
+                if ($row->getActivity||$row->act_other) {
+                    $arr[] = array_merge($row->only('time_start', 'time_end'), [
+                        'name' => $row->getActivity ? $row->getActivity->name : $row->act_other,
+                        'key' => $row->getActivity ? $row->getActivity->id : null,
+                        'code' => $row->getActivity ? $row->getActivity->code : null,
+                        'rs_key' => $row->id
+                    ]);
+                }
+            }
+        }
+        return $arr;
+    }
+
+    /*---------------------------- schedule ---------------------------------*/
+
+
+    /*---------------------------------------- search comp ---------------------------------------- */
+    private function searchSomeComp($arr, $q, $except)
+    {
+        $new = [];
+        foreach ($arr as $tow) {
+            foreach (array_keys($tow) as $row) {
+                if (!array_key_exists($row, $except)) {
+                    if (strpos(strtolower($tow[$row]), strtolower($q)) !== false) {
+                        $new[] = $tow;
+                        break;
+                    }
+                }
+            }
+
+        }
+        return $new;
+    }
+
+    /*-------------------------------------- end search comp -------------------------------------- */
+
+    private function valPaginateWithoutCat($r, $row)
+    {
+        $re = $r->only('page', 'row');
+        $rule = [
+            'page' => 'required|numeric',
+            'row' => [
+                'required',
+                Rule::in($row)
+            ]
+        ];
+        $msg = [
+            'required' => 'Harap isi kolom',
+            'in' => 'Harap tidak merubah data',
+            'numeric' => 'harap isi dengan angka'
+        ];
+
+        if ($error = self::validates($re, $rule, $msg)) {
+            return $error;
+        }
+    }
+
+    private function valPaginateWithCat($r, $row, $cat)
+    {
+        $re = $r->only('page', 'row', 'cat');
+        $rule = [
+            'page' => 'required|numeric',
+            'row' => [
+                'required',
+                Rule::in($row)
+            ], 'cat' => [
+                'required',
+                Rule::in($cat)
+            ]
+        ];
+        $msg = [
+            'required' => 'Harap isi kolom',
+            'in' => 'Harap tidak merubah data',
+            'numeric' => 'harap isi dengan angka'
+        ];
+
+        if ($error = self::validates($re, $rule, $msg)) {
+            return $error;
+        }
+    }
+
+
 }

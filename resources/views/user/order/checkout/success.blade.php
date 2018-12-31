@@ -14,7 +14,7 @@
             </div>
             <div class="payment-ava">
                 <span>Sub Total</span>
-                <h6>Rp30.0000.000,00</h6>
+                <h6 class="rpcontent">Rp30.0000.000,00</h6>
             </div>
             <div class="payment-ava">
                 <span>Potongan Harga</span>
@@ -23,7 +23,7 @@
         </div>
         <div class="payment-footer">
             <div class="payment-total"><span>Total Pembayaran : &nbsp;</span>
-                <h3>Rp30.0000.000,00</h3></div>
+                <h3 class="rpcontent">Rp30.0000.000,00</h3></div>
 
 
             <p>Berhasil pada {{now()->toDayDateTimeString()}}</p>
