@@ -29,7 +29,7 @@ if ($('body').find('#mst-users').length > 0) {
                 cat: getUrlParameter('cat') ? getUrlParameter('cat') : categoryTarget.val(),
                 q: getUrlParameter('q') ? getUrlParameter('q') : qTarget.val(),
                 modalUser: false
-            },
+            }, currentTable, maxTable,
             currentUrl = urlPage, /*current url*/
 
             /*------------------ for show full modal ------------------*/
@@ -78,6 +78,9 @@ if ($('body').find('#mst-users').length > 0) {
                             '</div>');
                         targetList.children().eq(i).data('key', val.id);
                     });
+
+                    currentTable = parseInt(res.data.current_page);
+                    maxTable = parseInt(res.data.max_page);
                     setPagination(targetPage, res.data.max_page, res.data.current_page);
                     objMain.fadeIn(300);
                     loadingMagnify.hide();
@@ -158,10 +161,9 @@ if ($('body').find('#mst-users').length > 0) {
                     })
                     .catch(function (er) {
                         loadPart.hide();
-                        if (errNotice.response){
+                        if (errNotice.response) {
                             errSet(er.response.status);
-                        }
-                        else{
+                        } else {
                             swallCustom(errNotice);
                         }
                     });
@@ -187,7 +189,7 @@ if ($('body').find('#mst-users').length > 0) {
         /*---------------- end handdler popstate looping ----------------*/
 
         $(document).ready(function () {
-            currentUrl = urlPage +  (data.q !== '' ? '?q=' + data.q + '&cat=' : '?cat=') + data.cat + '&row=' + data.row + '&page=' + data.page;
+            currentUrl = urlPage + (data.q !== '' ? '?q=' + data.q + '&cat=' : '?cat=') + data.cat + '&row=' + data.row + '&page=' + data.page;
             history.replaceState('', "", urlPage);
             history.pushState(data, "title", currentUrl);
             if (data.q !== qTarget.val()) {
@@ -264,7 +266,7 @@ if ($('body').find('#mst-users').length > 0) {
             changeVar(codition === true && codition2 === true ? true : null);
         });
 
-        btnSearch.on('click', e => {
+        btnSearch.on('click', function () {
             let clickSearch = qTarget.val(),
                 codition = clickSearch === data.q, codition2 = 1 === data.page;
 
@@ -273,21 +275,23 @@ if ($('body').find('#mst-users').length > 0) {
             changeVar(codition === true && codition2 === true ? true : null);
         });
         targetPage.on('click', 'li', function () {
-            if ($(this).hasClass('prev-page')) {
-                checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
-            } else if ($(this).hasClass('page')) {
-                checkpop($(this).children().children('.hal').text());
-            } else if ($(this).hasClass('next-page')) {
-                checkpop(currentTable === maxTable ? 1 : currentTable + 1);
-            } else if ($(this).hasClass('sub-next-page')) {
-                checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
-            } else if ($(this).hasClass('sub-prev-page')) {
-                checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
-            } else {
-                swallCustom('Harap tidak merubah data');
-                setTimeout(e => {
-                    location.reload();
-                }, 500);
+            if (!$(this).hasClass('active')) {
+                if ($(this).hasClass('prev-page')) {
+                    checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
+                } else if ($(this).hasClass('page')) {
+                    checkpop($(this).children().children('.hal').text());
+                } else if ($(this).hasClass('next-page')) {
+                    checkpop(currentTable === maxTable ? 1 : currentTable + 1);
+                } else if ($(this).hasClass('sub-next-page')) {
+                    checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
+                } else if ($(this).hasClass('sub-prev-page')) {
+                    checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
+                } else {
+                    swallCustom('Harap tidak merubah data');
+                    setTimeout(e => {
+                        location.reload();
+                    }, 500);
+                }
             }
         });
 

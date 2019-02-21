@@ -6181,3 +6181,30 @@ a.ed_getinvolved:hover i {
 .not-found-notice{
     text-align: center;
 }
+.fund-success:after{
+    content: 'Penggalangan Sukses';
+    position: absolute;  top: 0;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    padding-top: 4em;
+    font-size: 1.7em;
+    color: #fff;
+    width: 100%;
+}
+.fund-success{
+    -webkit-filter: grayscale(70%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(70%);
+
+}
+.nominal-target{
+    position: absolute;
+    font-size: 10.5px;
+    bottom: 13px;
+}
+.percent-target{
+    position: absolute;
+    right: 0;
+    font-size: 10.5px;
+    bottom: 13px;
+}

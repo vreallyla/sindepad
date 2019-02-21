@@ -10,6 +10,8 @@ use App\Model\general\dataBank;
 use App\Model\linkUserStudent;
 use App\Model\mstDisability;
 use App\Model\order\payingMethod;
+use App\Model\Peng\mstPengDana;
+use App\Model\Peng\sidePengDana;
 use App\Model\sideGender;
 use App\Model\sideLastEducation;
 use App\Model\sideMaritalStatus;
@@ -89,6 +91,30 @@ class AdminController extends Controller
         $token = $r->token;
         $data = $r->data;
         return view('admin.trans.discon.adm_disc_set', compact('title', 'sub', 'data', 'token'));
+    }
+
+    public function fundraising(Request $r)
+    {
+
+        $title = 'Penggalangan Dana';
+        $sub = 'Daftar';
+        $token = $r->token;
+        $data = $r->data;
+        $statuss=mstPengDana::getStatus();
+        $checkStatus=mstPengDana::checkStatus();
+        return view('admin.fundraising.index_fund', compact('title', 'sub', 'data', 'token','statuss','checkStatus'));
+    }
+
+    public function contributor(Request $r)
+    {
+        $title = 'Penggalangan Dana';
+        $sub = 'Penyumbang';
+        $token = $r->token;
+        $data = $r->data;
+        $statuss=sidePengDana::getStatus();
+        $checkStatus=sidePengDana::checkStatus();
+        $mst=mstPengDana::where('status','Proses')->orderBy('name','asc')->get();
+        return view('admin.fundraising.detail.detail_fund', compact('title', 'sub', 'data', 'token','statuss','checkStatus','mst'));
     }
 
     public function loadBank(Request $r){

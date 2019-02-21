@@ -23,7 +23,7 @@ if ($('Body').find('#setting-shadows').length > 0) {
                 row: getUrlParameter('row') ? getUrlParameter('row') : rowTarget.val(),
                 cat: getUrlParameter('cat') ? getUrlParameter('cat') : categoryTarget.val(),
                 q: getUrlParameter('q') ? getUrlParameter('q') : qTarget.val()
-            },
+            },currentTable, maxTable,
             checkpop = function (clickPage) {
                 let codition = clickPage === data.page;
                 data.page = clickPage;
@@ -62,7 +62,7 @@ if ($('Body').find('#setting-shadows').length > 0) {
                         ;
                         targetTable.append('<tr>' + tableClone[0].innerHTML + '</tr>');
                         $('.selectpicker').selectpicker("refresh");
-                        targetObj.find('tbody').children().eq(i).data('key', val.key).find('.selectpicker').selectpicker('refresh');
+                        targetObj.find('tbody').children().eq(i).data('key', val.key).find('select.selectpicker').selectpicker('refresh');
 
                         targetTable.children().eq(i).find('.add').children().eq(1).hide();
                     });
@@ -77,6 +77,8 @@ if ($('Body').find('#setting-shadows').length > 0) {
                     }
                     tableLabel.fadeIn(300);
 
+                    currentTable = parseInt(res.data.current_page);
+                    maxTable = parseInt(res.data.max_page);
                     setPagination(targetPage, res.data.max_page, res.data.current_page);
                 }).catch(function (er) {
                     loadingMagnify.hide();
@@ -173,21 +175,23 @@ if ($('Body').find('#setting-shadows').length > 0) {
         });
 
         targetObj.on('click', 'li', function () {
-            if ($(this).hasClass('prev-page')) {
-                checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
-            } else if ($(this).hasClass('page')) {
-                checkpop($(this).children().children('.hal').text());
-            } else if ($(this).hasClass('next-page')) {
-                checkpop(currentTable === maxTable ? 1 : currentTable + 1);
-            } else if ($(this).hasClass('sub-next-page')) {
-                checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
-            } else if ($(this).hasClass('sub-prev-page')) {
-                checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
-            } else {
-                swallCustom('Harap tidak merubah data');
-                setTimeout(e => {
-                    location.reload();
-                }, 500);
+            if (!$(this).hasClass('active')) {
+                if ($(this).hasClass('prev-page')) {
+                    checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
+                } else if ($(this).hasClass('page')) {
+                    checkpop($(this).children().children('.hal').text());
+                } else if ($(this).hasClass('next-page')) {
+                    checkpop(currentTable === maxTable ? 1 : currentTable + 1);
+                } else if ($(this).hasClass('sub-next-page')) {
+                    checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
+                } else if ($(this).hasClass('sub-prev-page')) {
+                    checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
+                } else {
+                    swallCustom('Harap tidak merubah data');
+                    setTimeout(e => {
+                        location.reload();
+                    }, 500);
+                }
             }
         });
 

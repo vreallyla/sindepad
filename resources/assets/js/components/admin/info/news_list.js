@@ -24,7 +24,8 @@ if ($('body').find('#news-list').length > 0) {
                 row: getUrlParameter('row') ? getUrlParameter('row') : rowTarget.val(),
                 cat: getUrlParameter('cat') ? getUrlParameter('cat') : categoryTarget.val(),
                 q: getUrlParameter('q') ? getUrlParameter('q') : qTarget.val()
-            }, catAvail = [],
+            }, catAvail = [], currentTable,
+            maxTable,
             checkpop = function (clickPage) {
                 let codition = clickPage === data.page;
                 data.page = clickPage;
@@ -70,7 +71,9 @@ if ($('body').find('#news-list').length > 0) {
                                 '</div>');
                             targetList.children().eq(i).data('key', val.id);
                         });
-                        setPagination(targetPage, res.data.max_page, res.data.current_page);
+                        currentTable = parseInt(res.data.current_page);
+                        maxTable = parseInt(res.data.max_page);
+                        setPagination(targetPage, maxTable, currentTable);
                         objMain.fadeIn(300);
                         loadingMagnify.hide();
                     }).catch(er => {
@@ -88,7 +91,7 @@ if ($('body').find('#news-list').length > 0) {
             if (rowTarget.val() !== data.row && findInArray(rowAvail, data.row)) {
                 rowTarget.val(data.row);
             }
-            if (data.cat !== categoryTarget && findInArray(catAvail, data.cat)) {
+            if (data.cat !== categoryTarget) {
                 categoryTarget.val(data.cat);
             }
             getCate();
@@ -144,28 +147,33 @@ if ($('body').find('#news-list').length > 0) {
         });
 
         targetPage.on('click', 'li', function () {
-            if ($(this).hasClass('prev-page')) {
-                checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
-            } else if ($(this).hasClass('page')) {
-                checkpop($(this).children().children('.hal').text());
-            } else if ($(this).hasClass('next-page')) {
-                checkpop(currentTable === maxTable ? 1 : currentTable + 1);
-            } else if ($(this).hasClass('sub-next-page')) {
-                checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
-            } else if ($(this).hasClass('sub-prev-page')) {
-                checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
-            } else {
-                swallCustom('Harap tidak merubah data');
-                setTimeout(e => {
-                    location.reload();
-                }, 500);
+            //add bug
+            if (!$(this).hasClass('active')) {
+                if ($(this).hasClass('prev-page')) {
+                    checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
+                } else if ($(this).hasClass('page')) {
+                    checkpop($(this).children().children('.hal').text());
+                } else if ($(this).hasClass('next-page')) {
+                    checkpop(currentTable === maxTable ? 1 : (currentTable + 1));
+                } else if ($(this).hasClass('sub-next-page')) {
+                    checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
+                } else if ($(this).hasClass('sub-prev-page')) {
+                    checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
+                } else {
+                    swallCustom('Harap tidak merubah data');
+                    setTimeout(e => {
+                        location.reload();
+                    }, 500);
+                }
             }
         });
 
         targetAddInfo.click(function () {
             modalTarget.find('img').css('display', 'none');
             modalTarget.find('input').val('');
+            modalTarget.find('select').selectpicker('val', '');
             tinymce.activeEditor.setContent('');
+            removeHelpBlock(modalTarget);
             $('.modal-full').find('.add-img-modal').children().eq(0).removeClass().addClass('fa fa-plus-square').next().text('Tambah Gambar');
             modalTarget.find('.btn-add-sub').text('tambah informasi').data('key', '');
             showModalFull();
@@ -177,6 +185,7 @@ if ($('body').find('#news-list').length > 0) {
                 , formFunc = new FormData($(this)[0])
                 , funKet = modalTarget.find('.btn-add-sub').data('key')
             ;
+            removeHelpBlock(modalTarget);
 
             if (funKet) {
                 urlSide = 'update';
@@ -196,8 +205,7 @@ if ($('body').find('#news-list').length > 0) {
                         getListAsync();
                     }, 500);
                 }).catch(er => {
-                loadPart.hide();
-
+                erInputCusOthersa(er.response, modalTarget.find('form'));
             })
         });
 
@@ -238,6 +246,7 @@ if ($('body').find('#news-list').length > 0) {
 
             const urlSide = 'edit';
             showLoading();
+            removeHelpBlock(modalTarget);
             axios.get(urlApi + urlSide, {
                 params: {
                     key: $(this).closest('.card-img').data('key')

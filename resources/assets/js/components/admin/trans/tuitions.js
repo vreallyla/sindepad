@@ -19,7 +19,7 @@ if ($('body').find('#tuition').length > 0) {
                 page: getUrlParameter('page') ? getUrlParameter('page') : 1,
                 row: getUrlParameter('row') ? getUrlParameter('row') : rowTarget.val(),
                 q: getUrlParameter('q') ? getUrlParameter('q') : qTarget.val()
-            },
+            }, currentTable, maxTable,
 
             getDataAsync = function () {
                 const urlSub = 'list';
@@ -30,7 +30,7 @@ if ($('body').find('#tuition').length > 0) {
 
                 axios.get(urlApi + urlSub, {params: data})
                     .then(res => {
-                        let tr = document.createElement("tr"),
+                        let
                             TargetClone = targetTable.children().clone(),
                             editCLone = TargetClone.eq(0),
                             fragment = document.createDocumentFragment();
@@ -39,6 +39,7 @@ if ($('body').find('#tuition').length > 0) {
                         loadingMagnify.hide();
 
                         $.each(res.data.data, function (i, val) {
+                            tr = document.createElement("tr");
                             editCLone.children().eq(0).text(val.ni).next().text(val.name)
                                 .next().text(val.gender)
                                 .next().text(moment(val.regist.date).format('ddd, Do MMM YY'))
@@ -49,6 +50,8 @@ if ($('body').find('#tuition').length > 0) {
                         });
                         //
                         targetTable.html(fragment);
+                        currentTable = parseInt(res.data.current_page);
+                        maxTable = parseInt(res.data.max_page);
                         setPagination(targetPage, res.data.max_page, res.data.current_page);
                     }).catch(er => {
                     loadingMagnify.hide();
@@ -58,8 +61,7 @@ if ($('body').find('#tuition').length > 0) {
                         } else {
                             $('.error-notice').fadeIn(300);
                         }
-                    }
-                    else{
+                    } else {
                         $('.error-notice').fadeIn(300);
 
                     }
@@ -126,21 +128,23 @@ if ($('body').find('#tuition').length > 0) {
         });
 
         targetObj.on('click', 'li', function () {
-            if ($(this).hasClass('prev-page')) {
-                checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
-            } else if ($(this).hasClass('page')) {
-                checkpop($(this).children().children('.hal').text());
-            } else if ($(this).hasClass('next-page')) {
-                checkpop(currentTable === maxTable ? 1 : currentTable + 1);
-            } else if ($(this).hasClass('sub-next-page')) {
-                checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
-            } else if ($(this).hasClass('sub-prev-page')) {
-                checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
-            } else {
-                swallCustom('Harap tidak merubah data');
-                setTimeout(e => {
-                    location.reload();
-                }, 500);
+            if (!$(this).hasClass('active')) {
+                if ($(this).hasClass('prev-page')) {
+                    checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
+                } else if ($(this).hasClass('page')) {
+                    checkpop($(this).children().children('.hal').text());
+                } else if ($(this).hasClass('next-page')) {
+                    checkpop(currentTable === maxTable ? 1 : currentTable + 1);
+                } else if ($(this).hasClass('sub-next-page')) {
+                    checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
+                } else if ($(this).hasClass('sub-prev-page')) {
+                    checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
+                } else {
+                    swallCustom('Harap tidak merubah data');
+                    setTimeout(e => {
+                        location.reload();
+                    }, 500);
+                }
             }
         });
 
@@ -155,14 +159,14 @@ if ($('body').find('#tuition').length > 0) {
 
 
         targetTable.on('click', '.btn-info', function () {
-            const urlSide='deal';
+            const urlSide = 'deal';
             loadPart.show();
-            axios.put(urlApi+urlSide,{key:$(this).closest('tr').data('key')})
-                .then(res=>{
+            axios.put(urlApi + urlSide, {key: $(this).closest('tr').data('key')})
+                .then(res => {
                     loadPart.hide();
                     swallCustom(res.data.msg);
                     getDataAsync();
-                }).catch(er=>{
+                }).catch(er => {
                 loadPart.hide();
                 erra(er.response);
             });

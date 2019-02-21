@@ -10,7 +10,7 @@
     <meta name="token-jwt" content="{{$token}}">
     <title>{{$title. ' | '. env('PLUG_APP_SIDE')}}</title>
     <link rel="stylesheet" href="{{asset('css/addedSh.css')}}">
-{{--    <link rel="stylesheet" href="{{asset('css/adminE.css')}}">--}}
+    {{--<link rel="stylesheet" href="{{asset('css/adminE.css')}}">--}}
     @stack('package')
     @stack('style')
 
@@ -92,6 +92,9 @@
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu-detail">
                     <a href="{{route('shadow.tracking')}}">Monitoring</a>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu-detail">
+                    <a href="{{route('shadow.evaluations')}}">Evaluasi</a>
                 </div>
             </div>
         </div>

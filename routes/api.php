@@ -44,6 +44,15 @@ Route::group(['prefix' => '/api/v1/'], function () {
         'as' => 'welcomePost'
     ]);
 
+    //fundraising
+    Route::group(['prefix' => '/fundraising'], function () {
+        Route::post('post', [
+            'uses' => 'Admin\fundraising\fundraisingContController@postContributor',
+            'as' => 'api.public.postCont'
+        ]);
+    });
+
+
 //    user role
     Route::group(['middleware' => 'api_user', 'namespace' => 'User'], function () {
 
@@ -71,7 +80,7 @@ Route::group(['prefix' => '/api/v1/'], function () {
             ]);
         });
 
-        Route::group(['prefix' => '/order'], function () {
+            Route::group(['prefix' => '/order'], function () {
             Route::post('register-validation', [
                 'uses' => 'orderSeatController@overwriteCheck',
                 'as' => 'api.order.register.check'
@@ -146,6 +155,20 @@ Route::group(['prefix' => '/api/v1/'], function () {
             });
             /*----------------------------------- end realtime notice -----------------------------------*/
 
+            Route::group(['prefix' => 'fundraising', 'namespace' => 'fundraising'], function () {
+                Route::get('list', [
+                    'uses' => 'fundraisingContController@getList',
+                    'as' => 'api.admin.fundraising.cont.list'
+                ]);
+                Route::put('change', [
+                    'uses' => 'fundraisingContController@sendCHage',
+                    'as' => 'api.admin.fundraising.cont.change'
+                ]);
+                Route::post('post', [
+                    'uses' => 'fundraisingContController@postStatSuc',
+                    'as' => 'api.admin.fundraising.cont.post'
+                ]);
+            });
 
             Route::group(['prefix' => 'transactions', 'namespace' => 'Trans'], function () {
                 Route::get('register-list', [
@@ -283,6 +306,35 @@ Route::group(['prefix' => '/api/v1/'], function () {
                 /*------------------------------------- end price--------------------------------------*/
 
 
+            });
+
+            Route::group(['prefix' => 'fundraising', 'namespace' => 'fundraising'], function () {
+                Route::group(['prefix' => 'record'], function () {
+                    Route::get('list', [
+                        'uses' => 'fundraisingRecordController@getList',
+                        'as' => 'api.admin.fundraising.list'
+                    ]);
+                    Route::get('key', [
+                        'uses' => 'fundraisingRecordController@getCat',
+                        'as' => 'api.admin.fundraising.cat'
+                    ]);
+                    Route::get('edit', [
+                        'uses' => 'fundraisingRecordController@getEdit',
+                        'as' => 'api.admin.fundraising.edit'
+                    ]);
+                    Route::post('post', [
+                        'uses' => 'fundraisingRecordController@sendPost',
+                        'as' => 'api.admin.fundraising.post'
+                    ]);
+                    Route::patch('update', [
+                        'uses' => 'fundraisingRecordController@sendUpdate',
+                        'as' => 'api.admin.fundraising.update'
+                    ]);
+                    Route::delete('delete', [
+                        'uses' => 'fundraisingRecordController@del',
+                        'as' => 'api.admin.fundraising.delete'
+                    ]);
+                });
             });
 
             Route::group(['prefix' => 'news', 'namespace' => 'news'], function () {
@@ -448,6 +500,17 @@ Route::group(['prefix' => '/api/v1/'], function () {
     Route::group([/*'middleware' => 'api_admin',*/
         'prefix' => 'shadow'], function () {
 
+        Route::group(['prefix' => 'evaluation', 'namespace' => 'Shadow'], function () {
+            Route::get('/detail', [
+                'uses' => 'evaluationsController@desc',
+                'as' => 'api.evaluations.desc',
+            ]);
+            Route::put('/save', [
+                'uses' => 'evaluationsController@sendPost',
+                'as' => 'api.evaluations.post',
+            ]);
+        });
+
         Route::group(['prefix' => 'check-notice', 'namespace' => 'Shadow'], function () {
             Route::get('/student', [
                 'uses' => 'setScheStudentController@checkRequest',
@@ -523,10 +586,12 @@ Route::group(['prefix' => '/api/v1/'], function () {
                 'uses' => 'sideShadowController@changePhoto',
                 'as' => 'api.shadow.side.changePhoto'
             ]);
+
             Route::put('update-profil', [
                 'uses' => 'sideShadowController@updateProfile',
                 'as' => 'api.shadow.side.updateProfile'
             ]);
+
             Route::put('change-password', [
                 'uses' => 'sideShadowController@updatePass',
                 'as' => 'api.shadow.side.updatePass'
@@ -566,10 +631,32 @@ Route::group(['prefix' => '/api/v1/'], function () {
 
         Route::group(['prefix' => 'profile'], function () {
 
-            Route::put('update-profil', [
-                'uses' => 'User\In\profileInUserController@editProfile',
-                'as' => 'api.user.side.profile.edit'
-            ]);
+            Route::group(['namespace' => 'User\In'], function () {
+
+                Route::put('update-profil', [
+                    'uses' => 'profileInUserController@editProfile',
+                    'as' => 'api.user.side.profile.edit'
+                ]);
+
+                Route::get('kids', [
+                    'uses' => 'profileInUserController@kids',
+                    'as' => 'api.user.side.profile.kids'
+                ]);
+                Route::get('kid-detail', [
+                    'uses' => 'profileInUserController@kidDetail',
+                    'as' => 'api.user.side.profile.kidDetail'
+                ]);
+                Route::put('change-photo-student',[
+                    'uses' => 'profileInUserController@changePhotoKid',
+                    'as' => 'api.user.side.profile.changePhotoKid'
+                ]);
+
+                Route::put('edit-student',[
+                    'uses' => 'profileInUserController@editKid',
+                    'as' => 'api.user.side.profile.editKid'
+                ]);
+            });
+
             Route::group(['namespace' => 'Shadow'], function () {
                 Route::put('change-photo', [
                     'uses' => 'sideShadowController@changePhoto',
@@ -579,6 +666,7 @@ Route::group(['prefix' => '/api/v1/'], function () {
                     'uses' => 'sideShadowController@updatePass',
                     'as' => 'api.shadow.side.updatePass'
                 ]);
+
 
             });
         });
@@ -612,6 +700,12 @@ Route::group(['prefix' => '/api/v1/'], function () {
 
         });
 
+        Route::group(['prefix' => 'evaluation', 'namespace' => 'User\In'], function () {
+            Route::get('/detail', [
+                'uses' => 'evaluationController@desc',
+                'as' => 'api.user.evaluations.desc',
+            ]);
+        });
     });
 
 

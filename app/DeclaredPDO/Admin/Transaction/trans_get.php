@@ -74,13 +74,13 @@ class trans_get
             'sub_total' => $total,
             'total' => $total,
             'status' => now()->subDays(1)->lt($this->model->updated_at) ? 'Menunggu Konfirmasi' : 'Transaksi Gagal']);
-        return $this->getInvoice($get_voucher);
 
+        return $this->getInvoice($get_voucher);
     }
 
     private function getInvoice($arr)
     {
-        return array_merge($arr, $this->model->getMethod->method === 'Transfer' ?
+        return array_merge($arr, $this->model->getMethodTranshTo->method === 'Transfer' ?
             ['invoice' => array_merge($this->model->getInvoice->only('name', 'date_send'), [
                 'img' => asset($this->model->getInvoice->img),
                 'bank' => $this->model->getInvoice->getBank->name
@@ -158,7 +158,7 @@ class trans_get
 
     private function methodDesc()
     {
-        return $this->model->getMethod->name;
+        return $this->model->getMethodTranshTo->name;
     }
 
 

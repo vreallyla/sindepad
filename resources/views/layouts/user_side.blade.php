@@ -74,7 +74,7 @@
                     <a href="{{route('user.tracking')}}">Monitoring</a>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu-detail">
-                    <a href="{{route('user.tracking')}}">Masa Aktif</a>
+                    <a href="{{route('user.evaluations')}}">Evaluasi</a>
                 </div>
             </div>
         </div>
@@ -100,7 +100,7 @@
                 @yield('content-right')
             </div>
         </div>
-    </div>
+    </div>`
 </div>
 <div id="loading"></div>
 <script src="{{asset('js/app.js')}}"></script>

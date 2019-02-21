@@ -94,7 +94,7 @@ if ($('body').find('#side-profile').length > 0) {
 
         $('.tab-menu').on('click', 'li', function () {
             $(this).addClass('activo').siblings().removeClass('activo');
-            console.log($(this).data('target'));
+            // console.log($(this).data('target'));
             targetAcc.children().not('.left-user-desc').hide();
             targetAcc.find('#' + $(this).data('target')).fadeIn(500);
         });

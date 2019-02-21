@@ -36,7 +36,7 @@ class generalController extends Controller
     public function log(Request $r)
     {
 
-       return voucherRegister::where('group','percent')->get(); // 1
+       return Carbon::parse('2018-12-09')->diffInMonths(now()->toDateString()); // 1
 
 //        return Carbon::createFromFormat('');
 //        $client = new Client(['base_uri' => url('/')]);

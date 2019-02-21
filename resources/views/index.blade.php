@@ -194,14 +194,14 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="skill_section">
-                        <h4><a href="#">Informasi</a></h4>
+                        <h4><a href="{{route('about')}}">Informasi</a></h4>
                         <p>Tanya apa saja terkait {{env('APP_NAME')}}, kami akan membalas segera mungkin.</p>
                         <span><i class="fa fa-map-signs"></i></span>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="skill_section">
-                        <h4><a href="#">Penerimaan Peserta Didik</a></h4>
+                        <h4><a href="{{route('order.step')}}">Penerimaan Peserta Didik</a></h4>
                         <p>Segera daftar dan jadilah bagian dari {{env('APP_NAME')}} yang terus berkembang.</p>
                         <span><i class="fa fa-user-plus"></i></span>
                     </div>

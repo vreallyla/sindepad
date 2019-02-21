@@ -23,7 +23,8 @@ if ($('Body').find('#sche-student').length > 0) {
                 row: getUrlParameter('row') ? getUrlParameter('row') : rowTarget.val(),
                 cat: getUrlParameter('cat') ? getUrlParameter('cat') : categoryTarget.val(),
                 q: getUrlParameter('q') ? getUrlParameter('q') : qTarget.val()
-            },
+            },currentTable,
+            maxTable,
             checkpop = function (clickPage) {
                 let codition = clickPage === data.page;
                 data.page = clickPage;
@@ -57,13 +58,13 @@ if ($('Body').find('#sche-student').length > 0) {
                             .next().find('[data-toggle="tooltip"]').text(val.schedule ? (val.schedule.name.length > 17 ? val.schedule.name.substr(0, 15) + '..' : val.schedule.name) : nullNotice)
                             .prop('title', val.schedule ? (val.schedule.name.length > 10 ? val.schedule.name : '') : nullNotice)
                             .next().hide().closest('td')
-                            .next().find('span').text(val.status ? val.status.notice : nullNotice).removeClass().addClass(val.status.notice?
-                            (val.status.notice==='Aktif'?'label-info':'label-danger'):'label-danger').addClass('label')
+                            .next().find('span').text(val.status ? val.status.notice : nullNotice).removeClass().addClass(val.status.notice ?
+                            (val.status.notice === 'Aktif' ? 'label-info' : 'label-danger') : 'label-danger').addClass('label')
                             .prop('title', val.status.time ? moment(val.status.time.date).format("Do MMM YYYY") : nullNotice)
                         ;
                         targetTable.append('<tr>' + tableClone[0].innerHTML + '</tr>');
-                        $('.selectpicker').selectpicker("refresh");
-                        targetObj.find('tbody').children().eq(i).data('key', val.key).find('.selectpicker').selectpicker('refresh');
+                        // $('.selectpicker').selectpicker("refresh");
+                        targetObj.find('tbody').children().eq(i).data('key', val.key).find('select.selectpicker').selectpicker('refresh');
 
                         targetTable.children().eq(i).find('.add').children().eq(1).hide();
                     });
@@ -78,6 +79,8 @@ if ($('Body').find('#sche-student').length > 0) {
                     }
                     tableLabel.fadeIn(300);
 
+                    currentTable = parseInt(res.data.current_page);
+                    maxTable = parseInt(res.data.max_page);
                     setPagination(targetPage, res.data.max_page, res.data.current_page);
                 }).catch(function (er) {
                     loadingMagnify.hide();
@@ -86,7 +89,6 @@ if ($('Body').find('#sche-student').length > 0) {
             };
 
         $(window).ready(function () {
-            console.log(data.cat);
             if (data.q !== qTarget.val()) {
                 qTarget.val(data.q);
             }
@@ -175,21 +177,23 @@ if ($('Body').find('#sche-student').length > 0) {
         });
 
         targetObj.on('click', 'li', function () {
-            if ($(this).hasClass('prev-page')) {
-                checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
-            } else if ($(this).hasClass('page')) {
-                checkpop($(this).children().children('.hal').text());
-            } else if ($(this).hasClass('next-page')) {
-                checkpop(currentTable === maxTable ? 1 : currentTable + 1);
-            } else if ($(this).hasClass('sub-next-page')) {
-                checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
-            } else if ($(this).hasClass('sub-prev-page')) {
-                checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
-            } else {
-                swallCustom('Harap tidak merubah data');
-                setTimeout(e => {
-                    location.reload();
-                }, 500);
+            if (!$(this).hasClass('active')) {
+                if ($(this).hasClass('prev-page')) {
+                    checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
+                } else if ($(this).hasClass('page')) {
+                    checkpop($(this).children().children('.hal').text());
+                } else if ($(this).hasClass('next-page')) {
+                    checkpop(currentTable === maxTable ? 1 : currentTable + 1);
+                } else if ($(this).hasClass('sub-next-page')) {
+                    checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
+                } else if ($(this).hasClass('sub-prev-page')) {
+                    checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
+                } else {
+                    swallCustom('Harap tidak merubah data');
+                    setTimeout(e => {
+                        location.reload();
+                    }, 500);
+                }
             }
         });
 

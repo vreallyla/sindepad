@@ -118,10 +118,10 @@
                                                     </div>
                                                 </center>
                                                 <p style='margin-bottom: 15px; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-weight: 400; font-size: 16px; line-height: 1.5;'>
-                                                    Terima Kasih!</p>
+                                                    Hormat Kami,</p>
                                                 <p class="signout light-type"
                                                    style='margin-bottom: 15px; font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; font-weight: 400; font-size: 16px; line-height: 1.5; color: #788991;'>
-                                                    — Sanggar ABK's Team</p>
+                                                    — {{env('APP_NAME')}}'s Team</p>
                                                 <div class="padding-break"
                                                      style='font-family: "Avenir Next", "Avenir", "Helvetica", sans-serif !important; margin-top: 50px;'></div>
                                             </td>

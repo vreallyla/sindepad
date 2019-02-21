@@ -39,7 +39,7 @@ if ($('body').find('#trans-disc').length > 0) {
                 cat: getUrlParameter('cat') ? getUrlParameter('cat') : categoryTarget.val(),
                 q: getUrlParameter('q') ? getUrlParameter('q') : qTarget.val()
             }
-            ,
+            , currentTable, maxTable,
             checkpop = function (clickPage) {
                 let codition = clickPage === data.page;
                 data.page = clickPage;
@@ -71,7 +71,7 @@ if ($('body').find('#trans-disc').length > 0) {
                             .next().text(moment(val.created_at).format('ddd, D MMM YYYY'))
                             .next().text(moment(val.expired).format('ddd, D MMM YYYY'))
                             .next().children().text(val.status).prop('title', val.remaining)
-                            .removeClass().addClass('label '+(val.status==='Aktif'?'label-info':'label-danger'));
+                            .removeClass().addClass('label ' + (val.status === 'Aktif' ? 'label-info' : 'label-danger'));
 
                         $(creTr).append(cloneEl.children()[0].innerHTML).data('key', val.key);
                         fragment.appendChild(creTr);
@@ -79,6 +79,8 @@ if ($('body').find('#trans-disc').length > 0) {
 
                     tableTarget.html(fragment);
                     showObjN(tableLabel);
+                    currentTable = parseInt(res.data.current_page);
+                    maxTable = parseInt(res.data.max_page);
                     setPagination(targetPage, res.data.last_page, res.data.current_page);
 
                 }).catch(er => {
@@ -156,21 +158,23 @@ if ($('body').find('#trans-disc').length > 0) {
         });
 
         targetObj.on('click', 'li', function () {
-            if ($(this).hasClass('prev-page')) {
-                checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
-            } else if ($(this).hasClass('page')) {
-                checkpop($(this).children().children('.hal').text());
-            } else if ($(this).hasClass('next-page')) {
-                checkpop(currentTable === maxTable ? 1 : currentTable + 1);
-            } else if ($(this).hasClass('sub-next-page')) {
-                checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
-            } else if ($(this).hasClass('sub-prev-page')) {
-                checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
-            } else {
-                swallCustom('Harap tidak merubah data');
-                setTimeout(e => {
-                    location.reload();
-                }, 500);
+            if (!$(this).hasClass('active')) {
+                if ($(this).hasClass('prev-page')) {
+                    checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
+                } else if ($(this).hasClass('page')) {
+                    checkpop($(this).children().children('.hal').text());
+                } else if ($(this).hasClass('next-page')) {
+                    checkpop(currentTable === maxTable ? 1 : currentTable + 1);
+                } else if ($(this).hasClass('sub-next-page')) {
+                    checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
+                } else if ($(this).hasClass('sub-prev-page')) {
+                    checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
+                } else {
+                    swallCustom('Harap tidak merubah data');
+                    setTimeout(e => {
+                        location.reload();
+                    }, 500);
+                }
             }
         });
         qTarget.keyup(function (e) {

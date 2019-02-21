@@ -164,6 +164,7 @@ class orderSignController extends Controller
                 $met->where('method', 'Bayar Ditempat');
             });
         });
+
         foreach ($trans->orderBy('updated_at', 'desc')->get() as $row) {
             $getTrans = new trans_get($row);
             $arr[] = $getTrans->get_tf();

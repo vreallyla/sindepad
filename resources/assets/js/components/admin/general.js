@@ -116,6 +116,12 @@ window.showObjN = function (objN) {
     loadingMagnify.hide();
     objN.fadeIn(300);
 };
+window.hideObjN = function (objN) {
+    loadingMagnify.show();
+    objN.hide();
+    objNotice.hide();
+
+};
 /*---------------- end obj notice ----------------*/
 
 
@@ -418,7 +424,28 @@ window.erInputCus = function (er, objn) {
         if (er.status === 422) {
             anim('animated shake', objn.find('form'), 'animated shake');
             $.each(er.data, function (i, val) {
-                objn.find('[name="' + i + '"]').closest('.form-group').find('.help-block').text(val);
+                if (i==='needed'){
+                    objn.find('[name="' + i + '[]"]').closest('.form-group').find('.help-block').text(val);
+                } else{
+                    objn.find('[name="' + i + '"]').closest('.form-group').find('.help-block').text(val);
+                }
+
+            });
+        } else {
+            swallCustom(errNotice);
+        }
+    } else {
+        swallCustom(errNotice);
+    }
+};
+
+window.erInputCusOthersa = function (er, objn) {
+    loadPart.hide();
+    if (er) {
+        if (er.status === 422) {
+            anim('animated shake', objn.find('form'), 'animated shake');
+            $.each(er.data, function (i, val) {
+                objn.find('[name="' + i + '"]').closest('.for-input').find('.help-block').text(val);
             });
         } else {
             swallCustom(errNotice);
@@ -442,6 +469,10 @@ window.permissionsDelWithRel = function () {
     } else {
         return false;
     }
+};
+
+window.removeHelpBlock=function(obj){
+    obj.find('.help-block').text('');
 };
 
 window.noticeListTable = function (er) {

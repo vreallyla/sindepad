@@ -29,7 +29,11 @@
                     <div class="row">
                         <div class="ed_blog_all_item ed_blog_all_item_second">
                             @if(isset($dataN)?!$dataN->data->isEmpty():false)
-                                @foreach($dataN->data as $row)
+                                @foreach($dataN->data as $i=>$row)
+                                    @if(is_float(($i+1)/2))
+                                        <div class="col-lg-12 col-md-12 col-sm-12" style="padding: 0">
+                                            @endif
+
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <div class="ed_blog_item ed_bottompadder50">
                                             <div class="ed_blog_image">
@@ -52,6 +56,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                            @if(!is_float(($i+1)/2)||count($dataN->data)===($i+1))
+                                        </div>
+                                    @endif
                                 @endforeach
                             @else
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 not-found-notice">

@@ -41,6 +41,13 @@ class mstTransactionList extends Model
     {
         return $this->belongsTo(payingMethod::class,'method_id');
     }
+
+    public function getMethodTranshTo()
+    {
+        return $this->belongsTo(payingMethod::class,'method_id')->withTrashed();
+    }
+
+
     public function getVoucher()
     {
         return $this->belongsTo(voucherRegister::class,'voucher_id');

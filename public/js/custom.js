@@ -468,7 +468,7 @@
             /* event binding */
             _this.delegate('tbody td', 'click', function () {
                 var $this = $(this);
-                window.location = window.location.origin + '/blog'+
+                window.location = location.protocol + '//' + location.host + location.pathname +
                     (getUrlParameter('q') ? '?q=' + getUrlParameter('q') + '&date=' : '?date=')
                     + moment(_this.find('.month').data('date') + '-' + $this.text()).format('YYYY-MM-DD') +
                     (getUrlParameter('cat') ? '&cat=' + getUrlParameter('cat') : '');

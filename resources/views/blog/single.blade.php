@@ -70,7 +70,7 @@
 
                     </div>
                 </div>
-             @include('blog.sideRight')
+                @include('blog.sideRight')
             </div>
         </div>
     </div>

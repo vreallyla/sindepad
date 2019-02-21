@@ -113,6 +113,15 @@
                     </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu-detail add-sub-menu">
+                    <a href="javascript:void(0)">Penggalangan Dana</a>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content-sub-menu">
+                    <div class="list-sub-menu">
+                        <a href="{{route('admin.fundraising.list')}}" class="point-dot">Daftar</a>
+                        <a href="{{route('admin.fundraising.contributor')}}" class="point-dot">Penyumbang</a>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 menu-detail add-sub-menu">
                     <a href="javascript:void(0)">Peserta Didik</a>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content-sub-menu">

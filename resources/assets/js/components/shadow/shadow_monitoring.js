@@ -66,7 +66,7 @@ if ($('body').find('#monitoring-tracking').length > 0) {
                         if (conTime) {
                             editClone.find('select').empty().append(fragment2);
                         }
-                        console.log(val.data ? val.data.select : '');
+                        // console.log(val.data ? val.data.select : '');
 
                         $(creDiv).addClass('timeline-milestone ' + (val.data ? 'is-completed' :
                             conTime ? 'is-current' : 'is-future')).append(cloneFunc[0].innerHTML).data('key', val.id);

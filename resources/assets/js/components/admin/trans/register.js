@@ -30,7 +30,7 @@ if ($('body').find('#register-list').length > 0) {
                 row: getUrlParameter('row') ? getUrlParameter('row') : rowTarget.val(),
                 cat: getUrlParameter('cat') ? getUrlParameter('cat') : categoryTarget.val(),
                 q: getUrlParameter('q') ? getUrlParameter('q') : qTarget.val()
-            },
+            }, currentTable, maxTable,
             checkpop = function (clickPage) {
                 let codition = clickPage === data.page;
                 data.page = clickPage;
@@ -69,6 +69,9 @@ if ($('body').find('#register-list').length > 0) {
                                 '</tr>').children().eq(i).data('key', val.key);
 
                         });
+
+                        currentTable = parseInt(res.data.current_page);
+                        maxTable = parseInt(res.data.max_page);
                         setPagination(targetPage, res.data.max_page, res.data.current_page);
                     })
                     .catch(function (er) {
@@ -198,21 +201,23 @@ if ($('body').find('#register-list').length > 0) {
         });
 
         targetObj.on('click', 'li', function () {
-            if ($(this).hasClass('prev-page')) {
-                checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
-            } else if ($(this).hasClass('page')) {
-                checkpop($(this).children().children('.hal').text());
-            } else if ($(this).hasClass('next-page')) {
-                checkpop(currentTable === maxTable ? 1 : currentTable + 1);
-            } else if ($(this).hasClass('sub-next-page')) {
-                checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
-            } else if ($(this).hasClass('sub-prev-page')) {
-                checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
-            } else {
-                swallCustom('Harap tidak merubah data');
-                setTimeout(e => {
-                    location.reload();
-                }, 500);
+            if (!$(this).hasClass('active')) {
+                if ($(this).hasClass('prev-page')) {
+                    checkpop(currentTable === 1 ? maxTable : (currentTable - 1));
+                } else if ($(this).hasClass('page')) {
+                    checkpop($(this).children().children('.hal').text());
+                } else if ($(this).hasClass('next-page')) {
+                    checkpop(currentTable === maxTable ? 1 : currentTable + 1);
+                } else if ($(this).hasClass('sub-next-page')) {
+                    checkpop(parseInt($(this).prev().children().children('.hal').text()) + 1);
+                } else if ($(this).hasClass('sub-prev-page')) {
+                    checkpop(parseInt($(this).next().children().children('.hal').text()) - 1);
+                } else {
+                    swallCustom('Harap tidak merubah data');
+                    setTimeout(e => {
+                        location.reload();
+                    }, 500);
+                }
             }
         });
 

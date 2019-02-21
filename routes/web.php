@@ -86,6 +86,17 @@ Route::group(['prefix' => '/'], function () {
             ]);
         });
 
+        Route::group(['prefix' => '/fundraising'], function () {
+            Route::get('', [
+                'uses' => 'fundraisingController@index',
+                'as' => 'fundraising.all'
+            ]);
+            Route::get('{key}', [
+                'uses' => 'fundraisingController@single',
+                'as' => 'fundraising.single'
+            ]);
+        });
+
     });
 
     Route::get('/kreu-token', [
@@ -180,6 +191,16 @@ Route::group(['prefix' => '/'], function () {
                 ]);
             });
 
+            Route::group(['prefix' => 'fundraising'], function () {
+                Route::get('list', [
+                    'uses' => 'AdminController@fundraising',
+                    'as' => 'admin.fundraising.list'
+                ]);
+                Route::get('contributor', [
+                    'uses' => 'AdminController@contributor',
+                    'as' => 'admin.fundraising.contributor'
+                ]);
+            });
             Route::group(['prefix' => 'news'], function () {
                 Route::get('categories', [
                     'uses' => 'AdminController@newsCategory',
@@ -254,6 +275,11 @@ Route::group(['prefix' => '/'], function () {
                     'as' => 'shadow.users',
                 ]);
 
+                Route::get('evaluations', [
+                    'uses' => 'shadowController@evaluation',
+                    'as' => 'shadow.evaluations',
+                ]);
+
                 Route::get('monitoring', [
                     'uses' => 'shadowController@tracking',
                     'as' => 'shadow.tracking',
@@ -287,6 +313,10 @@ Route::group(['prefix' => '/'], function () {
                 Route::get('monitoring', [
                     'uses' => 'userInController@tracking',
                     'as' => 'user.tracking',
+                ]);
+                  Route::get('evaluations', [
+                    'uses' => 'userInController@getEvaluations',
+                    'as' => 'user.evaluations',
                 ]);
 
                 Route::get('/', [

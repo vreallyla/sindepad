@@ -9,6 +9,7 @@
 namespace App\DeclaredPDO;
 
 
+use App\Model\Peng\mstPengDana;
 use App\Model\sideStatusUser;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
@@ -51,6 +52,12 @@ trait response
     private function noticeSuc()
     {
         return response()->json(['msg' => 'berhasil dibuat'], 200);
+
+    }
+
+    private function noticeAccess()
+    {
+        return response()->json(['msg' => 'Kamu tidak memiliki akses'], 401);
 
     }
 
@@ -200,6 +207,16 @@ trait response
         if ($error = self::validates($re, $rule, $msg)) {
             return $error;
         }
+    }
+
+    private function multiarray_keys($ar) {
+
+        foreach($ar as $k => $v) {
+            $keys[] = $k;
+            if (is_array($ar[$k]))
+                $keys = array_merge($keys, $this->multiarray_keys($ar[$k]));
+        }
+        return $keys;
     }
 
 

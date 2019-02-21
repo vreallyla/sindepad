@@ -28,5 +28,5 @@
 
 @include('shadow.home.modalRightIndexShadow')
 
-@push('js')
-    @endpush
+{{--@push('js')--}}
+    {{--@endpush--}}

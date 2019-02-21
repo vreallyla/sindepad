@@ -170,6 +170,8 @@
                                         @endforeach
                                     </ul>
                                 </li>
+                                <li><a href="{{route('fundraising.all')}}">Bantuan</a></li>
+
                                 {{--<li><a href="#">FAQs</a>--}}
                                 {{--<ul class="sub-menu">--}}
                                 {{--<li><a href="courses.html">all courses</a></li>--}}

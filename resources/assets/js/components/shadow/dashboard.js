@@ -444,7 +444,6 @@ if ($('body').find('#shadow-home').length > 0) {
 
                     })
                     .catch(er => {
-                        console.log(er);
                         noticeListTable(er.response);
                     })
             },
